@@ -10,7 +10,7 @@ export default class HomeBanner extends React.Component {
     super();
     this.state = {
       banners: [],
-      showDialog: true,
+      showDialog: false,
       imageUrl: '',
       linkUrl: '',
       sequence: 0,
