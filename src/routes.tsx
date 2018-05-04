@@ -91,6 +91,7 @@ import KnowledgeComment from './modules/backend/knowledge/KnowledgeComment'
 import sa from 'sa-sdk-javascript';
 import KnowledgeDiscussComment from './modules/backend/knowledge/KnowledgeDiscussComment'
 import PreviewImport from './modules/backend/import/preview/PreviewImport'
+import HomeBanner from './modules/backend/flowdata/homeBanner/HomeBanner';
 
 const routes = (
   <Route path="/" onChange={() => {
@@ -98,13 +99,13 @@ const routes = (
   }}>
     <Route path="/login" component={Login}/>
     <Route component={Base}>
-
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
+        <Route path="/demo" component={HomeBanner}/>
         <Route path="/backend" component={BackendWelcome}/>
-        <Route path="backend/warmup/view" component={PracticeView}/>
-        <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
+        <Route path="/backend/warmup/view" component={PracticeView}/>
+        <Route path="/backend/warmup/view/seven" component={NewPracticeView}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
@@ -120,6 +121,7 @@ const routes = (
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/template" component={SendTemplate}/>
+        <Route path="/backend/home/banner" component={HomeBanner}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
