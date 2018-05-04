@@ -121,6 +121,7 @@ const routes = (
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/template" component={SendTemplate}/>
+        <Route path="/backend/home/banner" component={HomeBanner}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
