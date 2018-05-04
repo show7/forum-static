@@ -24,6 +24,10 @@ export default class HomeBanner extends React.Component {
     });
   }
 
+  /**
+   * 添加新的头图
+   * @returns {Promise<void>}
+   */
   async handleAddBanner () {
     const {
       imageUrl,

@@ -3,6 +3,7 @@ import { TextField, RaisedButton } from 'material-ui';
 import AssetImg from '../../../../../components/AssetImg';
 import { deleteBanner, updateBanner } from '../../async';
 import requestProxy from '../../../../../components/proxy/requestProxy';
+import { randomStr } from '../../../../../utils/helpers';
 
 export default class Banner extends React.Component {
 
@@ -26,6 +27,10 @@ export default class Banner extends React.Component {
     });
   }
 
+  /**
+   * 更新头像
+   * @returns {Promise<void>}
+   */
   async handleUpdateBanner () {
     const {
       id,
@@ -39,6 +44,10 @@ export default class Banner extends React.Component {
     }
   }
 
+  /**
+   * 删除头像
+   * @returns {Promise<void>}
+   */
   async handleDeleteBanner () {
     const {
       id,
@@ -64,7 +73,12 @@ export default class Banner extends React.Component {
            style={{ margin: '4rem', display: 'inline-block' }}>
         {
           preview ?
-            <div className="banner-preview">
+            <div className="banner-preview"
+                 key={randomStr(8)}>
+              {/* 预览模式 */}
+              <AssetImg url={imageUrl}
+                        style={{ width: '25rem' }}/>
+              <br/>
               <TextField floatingLabelText="图片链接"
                          value={imageUrl}
                          disabled={true}/>
@@ -87,7 +101,9 @@ export default class Banner extends React.Component {
                               this.handleDeleteBanner();
                             }}/>
             </div> :
-            <div className="banner-edit">
+            <div className="banner-edit"
+                 key={randomStr(8)}>
+              {/* 编辑模式 */}
               <TextField hintText="填写图片链接"
                          floatingLabelText="请填写图片链接"
                          defaultValue={imageUrl}
