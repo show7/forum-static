@@ -104,7 +104,6 @@ export default class DiscussDisplayComponent extends React.Component {
   }
 
   handleGoReplyPage (id) {
-    //TODO：check
     window.open(`/backend/knowledge/discuss/reply?discussId=${id}`, '_blank')
   }
 
