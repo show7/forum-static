@@ -101,18 +101,6 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/user/info'})}}>
               用户信息
             </div>
-            {/*<div className="catalog-name"*/}
-            {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/add' })}}>*/}
-            {/*学员录入*/}
-            {/*</div>*/}
-            {/*<div className="catalog-name"*/}
-            {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/group' })}}>*/}
-            {/*学员分组*/}
-            {/*</div>*/}
-            {/*<div className="catalog-name"*/}
-                 {/*onClick={() => {this.context.router.push({ pathname: '/backend/camp/info' })}}>*/}
-              {/*学员详情*/}
-            {/*</div>*/}
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/camp/identity' })}}>
               优秀学员
@@ -121,7 +109,7 @@ export default class Fragment extends React.Component<any, any> {
                  onClick={() => {this.context.router.push({ pathname: '/backend/assist/management' })}}>
               助教管理
             </div>
-            <div className="catalog-name" onClick={() => this.context.router.push("/backend/knowledge/vote")}>
+            <div className="catalog-name" onClick={() => this.context.router.push("/asst/knowledge/vote")}>
               知识点评论加精
             </div>
             <div className="catalog-name" onClick={()=>{this.props.dispatch(set('menu',Menus.WARM_UP_DISCUSS))
@@ -129,7 +117,7 @@ export default class Fragment extends React.Component<any, any> {
               7天选择题评论
             </div>
             <div className="catalog-name" onClick={()=>{
-              this.context.router.push({pathname:'/backend/warmup/problem/list'})}}>
+              this.context.router.push({pathname:'/asst/warmup/problem/list'})}}>
               选择题评论
             </div>
             <div className="catalog-name" onClick={() => {
