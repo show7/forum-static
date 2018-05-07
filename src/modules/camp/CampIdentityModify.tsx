@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Dialog, SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'material-ui';
 import { addCertificate } from './async';
+import { ProblemSelector } from '../backend/import/component/ProblemSelector';
 
 interface CampIdentityModifyState {
   year: number,
@@ -9,7 +10,8 @@ interface CampIdentityModifyState {
   memberIdListStr: any,
   showDialog: boolean,
   showSnack: boolean,
-  memberTypeId: string
+  memberTypeId: string,
+  problemId: number
 }
 
 export default class CampIdentityModify extends React.Component<any, CampIdentityModifyState> {
@@ -37,11 +39,10 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
   };
 
   handleMemberIds () {
-    const { year, month, identityType, memberIdListStr, memberTypeId } = this.state;
+    const { year, month, identityType, memberIdListStr, memberTypeId, problemId } = this.state;
     let memberIds = memberIdListStr.split('\n');
     memberIds = memberIds.map(memberId => memberId.trim()).filter(memberId => memberId != '');
-    console.log(memberIds);
-    let param = { year: year, month: month, type: identityType, memberTypeId: memberTypeId, memberIds: memberIds };
+    let param = { year: year, month: month, type: identityType, memberTypeId: memberTypeId, memberIds: memberIds, problemId: problemId };
     addCertificate(param).then(res => {
       if (res.code === 200) {
         this.setState({ showSnack: true });
@@ -60,7 +61,7 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
 
   render () {
     const {
-      year, month, identityType = 0, memberIdListStr = '', showDialog = false, showSnack = false, memberTypeId = 0,
+      year, month, identityType = 0, memberIdListStr = '', showDialog = false, showSnack = false, memberTypeId = 0, problemId = -1,
     } = this.state;
 
     const renderMonthItems = () => {
@@ -108,7 +109,7 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
         <br/>
         <SelectField value={identityType}
                      floatingLabelText="选择身份类型"
-                     onChange={(e, i, v) => this.setState({ identityType: v })}>
+                     onChange={(e, i, v) => this.setState({ identityType: v, problemId: -1 })}>
           <MenuItem value={this.identityType.EXCELLENT_CLASS_LEADER}
                     primaryText="优秀班长"/>
           <MenuItem value={this.identityType.EXCELLENT_GROUP_LEADER}
@@ -125,6 +126,10 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
                     primaryText="优秀班委"/>
         </SelectField>
         <br/>
+        {
+          this.state.identityType === this.identityType.EXCELLENT_COACH &&
+          <ProblemSelector select={(problemId) => this.setState({ problemId: problemId })}/>
+        }
         <TextField value={memberIdListStr}
                    multiLine={true}
                    floatingLabelText="输入学号，换行区分"
