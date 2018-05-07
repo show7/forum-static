@@ -9,7 +9,6 @@ import Reject from './modules/Reject'
 import NotFoundPage from './modules/NotFoundPage'
 import BackendIndex from './modules/backend/BackendIndex'
 import BackendWelcome from './modules/backend/Welcome'
-import HotWarmupPractice from './modules/backend/warmup/HotWarmupPractice'
 import CatalogView from './modules/backend/import/application/Catalog'
 import ProjectConfig from './modules/backend/admin/ProjectConfig'
 import ConfigDetail from './modules/backend/admin/ConfigDetail'
@@ -21,7 +20,6 @@ import AsstWelcome from './modules/asst/Welcome'
 import AsstApplicationComment from './modules/asst/application/ProblemList'
 import AsstApplicationList from './modules/asst/application/ApplicationList'
 import CommentedList from './modules/asst/CommentedList'
-import WarmupPracticeView from './modules/asst/warmup/WarmupPracticeView'
 
 // pc rise 改版
 import Plan from './modules/fragment/plan/Plan'
@@ -103,7 +101,6 @@ const routes = (
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
         <Route path="/backend" component={BackendWelcome}/>
-        <Route path="backend/warmup/view" component={PracticeView}/>
         <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
@@ -112,9 +109,6 @@ const routes = (
         <Route path="/backend/admin/wx/upload/image" component={UploadMaterial}/>
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
-        </Route>
-        <Route path="/backend/warmup/problem/list" component={WarmProblemList}>
-          <Route path="/backend/warmup/show/list" component={WarmupShowList}/>
         </Route>
         <Route path="/backend/warmup/list" component={WarmupList}/>
         <Route path="/backend/warmup/discuss" component={Discuss}/>
@@ -128,7 +122,6 @@ const routes = (
           <Route path="/backend/application/catalog" component={CatalogView}/>
         </Route>
 
-        <Route path='/backend/knowledge/vote' component={KnowledgeComment}/>
         <Route path="/backend/knowledge/discuss/reply" component={KnowledgeDiscussComment}/>
 
         <Route path="/backend/user/info" component={UserInfo}/>
@@ -164,12 +157,17 @@ const routes = (
           <Route path="/asst/problem/application/catalog" component={ApplicationCatalog}/>
           <Route path="/asst/problem/application/list" component={ApplicationView}/>
         </Route>
+
+        <Route path="/asst/warmup/problem/list" component={WarmProblemList}>
+          <Route path="/asst/warmup/show/list" component={WarmupShowList}/>
+        </Route>
+        <Route path='/asst/knowledge/vote' component={KnowledgeComment}/>
+
         <Route path="/asst/application/comment" component={AsstApplicationComment}>
           <Route path="/asst/application/list" component={AsstApplicationList}/>
           <Route path="/asst/application/view" component={ShowApplication}/>
         </Route>
-        <Route path="/asst/warmup/comment" component={HotWarmupPractice}/>
-        <Route path="/asst/warmup/view" component={WarmupPracticeView}/>
+        <Route path="/asst/warmup/view" component={PracticeView}/>
         <Route path="/asst/upgrade/info" component={UpGradeInfo}/>
       </Route>
     </Route>

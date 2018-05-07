@@ -14,10 +14,10 @@ export function loadApplication(applicationId){
 export function updateApplicationPractice(applicationId, topic, description,difficulty) {
   return ppost(`/pc/operation/application/update/${applicationId}`, {topic: topic, description: description,difficulty:difficulty})
 }
-
-export function loadProblems() {
-  return pget("/pc/operation/problem/list");
-}
+//
+// export function loadProblems() {
+//   return pget("/pc/operation/problem/list");
+// }
 
 export function loadRiseWorkList(problemId){
   return pget(`/pc/operation/homework/${problemId}`);

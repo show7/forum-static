@@ -53,7 +53,7 @@ export default class WarmupList extends React.Component<any, any> {
 
   view(practice) {
     const { interval } = this.state
-    window.open(`/backend/warmup/view?id=${practice.id}&interval=${interval.id}`)
+    window.open(`/asst/warmup/view?id=${practice.id}&interval=${interval.id}`)
   }
 
   loadSelectDay() {
