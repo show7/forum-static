@@ -10,8 +10,8 @@ import {
   FlatButton,
   Dialog
 } from 'material-ui/Table'
-import isBoolean = require('lodash/isBoolean')
 import ReactPaginate from 'react-paginate'
+import _ from 'lodash'
 
 interface TableProps {
   data: any,
@@ -139,6 +139,7 @@ export class MessageTable extends React.Component<TableProps, TableState> {
                     meta.map((metaItem, index) => (
                       <TableRowColumn key={index} style={metaItem.style}>
                         {
+                          _.isEqual(metaItem.tag,'headimgurl')?<img src={dataItem[metaItem.tag]} style={{width:'30px'}}/>:
                           dataItem[metaItem.tag] == '0' || dataItem[metaItem.tag] == '1' ?
                             dataItem[metaItem.tag] == '0' ? '否' : '是' :
                             dataItem[metaItem.tag]
