@@ -22,12 +22,11 @@ export default class UserInfo extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      page:1,
+      page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'memberId', alias: '学号', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'memberType', alias: '会员类型', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'openDate', alias: '入学日期', style: _.merge({}, cellStyle, { width: '100px' }) }
+        { tag: 'memberTypes', alias: '会员类型', style: _.merge({}, cellStyle,{width:'150px'}) }
       ],
       searchId: '',
       selected: false,
@@ -78,13 +77,13 @@ export default class UserInfo extends React.Component<any, any> {
 
   searchClass = () => {
     const { dispatch } = this.props
-    const { className, groupId,page } = this.state
+    const { className, groupId, page } = this.state
     if(_.isEmpty(className)) {
       dispatch(alertMsg('请选择班级'))
       return
     }
     dispatch(startLoad())
-    searchInfoByClass(page,className, groupId).then(res => {
+    searchInfoByClass(page, className, groupId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -114,12 +113,12 @@ export default class UserInfo extends React.Component<any, any> {
 
   handlePageClick(page) {
     const { dispatch } = this.props
-    const{className,groupId} = this.state
+    const { className, groupId } = this.state
     dispatch(startLoad())
-    searchInfoByClass(page,className,groupId).then(res => {
+    searchInfoByClass(page, className, groupId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ infos: res.msg.data,tablePage: res.msg.page, page: page })
+        this.setState({ infos: res.msg.data, tablePage: res.msg.page, page: page })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -199,7 +198,7 @@ export default class UserInfo extends React.Component<any, any> {
             this.setState({
               className: ev.target.textContent,
               groupId: '',
-              page:1
+              page: 1
             })
           }}>
             {
@@ -223,7 +222,7 @@ export default class UserInfo extends React.Component<any, any> {
             floatingLabelText="选择小组" maxHeight={300} value={groupId} onChange={(ev, value) => {
             this.setState({
               groupId: ev.target.textContent,
-              page:1
+              page: 1
             })
           }}>
             {
@@ -248,6 +247,7 @@ export default class UserInfo extends React.Component<any, any> {
             </div>
             {renderDialogItem('昵称：', info.nickname)}
             {renderDialogItem('openid：', info.openid)}
+            {renderDialogItem('学号：', info.memberId)}
             {renderDialogItem('真实姓名：', info.realName)}
             {renderDialogItem('收件人：', info.receiver)}
             {renderDialogItem('圈外id：', info.riseId)}
@@ -257,19 +257,25 @@ export default class UserInfo extends React.Component<any, any> {
             <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
               会员信息
             </div>
-            {renderDialogItem('当前会员类型：', info.memberType)}
-            {renderDialogItem('班级：',info.className)}
-            {renderDialogItem('小组：',info.groupId)}
-            {renderDialogItem('学号：', info.memberId)}
-            {renderDialogItem('入学日期：', info.openDate)}
+
+            {info.memberInfoDtos && info.memberInfoDtos.map((item, index) => {
+              return (
+                <div style={{marginBottom:'20px'}}>
+                  {renderDialogItem('当前会员类型：', item.memberName)}
+                  {renderDialogItem('入学日期：', item.openDate)}
+                  {renderDialogItem('班级：', item.className)}
+                  {renderDialogItem('小组：', item.groupId)}
+                </div>
+              )
+            })
+            }
 
             <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
               工作情况
             </div>
-            {renderDialogItem('行业：',info.industry)}
-            {renderDialogItem('职业：',info.function)}
-            {renderDialogItem('参加工作年份：',info.workingYear)}
-            {renderDialogItem('工作年限：',info.workingLife)}
+            {renderDialogItem('行业：', info.industry)}
+            {renderDialogItem('职业：', info.function)}
+            {renderDialogItem('参加工作年份：', info.workingYear)}
 
             <div className="bs-dialog-header" style={{ marginTop: '20px', marginBottom: '20px' }}>
               地址信息
