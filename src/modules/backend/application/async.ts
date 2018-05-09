@@ -1,27 +1,27 @@
 import {pget,ppost} from "../../../utils/request"
 
 export function loadProblems() {
-  return pget("/pc/operation/problem/list");
+  return pget("/pc/asst/problem/list");
 }
 
 export function loadRiseWorkList(problemId){
-  return pget(`/pc/operation/homework/${problemId}`);
+  return pget(`/pc/asst/homework/${problemId}`);
 }
 
 export function loadApplicationSubmit(cid, index,show) {
-  return pget(`/pc/operation/application/submit/${cid}`, {page:index,show:show});
+  return pget(`/pc/asst/application/submit/${cid}`, {page:index,show:show});
 }
 
 export function highlight(submitId){
-  return ppost(`/pc/operation/highlight/applicationSubmit/${submitId}`,null)
+  return ppost(`/pc/asst/application/highlight/applicationSubmit/${submitId}`,null)
 }
 
 export function unhighlight(submitId){
-  return ppost(`/pc/operation/highlight/cancel/applicationSubmit/${submitId}`,null)
+  return ppost(`/pc/asst/application/highlight/cancel/applicationSubmit/${submitId}`,null)
 }
 
 export function loadApplication(applicationId){
-  return pget(`/pc/operation/application/load/${applicationId}`);
+  return pget(`/pc/asst/application/load/${applicationId}`);
 }
 
 export function saveApplicationPractice(applicationId, topic, description) {
@@ -29,6 +29,6 @@ export function saveApplicationPractice(applicationId, topic, description) {
 }
 
 export function submitComment(type,submitId,content){
-  return ppost(`/pc/operation/comment/${type}/${submitId}`,{content:content});
+  return ppost(`/pc/asst/application/comment/${type}/${submitId}`,{content:content});
 }
 

@@ -2,11 +2,11 @@ import { pget, ppost } from '../../../../utils/request'
 
 
 export function loadSimpleProblems() {
-  return pget(`/pc/operation/problem/simple`)
+  return pget(`/pc/asst/problem/simple`)
 }
 
 export function loadProblem(id) {
-  return pget(`/pc/operation/problem/load/${id}`)
+  return pget(`/pc/asst/problem/load/${id}`)
 }
 
 export function loadProblemCatalog() {

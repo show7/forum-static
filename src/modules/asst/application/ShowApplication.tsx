@@ -1,8 +1,8 @@
-import * as React from "react"
-import "./ShowApplication.less"
-import * as _ from "lodash"
-import { connect } from "react-redux"
-import { loadApplicationSubmit } from "../async"
+import * as React from 'react'
+import './ShowApplication.less'
+import * as _ from 'lodash'
+import { connect } from 'react-redux'
+import { loadApplicationSubmit } from '../async'
 import {
   vote,
   loadComments,
@@ -12,24 +12,24 @@ import {
   CommentType,
   requestAsstComment,
   deleteComment
-} from "../async"
-import { set, startLoad, endLoad, alertMsg } from "../../../redux/actions"
-import Avatar from 'material-ui/Avatar';
-import Divider from 'material-ui/Divider';
-import Chip from 'material-ui/Chip';
-import CommentList from "../../../components/CommentList"
-import { imgSrc } from "../../../utils/imgSrc"
-import Snackbar from 'material-ui/Snackbar';
-import Confirm from "../../../components/Confirm"
-import { BreakSignal, Stop } from "../../../utils/request";
+} from '../async'
+import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import Avatar from 'material-ui/Avatar'
+import Divider from 'material-ui/Divider'
+import CommentList from '../../../components/CommentList'
+import { imgSrc } from '../../../utils/imgSrc'
+import Snackbar from 'material-ui/Snackbar'
+import Confirm from '../../../components/Confirm'
+import { BreakSignal, Stop } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
+import { highlight, unhighlight } from '../../backend/application/async'
 
 const style = {
   divider: {
-    backgroundColor: "#f5f5f5",
-    marginLeft: "-8px",
+    backgroundColor: '#f5f5f5',
+    marginLeft: '-8px',
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 10
   }
 }
 @connect(state => state)
@@ -40,28 +40,63 @@ export default class ShowApplication extends React.Component<any, any> {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       data: {},
       commentList: [],
       page: 1,
       hasMore: false,
       snackOpen: false,
-      message: "",
-      comment: "",
+      message: '',
+      comment: '',
       tipVote: false,
       tipDisVote: false,
+      priority: 0,
       voteCount: 0,
       voteStatus: 0,
-      isShowCommentReplyBox: true
+      showConfirm:false,
+      showConfirm2:false,
+      isShowCommentReplyBox: true,
+      showConfirmModal: {
+        title: '提示',
+        content: '确认加精？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirm: false })
+            this.clickHighlight()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm: false })
+          }
+        ]
+      },
+      showConfirmModal2: {
+        title: '提示',
+        content: '是否取消加精？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirm2: false })
+            this.clickHighlight()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => this.setState({ showConfirm2: false })
+          }
+        ]
+      }
     }
   }
 
   componentWillMount() {
     // 加载数据
-    const { location, dispatch } = this.props;
+    const { location, dispatch } = this.props
     // 获取id
-    const submitId = _.get(location, "query.submitId", -1);
+    const submitId = _.get(location, 'query.submitId', -1)
     if(!_.isEqual(submitId, -1)) {
       // 获取成功
       loadApplicationSubmit(submitId).then((res) => {
@@ -73,148 +108,149 @@ export default class ShowApplication extends React.Component<any, any> {
             requestCommentCount: res.msg.requestCommentCount,
             voteCount: res.msg.voteCount,
             voteStatus: res.msg.voteStatus,
+            priority: res.msg.priority
           })
           document.body.scrollTop = 0
         }
       }).catch(err => {
-        console.error("catch", err);
+        console.error('catch', err)
         if(err instanceof BreakSignal) {
-          dispatch(alertMsg(err.title, err.msg));
+          dispatch(alertMsg(err.title, err.msg))
         } else if(!(err instanceof Stop)) {
-          dispatch(alertMsg(err + ""));
+          dispatch(alertMsg(err + ''))
         }
       })
 
       loadComments(CommentType.Application, submitId, this.state.page).then(res => {
         if(res.code === 200) {
-          const { list, count } = res.msg;
+          const { list, count } = res.msg
           if(list.length < count) {
-            this.setState({ commentList: list, hasMore: true });
+            this.setState({ commentList: list, hasMore: true })
           } else {
-            this.setState({ commentList: list });
+            this.setState({ commentList: list })
           }
         }
-      }).catch(err => dispatch(alertMsg(err + "")))
+      }).catch(err => dispatch(alertMsg(err + '')))
     } else {
-      alert("缺少参数");
+      alert('缺少参数')
     }
   }
 
   goEdit(e) {
     // 进入修改页面
-    const { data } = this.state;
-    const { location } = this.props;
-    const planId = _.get(location, "query.planId");
-    const applicationId = _.get(location, "query.applicationId");
+    const { data } = this.state
+    const { location } = this.props
+    const planId = _.get(location, 'query.planId')
+    const applicationId = _.get(location, 'query.applicationId')
     const { isMine } = data
     if(isMine && planId && applicationId) {
       this.context.router.push({
-        pathname: "/fragment/application",
+        pathname: '/fragment/application',
         query: { planId: planId, id: applicationId }
       })
     } else {
-      console.error("返回失败，出现异常");
+      console.error('返回失败，出现异常')
     }
   }
 
   clickVote(e) {
     // 点赞／或者取消点赞
-    const { voteStatus, voteCount, submitId } = this.state;
-    const { dispatch } = this.props;
+    const { voteStatus, voteCount, submitId } = this.state
+    const { dispatch } = this.props
     if(_.isUndefined(voteStatus) || _.isUndefined(submitId)) {
       // 不能操作
       return
     } else {
       // 开始请求
-      let status = 1;
+      let status = 1
       if(_.isEqual(voteStatus, 1)) {
         // 点赞中，取消点赞
-        status = 2;
-        return;// 禁止取消点赞
+        status = 2
+        return// 禁止取消点赞
       } else {
         // 点赞
-        status = 1;
+        status = 1
       }
       vote(submitId, status, VoteType.Application).then(res => {
         if(_.isEqual(res.code, 200)) {
           // 成功
           if(_.isEqual(voteStatus, 1)) {
             // 提示取消成功
-            this.setState({ voteCount: Number(voteCount) - 1, voteStatus: 0 })
-            this.tipDiVote();
+            this.setState({ voteCount: (voteCount) - 1, voteStatus: 0 })
+            this.tipDiVote()
           } else {
             this.setState({ voteCount: Number(voteCount) + 1, voteStatus: 1 })
-            this.tipVote();
+            this.tipVote()
           }
         }
-      }).catch(err => dispatch(alertMsg(err + "")))
+      }).catch(err => dispatch(alertMsg(err + '')))
     }
   }
 
   tipDiVote() {
-    this.setState({ tipDisVote: true });
+    this.setState({ tipDisVote: true })
     setTimeout(() => {
-      this.setState({ tipDisVote: false });
-    }, 1000);
+      this.setState({ tipDisVote: false })
+    }, 1000)
   }
 
   tipVote() {
-    this.setState({ tipVote: true });
+    this.setState({ tipVote: true })
     setTimeout(() => {
-      this.setState({ tipVote: false });
-    }, 1000);
+      this.setState({ tipVote: false })
+    }, 1000)
   }
 
   showMsg(msg) {
     this.setState({
       snackOpen: true,
       message: msg
-    });
+    })
   }
 
   loadMoreContent() {
-    const page = this.state.page + 1;
-    const { submitId, hasMore } = this.state;
-    const { dispatch } = this.props;
+    const page = this.state.page + 1
+    const { submitId, hasMore } = this.state
+    const { dispatch } = this.props
     if(_.isNumber(page) && _.isNumber(submitId)) {
-      const oldList = _.get(this.state, "commentList");
+      const oldList = _.get(this.state, 'commentList')
       if(hasMore) {
         loadComments(CommentType.Application, submitId, page).then(res => {
           if(res.code === 200) {
-            const { list, count } = res.msg;
-            list.forEach(item => oldList.push(item));
+            const { list, count } = res.msg
+            list.forEach(item => oldList.push(item))
             if(oldList.length < count) {
-              this.setState({ commentList: oldList, page: page });
+              this.setState({ commentList: oldList, page: page })
             } else {
-              this.setState({ commentList: oldList, page: page, hasMore: false });
+              this.setState({ commentList: oldList, page: page, hasMore: false })
             }
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg(res.msg))
           }
         })
       } else {
-        this.showMsg("没有更多评论了");
+        this.showMsg('没有更多评论了')
       }
     }
   }
 
   clickSubmitComment() {
-    const { comment, commentList, submitId } = this.state;
-    const { dispatch } = this.props;
+    const { comment, commentList, submitId } = this.state
+    const { dispatch } = this.props
     if(!comment) {
-      this.showMsg("请先输入评论内容再提交!");
-      return;
+      this.showMsg('请先输入评论内容再提交!')
+      return
     } else {
       dispatch(startLoad())
       submitComment(CommentType.Application, submitId, comment).then(res => {
         dispatch(endLoad())
         if(res.code == 200) {
-          let newArr = [];
-          newArr.push(res.msg);
-          this.setState({ commentList: _.union(newArr, commentList), comment: "" });
+          let newArr = []
+          newArr.push(res.msg)
+          this.setState({ commentList: _.union(newArr, commentList), comment: '' })
         } else {
           dispatch(endLoad())
-          dispatch(alertMsg(res.msg));
+          dispatch(alertMsg(res.msg))
         }
       }).catch(ex => {
         dispatch(endLoad())
@@ -224,39 +260,15 @@ export default class ShowApplication extends React.Component<any, any> {
   }
 
   showImgTip(e) {
-    const { pageX, pageY } = e;
-    setTimeout(() => this.setState({ imgTipStyle: { left: pageX + 10, top: pageY - 10 } }), 50);
+    const { pageX, pageY } = e
+    setTimeout(() => this.setState({ imgTipStyle: { left: pageX + 10, top: pageY - 10 } }), 50)
 
-  }
-
-  back() {
-    const { location } = this.props;
-    const type = _.get(location, "query.type");
-    if(type !== 'asst') {
-      const applicationId = _.get(location, "query.applicationId");
-      const planId = _.get(location, "query.planId");
-      this.context.router.push({
-        pathname: '/fragment/application/list',
-        query: {
-          planId: planId,
-          applicationId: applicationId
-        }
-      })
-    } else {
-      const problemId = _.get(location, "query.problemId");
-      this.context.router.push({
-        pathname: '/asst/application/list',
-        query: {
-          problemId: problemId,
-        }
-      })
-    }
   }
 
   onRequestComment() {
-    const { location } = this.props;
+    const { location } = this.props
     // 进入修改页面
-    const submitId = _.get(location, "query.submitId");
+    const submitId = _.get(location, 'query.submitId')
     requestAsstComment(CommentType.Application, submitId).then(res => {
       if(res.code === 200) {
         this.setState({ message: '教练已经收到你的请求啦，点评后会在消息中心通知你的', snackOpen: true, alert: false, request: true })
@@ -273,58 +285,84 @@ export default class ShowApplication extends React.Component<any, any> {
     const { dispatch } = this.props
     const { request, requestCommentCount } = this.state
     if(request) {
-      dispatch(alertMsg('本练习已经使用过求点评啦'));
-      return;
+      dispatch(alertMsg('本练习已经使用过求点评啦'))
+      return
     }
     if(requestCommentCount === 0) {
-      dispatch(alertMsg('本小课求点评次数已用完'));
-      return;
+      dispatch(alertMsg('本小课求点评次数已用完'))
+      return
     }
     this.setState({ alert: true })
   }
 
+  showConfirm(){
+    const { priority } = this.state;
+    if(priority === 0){
+      this.setState({showConfirm:true})
+    }else{
+      this.setState({showConfirm2:true})
+    }
+
+  }
+
+  clickHighlight() {
+    const { priority } = this.state
+    const { location } = this.props
+    const submitId = _.get(location, 'query.submitId')
+    if(priority === 0) {
+      highlight(submitId).then(res => {
+        if(res.code === 200) {
+          this.setState({ priority: 1 })
+        }
+      })
+    } else if(priority === 1) {
+      unhighlight(submitId).then(res => {
+        if(res.code === 200) {
+          this.setState({ priority: 0 })
+        }
+      })
+    }
+  }
+
   render() {
-    const { data, commentList = [], voteCount, voteStatus, alert } = this.state;
+    const { data, commentList = [], voteCount, voteStatus, alert, priority } = this.state
     const {
       title, upName, upTime, headImg, content, isMine, requestCommentCount, request,
       role, signature, hasMore, desc, knowledgeId
     } = data
-    const { location } = this.props;
-    const applicationId = _.get(location, "query.applicationId");
-    const planId = _.get(location, "query.planId");
 
     const actions = [
       {
-        "label": "再想想",
-        "onClick": () => this.setState({ alert: false }),
+        'label': '再想想',
+        'onClick': () => this.setState({ alert: false })
       },
       {
-        "label": "确定",
-        "onClick": ()=>this.onRequestComment(),
-        "primary": true,
+        'label': '确定',
+        'onClick': () => this.onRequestComment(),
+        'primary': true
       }
-    ];
+    ]
 
     const reply = (replyId, replyComment) => {
-      const { submitId } = this.state;
-      const { dispatch } = this.props;
+      const { submitId } = this.state
+      const { dispatch } = this.props
       dispatch(startLoad())
       if(replyComment.trim().length == 0) {
-        this.showMsg("请先输入回复内容再提交！");
-        return;
+        this.showMsg('请先输入回复内容再提交！')
+        return
       }
       submitReplyComment(CommentType.Application, submitId, replyComment, replyId).then(res => {
         if(res.code == 200) {
-          let newArr = [];
-          newArr.push(res.msg);
-          this.setState({ commentList: _.union(newArr, commentList), comment: "" });
+          let newArr = []
+          newArr.push(res.msg)
+          this.setState({ commentList: _.union(newArr, commentList), comment: '' })
           dispatch(endLoad())
         } else {
           dispatch(endLoad())
-          dispatch(alertMsg(res.msg));
+          dispatch(alertMsg(res.msg))
         }
-      }).catch(err => dispatch(alertMsg(err + "")));
-    };
+      }).catch(err => dispatch(alertMsg(err + '')))
+    }
 
     const onDelete = (id) => {
       deleteComment(id).then(res => {
@@ -345,19 +383,19 @@ export default class ShowApplication extends React.Component<any, any> {
         return (
           <div>
             <div className="edit" onClick={(e) => this.goEdit(e)}>
-              <img src={imgSrc.edit} style={{ float: "left", width: "15px", height: "15px", marginRight: "4px" }}/>
+              <img src={imgSrc.edit} style={{ float: 'left', width: '15px', height: '15px', marginRight: '4px' }}/>
               <span>编辑</span>
             </div>
             {!request && requestCommentCount != null && requestCommentCount > 0 ?
               <div className="edit" onClick={() => this.click()}>
                 <img src={imgSrc.requestComment}
-                     style={{ float: "left", width: "15px", height: "15px", marginRight: "4px" }}/>
+                     style={{ float: 'left', width: '15px', height: '15px', marginRight: '4px' }}/>
                 <span>求点评</span>
               </div> : null}
             {request || (requestCommentCount != null && requestCommentCount === 0) ?
               <div className="edit" onClick={() => this.click()}>
                 <img src={imgSrc.requestCommentDisable}
-                     style={{ float: "left", width: "15px", height: "15px", marginRight: "4px" }}/>
+                     style={{ float: 'left', width: '15px', height: '15px', marginRight: '4px' }}/>
                 <span className="disabled">求点评</span>
               </div> : null}
 
@@ -367,9 +405,6 @@ export default class ShowApplication extends React.Component<any, any> {
     }
     return (
       <div className="showContainer">
-        {/*<div className="backContainer">*/}
-          {/*<span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>*/}
-        {/*</div>*/}
         <Divider style={style.divider}/>
         <div className="showTitleContainer">
           <div className="title">
@@ -380,7 +415,7 @@ export default class ShowApplication extends React.Component<any, any> {
             <div className="content">
               <div dangerouslySetInnerHTML={{ __html: desc }}/>
             </div>
-            { knowledgeId ?
+            {knowledgeId ?
               <div className="knowledge-tip"
                    onClick={() => window.open(`/fragment/knowledge?id=${knowledgeId}&tag=false`)}>点击查看相关知识
               </div>
@@ -401,12 +436,25 @@ export default class ShowApplication extends React.Component<any, any> {
                 {role == 3 || role == 4 || role == 12 || role == 13 ?
                   <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png'/></div> : null}
                 {role == 5 || role == 10 || role == 14 || role == 15 ?
-                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/></div> : null}
+                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/>
+                  </div> : null}
                 {role == 6 ?
-                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png'/></div> : null}
+                  <div className="role"><AssetImg url='https://static.iqycamp.com/images/first_coach.png'/>
+                  </div> : null}
                 {role == 7 ?
                   <div className="role"><AssetImg url='https://static.iqycamp.com/images/vip.png'/></div> : null}
-                <div className="upTime">{upTime + "上传"}</div>
+                {/*添加加精和点赞*/}
+                <div className="highlight-container" onClick={(e, v) => this.showConfirm()}>
+                  <AssetImg className="icon"
+                            url={priority === 1 ? 'https://static.iqycamp.com/images/request-comment-gray.png' : 'https://static.iqycamp.com/request_comment-1wsx0d4q.png'}/>
+                  <span className="highlight-span">{priority === 1 ? '取消加精' : '加精'}</span>
+                </div>
+                <div className="like-container" onClick={(e, v) => this.clickVote(e)}>
+                  <AssetImg className="icon"
+                            url={voteStatus ? 'https://static.iqycamp.com/voted-nm7ga1oc.png' : 'https://static.iqycamp.com/vote-9467wr3b.png'}/>
+                  <span className="vote-count">{voteCount}</span>
+                </div>
+                <div className="upTime">{upTime + '上传'}</div>
               </div>
               <div className="signature">{signature}</div>
             </div>
@@ -416,39 +464,8 @@ export default class ShowApplication extends React.Component<any, any> {
           <div className="content">
             <pre dangerouslySetInnerHTML={{ __html: content }}/>
           </div>
-          {/*<div className="picContainer">
-           <ul className="picList">
-           {picList.map((pic, sequence) => {
-           // 循环存放picList
-           return (
-           <li key={sequence} className="picItem">
-           <a href={pic} target="_blank"><img  alt="test"  src={pic} onMouseMove={(e)=>this.showImgTip(e)}/></a>
-           <div className="imgClickTip"  style={this.state.imgTipStyle}>点击查看原图</div>
-           </li>
-           )
-           })}
-           </ul>
-           </div>*/}
         </div>
-        <div className="voteContainer">
-          {this.state.tipVote ? <div className="voteTip">感谢您的肯定，我会继续努力哒</div> : null}
-          {this.state.tipDisVote ? <div className="disVoteTip">您已取消点赞</div> : null}
-          <Chip
-            onTouchTap={(e) => this.clickVote(e)}
-            className="chipRoot"
-            style={voteStatus === 1 ? { backgroundColor: "#f7a466" } : {
-              backgroundColor: "#FFF",
-              border: "1px solid  #f7a466"
-            }}
-          >
-            <div style={voteStatus == 1 ? { color: "#FFF" } : { color: "#f7a466" }} className="chip">
-              <img src={voteStatus ? imgSrc.voteWhite : imgSrc.voted}
-                   className="chipIcon"/> {voteStatus == 1 ? "已赞" : "点赞"} <span
-              style={voteStatus == 1 ? { borderColor: "#FFF" } : { borderColor: "#f7a466" }}
-              className="chipSplit"/><span
-              className="voteCount">{voteCount}</span></div>
-          </Chip>
-        </div>
+
         {commentList.length > 0 ? <Divider style={style.divider}/> : null}
         <div className="commentContainer">
           <CommentList comments={commentList} onDelete={onDelete} reply={reply}
@@ -464,13 +481,18 @@ export default class ShowApplication extends React.Component<any, any> {
           </div>
         </div>
         <Snackbar
-          contentStyle={{ textAlign: "center" }}
+          contentStyle={{ textAlign: 'center' }}
           open={this.state.snackOpen}
           message={this.state.message}
           autoHideDuration={2000}
         />
         <Confirm title='操作确认' content={`当前小课还剩${requestCommentCount}次请求教练点评的机会，确定要在这次使用吗？`} open={alert}
                  actions={actions}/>
+
+        <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
+                 handlerClose={() => this.setState({ showConfirm: false })}/>
+        <Confirm open={this.state.showConfirm2} {...this.state.showConfirmModal2}
+                 handlerClose={() => this.setState({ showConfirm2: false })}/>
       </div>
     )
   }

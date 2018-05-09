@@ -134,7 +134,7 @@ export default class DiscussDisplayComponent extends React.Component {
         <div className="submit-time">{discuss.publishTime}</div>
         <div className="comment">{discuss.comment}</div>
         {
-          showVote &&
+         !window.ENV.isAsst &&  showVote &&
           <div className="vote"
                onClick={() => this.handleOpenPriorityDialog(discuss)}>{discuss.priority ? '取消加精' : '加精'}</div>
         }

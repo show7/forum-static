@@ -1,6 +1,7 @@
-import * as React from 'react'
-import { Dialog, SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'material-ui'
-import { addCertificate } from './async'
+import * as React from 'react';
+import { Dialog, SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'material-ui';
+import { addCertificate } from './async';
+import { ProblemSelector } from '../backend/import/component/ProblemSelector';
 
 interface CampIdentityModifyState {
   year: number,
@@ -9,14 +10,15 @@ interface CampIdentityModifyState {
   memberIdListStr: any,
   showDialog: boolean,
   showSnack: boolean,
-  memberTypeId: string
+  memberTypeId: string,
+  problemId: number
 }
 
 export default class CampIdentityModify extends React.Component<any, CampIdentityModifyState> {
 
   constructor () {
-    super()
-    this.state = {}
+    super();
+    this.state = {};
   }
 
   // 证书类型 （1-优秀班长，2-优秀组长，3-优秀学员，4-优秀团队, 5-结课证书, 6-优秀助教，7-优秀班委）
@@ -25,52 +27,52 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
     EXCELLENT_GROUP_LEADER: 2,
     EXCELLENT_STUDENT: 3,
     EXCELLENT_TEAM: 4,
+    NORMAL_GRADUATE: 5,
     EXCELLENT_COACH: 6,
     EXCELLENT_COMMITTEE: 7,
-  }
+  };
 
   MEMBERTYPE = {
     CORE_ABILITY: 3,
     MONTH_CAMP: 5,
     BUSINESS_THINKG: 8,
-  }
+  };
 
   handleMemberIds () {
-    const { year, month, identityType, memberIdListStr, memberTypeId } = this.state
-    let memberIds = memberIdListStr.split('\n')
-    memberIds = memberIds.map(memberId => memberId.trim()).filter(memberId => memberId != '')
-    console.log(memberIds)
-    let param = { year: year, month: month, type: identityType, memberTypeId: memberTypeId, memberIds: memberIds }
+    const { year, month, identityType, memberIdListStr, memberTypeId, problemId } = this.state;
+    let memberIds = memberIdListStr.split('\n');
+    memberIds = memberIds.map(memberId => memberId.trim()).filter(memberId => memberId != '');
+    let param = { year: year, month: month, type: identityType, memberTypeId: memberTypeId, memberIds: memberIds, problemId: problemId };
     addCertificate(param).then(res => {
       if (res.code === 200) {
-        this.setState({ showSnack: true })
+        this.setState({ showSnack: true });
         setTimeout(() => {
-          this.clear()
-        }, 1000)
+          this.clear();
+        }, 1000);
       }
-    }).catch(e => alert(e))
+    }).catch(e => alert(e));
   }
 
   clear () {
     this.setState({
       year: '', month: '', identityType: 0, memberIdListStr: '', showDialog: false,
-    })
+    });
   }
 
   render () {
     const {
-      year, month, identityType = 0, memberIdListStr = '', showDialog = false, showSnack = false, memberTypeId = 0,
-    } = this.state
+      year, month, identityType = 0, memberIdListStr = '', showDialog = false, showSnack = false, memberTypeId = 0, problemId = -1,
+    } = this.state;
 
     const renderMonthItems = () => {
-      const menuItems = []
+      const menuItems = [];
       for (let i = 1; i <= 12; i++) {
         menuItems.push(<MenuItem key={i}
                                  value={i}
-                                 primaryText={`${i}月`}></MenuItem>)
+                                 primaryText={`${i}月`}></MenuItem>);
       }
-      return menuItems
-    }
+      return menuItems;
+    };
 
     return (
       <section style={{ padding: '25px 50px' }}>
@@ -107,7 +109,7 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
         <br/>
         <SelectField value={identityType}
                      floatingLabelText="选择身份类型"
-                     onChange={(e, i, v) => this.setState({ identityType: v })}>
+                     onChange={(e, i, v) => this.setState({ identityType: v, problemId: -1 })}>
           <MenuItem value={this.identityType.EXCELLENT_CLASS_LEADER}
                     primaryText="优秀班长"/>
           <MenuItem value={this.identityType.EXCELLENT_GROUP_LEADER}
@@ -116,12 +118,18 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
                     primaryText="优秀学员"/>
           <MenuItem value={this.identityType.EXCELLENT_TEAM}
                     primaryText="优秀团队"/>
+          <MenuItem value={this.identityType.NORMAL_GRADUATE}
+                    primaryText="优秀结课"/>
           <MenuItem value={this.identityType.EXCELLENT_COACH}
                     primaryText="优秀教练"/>
           <MenuItem value={this.identityType.EXCELLENT_COMMITTEE}
                     primaryText="优秀班委"/>
         </SelectField>
         <br/>
+        {
+          this.state.identityType === this.identityType.EXCELLENT_COACH &&
+          <ProblemSelector select={(problemId) => this.setState({ problemId: problemId })}/>
+        }
         <TextField value={memberIdListStr}
                    multiLine={true}
                    floatingLabelText="输入学号，换行区分"
@@ -149,10 +157,10 @@ export default class CampIdentityModify extends React.Component<any, CampIdentit
                   message="添加成功"
                   autoHideDuration={3000}
                   onRequestClose={() => {
-                    this.setState({ showSnack: false })
+                    this.setState({ showSnack: false });
                   }}/>
       </section>
-    )
+    );
   }
 
 }

@@ -53,7 +53,7 @@ export default class WarmupShowList extends React.Component<any, any> {
   }
 
   view(practice) {
-    window.open(`/backend/warmup/view?id=${practice.id}`)
+    window.open(`/asst/warmup/view?id=${practice.id}`)
   }
 
   render() {

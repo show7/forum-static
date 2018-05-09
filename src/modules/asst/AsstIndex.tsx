@@ -85,6 +85,18 @@ export default class Menu extends React.Component<any,any> {
           </Subheader>
           <Divider style={style.divider}/>
           <ListItem
+            style={this.state.index === 6 ? style.itemActive : style.item}
+            value={6}
+            primaryText="知识点评论"
+            onTouchTap={()=>this.onClick('/asst/knowledge/vote', 6)}
+          />
+          <ListItem
+            style={this.state.index === 3 ? style.itemActive : style.item}
+            value={3}
+            primaryText="评论选择题"
+            onTouchTap={()=>this.onClick('/asst/warmup/problem/list', 3)}
+          />
+          <ListItem
             style={this.state.index === 2 ? style.itemActive : style.item}
             value={2}
             primaryText="评论应用题"
@@ -95,12 +107,6 @@ export default class Menu extends React.Component<any,any> {
             value={5}
             primaryText="加精应用题"
             onTouchTap={()=>this.onClick('/asst/application/problem/list', 5)}
-          />
-          <ListItem
-            style={this.state.index === 3 ? style.itemActive : style.item}
-            value={3}
-            primaryText="评论选择题"
-            onTouchTap={()=>this.onClick('/asst/warmup/comment', 3)}
           />
         </List>
       )

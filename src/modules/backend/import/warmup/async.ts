@@ -24,8 +24,10 @@ export function  loadAllWarmupList(problemId){
   return pget(`/pc/operation/warmup/load/all/${problemId}`)
 }
 
+
+
 export function loadWarmupList(problemId) {
-  return pget(`/pc/operation/warmup/list/${problemId}`)
+  return pget(`/pc/asst/warmup/list/${problemId}`)
 }
 
 export function loadProblems() {
@@ -36,17 +38,9 @@ export function saveWarmup(practice) {
   return ppost("/pc/operation/warmup/save", practice);
 }
 
-export function loadNextWarmup(problemId, prePracticeId) {
-  return pget(`/pc/operation/warmup/next/${problemId}/${prePracticeId}`)
-}
-
 // 插入录入的选择题信息
 export function insertWarmupPractice (param){
   return ppost(`/pc/operation/warmup/insert/practice`, param)
-}
-// 根据 practiceUid 获取小课信息
-export function loadWarmupPracticeByPracticeUid(practiceUid) {
-  return pget(`/pc/operation/warmup/load/problem/${practiceUid}`)
 }
 
 export function deleteExample(id){

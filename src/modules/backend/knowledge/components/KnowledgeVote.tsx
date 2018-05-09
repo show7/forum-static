@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { voteKnowledgeDiscuss } from '../async'
 import DiscussDisplayComponent from './DiscussDisplayComponent'
 
 export default class KnowledgeVote extends React.Component {
