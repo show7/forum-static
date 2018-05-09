@@ -5,7 +5,7 @@ import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   closePlan, markPlan,
-  gradeProblem, isRiseMember, learnKnowledge, queryChapterList
+  gradeProblem, learnKnowledge, queryChapterList
 } from './async'
 import { mark } from '../../../utils/request'
 import * as Async from './async'
@@ -98,9 +98,6 @@ export default class PlanMain extends React.Component <any, any> {
         }
       }
       else dispatch(alertMsg(msg))
-    }).then(() => this.riseMemberCheck()).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
     })
   }
 
@@ -167,22 +164,6 @@ export default class PlanMain extends React.Component <any, any> {
       style: {
         // picWidth:window.innerWidth,
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
-      }
-    })
-  }
-
-  riseMemberCheck() {
-    const { dispatch } = this.props
-    return isRiseMember().then(res => {
-      if(res.code === 200) {
-        this.setState({ riseMember: res.msg })
-        if(!res.msg) {
-          setTimeout(() => {
-            this.setState({ riseMemberTips: true })
-          }, 10)
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
       }
     })
   }
@@ -661,8 +642,7 @@ export default class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, showEmptyPage,
-      riseMember, riseMemberTips, expired
+      currentIndex, planData, showScoreModal, showEmptyPage, expired
     } = this.state
     const {
       problem = {}, sections = [], point, openRise, completeSeries, reportStatus
@@ -712,10 +692,6 @@ export default class PlanMain extends React.Component <any, any> {
               <div className="side-bar-content">
                 <div className="header-img">
                   <div className="back-img"/>
-                  {riseMember != 1 ?
-                    <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                         onClick={() => this.handleClickRiseMemberTips()}>
-                    </div> : null}
                   <div className="problem-describe" onClick={() => this.handleClickProblemReview(problem.id)}>
                     课程介绍
                   </div>
