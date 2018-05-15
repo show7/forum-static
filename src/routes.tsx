@@ -90,6 +90,7 @@ import sa from 'sa-sdk-javascript';
 import KnowledgeDiscussComment from './modules/backend/knowledge/KnowledgeDiscussComment'
 import PreviewImport from './modules/backend/import/preview/PreviewImport'
 import HomeBanner from './modules/backend/flowdata/homeBanner/HomeBanner';
+import AddSocial from './modules/backend/operation/social/AddSocial'
 
 const routes = (
   <Route path="/" onChange={() => {
@@ -116,6 +117,7 @@ const routes = (
 
         <Route path="/backend/template" component={SendTemplate}/>
         <Route path="/backend/home/banner" component={HomeBanner}/>
+        <Route path="/backend/add/social" component={AddSocial}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
