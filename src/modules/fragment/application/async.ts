@@ -52,7 +52,7 @@ export function deleteComment (id) {
   return ppost(`/rise/practice/delete/comment/${id}`);
 }
 
-export function loadPriorityApplicationCommenst (applicationId, planId) {
+export function loadPriorityApplicationComment (applicationId, planId) {
   return proxy.getProxy(`/rise/practice/application/load/priority/submits?applicationId=${applicationId}&planId=${planId}`);
 }
 

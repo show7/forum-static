@@ -51,6 +51,7 @@ export default class PlanMain extends React.Component <any, any> {
       questionList: questionList,
       showedPayTip: false,
       showEmptyPage: false,
+      caseStudy: false,
       _t: Math.random()
     }
   }
@@ -78,7 +79,7 @@ export default class PlanMain extends React.Component <any, any> {
         if(msg !== null) {
           this.setState({
             planData: msg, currentIndex: msg.currentSeries,
-            selectProblem: msg.problem, mustStudyDays: msg.mustStudyDays
+            selectProblem: msg.problem, mustStudyDays: msg.mustStudyDays, groupLearn: msg.groupLearn
           })
 
           // 区分加载样式表
@@ -278,6 +279,16 @@ export default class PlanMain extends React.Component <any, any> {
       memo: 'PC'
     })
     window.open(`/fragment/problem/extension/view?problemId=${problemId}`, '_blank')
+  }
+
+  handleClickGroupLearn(planId, applicationId) {
+    mark({
+      module: '打点',
+      function: 'RISE',
+      action: 'PC打开小组练习',
+      memo: 'PC'
+    })
+    window.open(`/fragment/application?id=${applicationId}&planId=${planId}&integrated=true`, '_blank')
   }
 
   handleClickGoReport() {
@@ -526,9 +537,10 @@ export default class PlanMain extends React.Component <any, any> {
 
   renderSidebar() {
     const {
-      currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, chapterList, expired, style
+      currentIndex, planData, selectProblem, chapterList,
     } = this.state
+
+    const {groupLearn, problem, id } = planData;
 
     if(selectProblem) {
       return (
@@ -541,12 +553,21 @@ export default class PlanMain extends React.Component <any, any> {
             <div className="chapter-area">
               <div className="cell">
                 <div className="chapter description hover-cursor"
-                     onClick={() => this.handleClickProblemExtension(planData.problem.id)}>
+                     onClick={() => this.handleClickProblemExtension(problem.id)}>
                   <div/>
                   <span>延伸学习</span>
                 </div>
               </div>
             </div>
+            { groupLearn && <div className="chapter-area">
+              <div className="cell">
+                <div className="chapter description hover-cursor"
+                     onClick={() => this.handleClickGroupLearn(id, groupLearn.id)}>
+                  <div/>
+                  <span>案例学习</span>
+                </div>
+              </div>
+            </div> }
             {chapterList ? chapterList.map((item, key) => {
                 return (
                   <div key={key} className={`chapter-area`}>

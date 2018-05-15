@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions';
 import './Application.less';
 import AssetImg from '../../../components/AssetImg';
-import Editor from '../../../components/editor/Editor';
 import {
   loadApplicationPractice, vote, loadOtherList,
-  submitApplicationPractice, CommentType, autoSaveApplicationDraft, loadPriorityApplicationCommenst,
+  submitApplicationPractice, CommentType, autoSaveApplicationDraft, loadPriorityApplicationComment,
 } from './async';
 import Work from '../components/NewWork';
 import _ from 'lodash';
 import { Work } from '../components/NewWork';
-import { BreadCrumbs, TitleBar } from '../commons/FragmentComponent';
+import { BreadCrumbs } from '../commons/FragmentComponent';
 import { ArticleViewModule } from '../../../utils/helpers';
 import { mark } from '../../../utils/request';
 import ApplicationDiscussDistrict from './components/ApplicationDiscussDistrict/ApplicationDiscussDistrict';
@@ -47,7 +46,6 @@ export default class Application extends React.Component<any, any> {
     const { integrated, id, planId } = location.query;
     this.setState({ integrated });
     let practiceRes = await loadApplicationPractice(id, planId);
-    console.log(practiceRes);
     const { code, msg } = practiceRes;
     this.setState({
       edit: !msg.isSynchronized,
@@ -61,7 +59,7 @@ export default class Application extends React.Component<any, any> {
       showApplicationCache: msg.draft && !msg.isSynchronized,
     });
 
-    let commentsRes = await loadPriorityApplicationCommenst(id, planId);
+    let commentsRes = await loadPriorityApplicationComment(id, planId);
     this.setState({ commentsData: commentsRes.msg });
   }
 
