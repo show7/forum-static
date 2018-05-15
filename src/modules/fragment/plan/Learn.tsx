@@ -288,7 +288,7 @@ export default class PlanMain extends React.Component <any, any> {
       action: 'PC打开小组练习',
       memo: 'PC'
     })
-    window.open(`/fragment/application?Id=${applicationId}&planId=${planId}&integrated=true`, '_blank')
+    window.open(`/fragment/application?id=${applicationId}&planId=${planId}&integrated=true`, '_blank')
   }
 
   handleClickGoReport() {

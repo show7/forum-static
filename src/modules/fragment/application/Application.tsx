@@ -5,7 +5,7 @@ import './Application.less';
 import AssetImg from '../../../components/AssetImg';
 import {
   loadApplicationPractice, vote, loadOtherList,
-  submitApplicationPractice, CommentType, autoSaveApplicationDraft, loadPriorityApplicationCommenst,
+  submitApplicationPractice, CommentType, autoSaveApplicationDraft, loadPriorityApplicationComment,
 } from './async';
 import Work from '../components/NewWork';
 import _ from 'lodash';
@@ -59,7 +59,7 @@ export default class Application extends React.Component<any, any> {
       showApplicationCache: msg.draft && !msg.isSynchronized,
     });
 
-    let commentsRes = await loadPriorityApplicationCommenst(id, planId);
+    let commentsRes = await loadPriorityApplicationComment(id, planId);
     this.setState({ commentsData: commentsRes.msg });
   }
 
