@@ -9,8 +9,6 @@ import { Dialog, Divider } from 'material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import ExcelUpload from '../../../components/ExcelUpload'
-import FlatButton from 'material-ui/FlatButton'
-import RadioButton from 'material-ui/RadioButton'
 
 const cellStyle = {
   paddingLeft: 0,
