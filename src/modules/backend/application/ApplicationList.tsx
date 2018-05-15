@@ -13,6 +13,7 @@ import { imgSrc } from '../../../utils/imgSrc'
 import Confirm from '../../../components/Confirm'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import Toggle from 'material-ui/Toggle'
+import { style } from '../../base/Base'
 
 export const CommentType = {
   Challenge: 1,
@@ -280,7 +281,6 @@ export default class ApplicationList extends React.Component<any, any> {
     if(this.refs.toggle){
       console.log(this.refs.toggle)
     }
-    console.log('hello')
 
     loadApplicationSubmit(applicationId, 1,!show).then(res => {
       if(res.code === 200) {
@@ -306,7 +306,8 @@ export default class ApplicationList extends React.Component<any, any> {
           {other.map((item, index) => {
             const { id, upName, headPic, upTime, content, applicationId, priority, comment, commenting } = item
             return (
-              <div key={index} className="workItemContainer" style={{ marginTop: 50 }}>
+              <div className="other-show">
+              <div key={index} className="workItemContainer">
                 <div className="titleArea">
                   <div className="leftArea">
                     <div className="author">
@@ -347,6 +348,7 @@ export default class ApplicationList extends React.Component<any, any> {
                   }
                 </div>
               </div>
+              </div>
             )
           })}
         </div>
@@ -373,7 +375,7 @@ export default class ApplicationList extends React.Component<any, any> {
           </div>
           {renderToggle()}
           {otherLoading ? <VerticalBarLoading/> : renderOther()}
-          <Divider/>
+          <Divider style={style.divider}/>
           {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
             <div className="no-more">没有更多了</div>}
         </div>
