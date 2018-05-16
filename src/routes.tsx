@@ -91,6 +91,11 @@ import KnowledgeDiscussComment from './modules/backend/knowledge/KnowledgeDiscus
 import PreviewImport from './modules/backend/import/preview/PreviewImport'
 import HomeBanner from './modules/backend/flowdata/homeBanner/HomeBanner';
 import AddSocial from './modules/backend/operation/social/AddSocial'
+import LiveFlowList from './modules/backend/flowdata/liveFlow/LiveFlowList';
+import LiveFlowDetail from './modules/backend/flowdata/liveFlow/LiveFlowDetail';
+import ActivityFlowList from './modules/backend/flowdata/activityFlow/ActivityFlowList';
+import ArticleFlowList from './modules/backend/flowdata/articleFlow/ArticleFlowList';
+import FlowData from './modules/backend/flowdata/FlowData';
 
 const routes = (
   <Route path="/" onChange={() => {
@@ -101,7 +106,7 @@ const routes = (
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
       <Route component={BackendIndex}>
-        <Route path="/demo" component={HomeBanner}/>
+        <Route path="/demo" component={LiveFlowList}/>
         <Route path="/backend" component={BackendWelcome}/>
         <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
@@ -116,7 +121,13 @@ const routes = (
         <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/template" component={SendTemplate}/>
+
+        <Route path="/backend/home/config" component={FlowData}/>
         <Route path="/backend/home/banner" component={HomeBanner}/>
+        <Route path="/backend/home/lives" component={LiveFlowList}/>
+        <Route path="/backend/home/activities" component={ActivityFlowList}/>
+        <Route path="/backend/home/articles" component={ArticleFlowList}/>
+
         <Route path="/backend/add/social" component={AddSocial}/>
 
         <Route path="/backend/warmup/newpractice">
