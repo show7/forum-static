@@ -1,4 +1,4 @@
-import {pget,ppost} from "utils/request"
+import {pget,ppost} from "../../../../../utils/request"
 
 //插入应用题信息
 export function insertApplicationPractice (param){

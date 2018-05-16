@@ -7,7 +7,7 @@ import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } 
 import Editor from '../../../../components/editor/Editor'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { KnowledgeSelector } from '../component/KnowledgeSelector'
-import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { set, startLoad, endLoad, alertMsg } from "../../../../../redux/actions"
 import { AudioModal } from '../component/AudioModal'
 
 interface KnowledgeImportState {

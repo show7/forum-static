@@ -22,7 +22,7 @@ import Snackbar from 'material-ui/Snackbar'
 import Confirm from '../../../components/Confirm'
 import { BreakSignal, Stop } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
-import { highlight, unhighlight } from '../../backend/application/async'
+import { highlight, unhighlight } from '../../backend/education/application/async'
 
 const style = {
   divider: {

@@ -8,7 +8,7 @@ import {
   sendCheckedApplication, loadAssts, assignApplyInterviewer
 } from './async'
 import * as _ from 'lodash'
-import { MessageTable } from '../message/autoreply/MessageTable'
+import { MessageTable } from '../admin/message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem, FlatButton } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 import isEmpty = require('lodash/isEmpty')

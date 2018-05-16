@@ -6,7 +6,7 @@ import {
   loadBusinessApplicationList, addInterviewerRecord
 } from './async'
 import * as _ from 'lodash'
-import { MessageTable } from '../../backend/message/autoreply/MessageTable'
+import { MessageTable } from '../../backend/admin/message/autoreply/MessageTable'
 import { RaisedButton, Dialog, Divider, FlatButton, TextField, SelectField, MenuItem } from 'material-ui'
 import TimePicker from 'material-ui/TimePicker'
 
