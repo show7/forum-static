@@ -50,9 +50,6 @@ import ReplyWarmupDiscussMessage from './modules/fragment/customer/msgcenter/Tra
 import WarmupPracticeImport from './modules/backend/import/warmup/WarmupPracticeImport'
 import KnowledgeImport from './modules/backend/import/knowledge/KnowledgeImport'
 import ProblemImport from './modules/backend/import/problem/ProblemImport'
-import CampUserView from './modules/camp/CampUserView'
-import CampUserUnGroup from './modules/camp/CampUserUnGroup'
-import CampUserAdd from './modules/camp/CampUserAdd'
 import AutoReplyMessage from './modules/backend/message/autoreply/AutoReplyMessage'
 import SubscribeMessage from './modules/backend/message/autoreply/SubscribeMessage'
 import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoolApplication'
@@ -129,8 +126,6 @@ const routes = (
         <Route path="/backend/knowledge/discuss/reply" component={KnowledgeDiscussComment}/>
 
         <Route path="/backend/user/info" component={UserInfo}/>
-        <Route path="/backend/camp/add" component={CampUserAdd}/>
-        <Route path="/backend/camp/group" component={CampUserUnGroup}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
         <Route path="/backend/assist/management" component={AsstManagement}>
           <Route path="/backend/assist/standard" component={AsstStandard}/>
