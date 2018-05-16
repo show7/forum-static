@@ -95,11 +95,11 @@ export default class LiveFlowDetail extends React.Component {
                    onChange={(e, v) => this.setState({ banner: v })}/>
         <br/>
         <TextField floatingLabelText="开始时间，（2018-01-01 11:00:00）"
-                   defaultValue={formatDate(new Date(startTime), 'yyyy-MM-dd hh:mm:ss')}
+                   defaultValue={formatDate(new Date(startTime || 0), 'yyyy-MM-dd hh:mm:ss')}
                    onChange={(e, v) => this.setState({ startTime: v })}/>
         <br/>
         <TextField floatingLabelText="结束时间，（2018-01-01 11:00:00）"
-                   defaultValue={formatDate(new Date(endTime), 'yyyy-MM-dd hh:mm:ss')}
+                   defaultValue={formatDate(new Date(endTime || 0), 'yyyy-MM-dd hh:mm:ss')}
                    onChange={(e, v) => this.setState({ endTime: v })}/>
         <br/>
         <TextField floatingLabelText="链接地址"

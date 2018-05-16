@@ -79,11 +79,11 @@ export default class ActivityFlowDetail extends React.Component {
                    onChange={(e, v) => this.setState({ thumbnail: v })}/>
         <br/>
         <TextField floatingLabelText="开始时间，（2018-01-01 11:00:00）"
-                   defaultValue={formatDate(new Date(startTime), 'yyyy-MM-dd hh:mm:ss')}
+                   defaultValue={formatDate(new Date(startTime || 0), 'yyyy-MM-dd hh:mm:ss')}
                    onChange={(e, v) => this.setState({ startTime: v })}/>
         <br/>
         <TextField floatingLabelText="结束时间，（2018-01-01 11:00:00）"
-                   defaultValue={formatDate(new Date(endTime), 'yyyy-MM-dd hh:mm:ss')}
+                   defaultValue={formatDate(new Date(endTime || 0), 'yyyy-MM-dd hh:mm:ss')}
                    onChange={(e, v) => this.setState({ endTime: v })}/>
         <br/>
         <TextField floatingLabelText="1-准备中, 2-已关闭报名, 3-回顾"
