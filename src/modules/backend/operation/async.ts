@@ -53,9 +53,9 @@ export function openVipRiseMember (riseId, month, memo) {
   return ppost(`/pc/operation/add/member/vip?riseId=${riseId}&memo=${memo}&month=${month}`)
 }
 
-export function openCourseByMemberIds (memberIds, problemId, startDate, sendWelcomeMsg) {
-  return ppost(`/rise/operation/backend/open/course/memberid`, {
-    memberIds: memberIds,
+export function openCourseByriseIds (riseIds, problemId, startDate, sendWelcomeMsg) {
+  return ppost(`/rise/operation/backend/open/course/riseId`, {
+    riseIds: riseIds,
     problemId: problemId,
     startDate: startDate,
     sendWelcomeMsg: sendWelcomeMsg,
