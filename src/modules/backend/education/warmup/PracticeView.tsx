@@ -2,13 +2,13 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './PracticeView.less'
 import { loadWarmUp, highlight, unhighlight, deleteWarmupDiscuss } from './async'
-import { BreakSignal, Stop } from '../../../utils/request'
-import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { BreakSignal, Stop } from 'utils/request'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import Subheader from 'material-ui/Subheader'
 import Avatar from 'material-ui/Avatar'
 import _ from 'lodash'
-import AlertMessage from '../../../components/AlertMessage'
-import Confirm from '../../../components/Confirm'
+import AlertMessage from '../../../../components/AlertMessage'
+import Confirm from '../../../../components/Confirm'
 
 const avatarStyle = {
   'position': 'fixed',

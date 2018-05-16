@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dialog, SelectField, MenuItem, TextField, RaisedButton, Snackbar } from 'material-ui';
 import { addCertificate } from './async';
-import { ProblemSelector } from '../backend/import/component/ProblemSelector';
+import { ProblemSelector } from '../../education/import/component/ProblemSelector';
 
 interface CampIdentityModifyState {
   year: number,

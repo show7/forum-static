@@ -4,10 +4,10 @@ import { loadKnowledgeDetail, updateKnowledge } from './async'
 import _ from 'lodash'
 import { loadProblem } from '../problem/async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
-import Editor from '../../../../components/editor/Editor'
+import Editor from 'components/editor/Editor'
 import { ProblemSelector } from '../component/ProblemSelector'
 import { KnowledgeSelector } from '../component/KnowledgeSelector'
-import { set, startLoad, endLoad, alertMsg } from "../../../../../redux/actions"
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { AudioModal } from '../component/AudioModal'
 
 interface KnowledgeImportState {

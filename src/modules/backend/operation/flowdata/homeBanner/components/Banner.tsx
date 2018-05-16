@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { TextField, RaisedButton } from 'material-ui';
-import AssetImg from '../../../../../components/AssetImg';
+import AssetImg from '../../../../../../components/AssetImg';
 import { deleteBanner, updateBanner } from '../../async';
-import requestProxy from '../../../../../components/proxy/requestProxy';
-import { randomStr } from '../../../../../utils/helpers';
+import requestProxy from '../../../../../../components/proxy/requestProxy';
+import { randomStr } from 'utils/helpers';
 
 export default class Banner extends React.Component {
 

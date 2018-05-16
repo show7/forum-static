@@ -1,4 +1,4 @@
-import requestProxy from '../../../components/proxy/requestProxy';
+import requestProxy from 'components/proxy/requestProxy';
 
 /**
  * 加载所有头图信息

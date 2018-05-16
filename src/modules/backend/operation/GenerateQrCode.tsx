@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { loadQrCode } from './async'
 import { connect } from 'react-redux'
 import { RaisedButton, TextField } from 'material-ui'

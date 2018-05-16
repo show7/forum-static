@@ -2,11 +2,11 @@ import * as React from "react"
 import {connect} from "react-redux"
 import "./Discuss.less"
 import * as _ from "lodash"
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
+import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import {replyDiscuss} from "./async"
-import VerticalBarLoading from "../../../components/VerticalBarLoading"
+import VerticalBarLoading from "../../../../components/VerticalBarLoading"
 
 @connect(state => state)
 export default class Discuss extends React.Component<any,any> {

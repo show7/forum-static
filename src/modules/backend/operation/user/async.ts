@@ -1,4 +1,4 @@
-import { pget } from '../../../utils/request'
+import { pget } from 'utils/request'
 
 export function searchInfo(searchId) {
   return pget(`/pc/operation/user/search?searchId=${searchId}`)

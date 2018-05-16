@@ -2,7 +2,7 @@ import * as React from 'react';
 import Banner from './components/Banner';
 import { TextField, RaisedButton, Dialog } from 'material-ui';
 import { insertBanner, loadAllHomeBanners } from '../async';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import requestProxy from 'components/proxy/requestProxy';
 
 export default class HomeBanner extends React.Component {
 

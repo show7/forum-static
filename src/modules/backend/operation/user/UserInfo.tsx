@@ -2,14 +2,14 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
-import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { searchInfo, searchInfoByClass } from './async'
 import Dialog from 'material-ui/Dialog'
 import { Divider, MenuItem, SelectField } from 'material-ui'
 import './UserInfo.less'
-import { loadClassNameAndGroup } from '../../asst/async'
+import { loadClassNameAndGroup } from '../../../asst/async'
 import * as _ from 'lodash'
-import { MessageTable } from '../message/autoreply/MessageTable'
+import { MessageTable } from '../../admin/message/autoreply/MessageTable'
 
 const cellStyle = {
   paddingLeft: 0,

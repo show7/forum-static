@@ -1,4 +1,4 @@
-import {pget,ppost} from "../../../utils/request"
+import {pget,ppost} from "utils/request"
 
 export function loadProblems() {
   return pget("/pc/asst/problem/list");

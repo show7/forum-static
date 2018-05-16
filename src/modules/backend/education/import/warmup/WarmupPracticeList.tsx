@@ -1,13 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {List, ListItem, makeSelectable} from 'material-ui/List';
 import "./WarmupPracticeList.less"
-import {set, startLoad, endLoad, alertMsg} from "../../../../redux/actions"
+import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import { loadAllWarmupList, loadWarmupList } from './async'
-import {BreakSignal, Stop} from "../../../../utils/request"
+import {BreakSignal, Stop} from "utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import {removeHtmlTags} from "../../../../utils/textUtils"
+import {removeHtmlTags} from "utils/textUtils"
 
 
 @connect(state => state)

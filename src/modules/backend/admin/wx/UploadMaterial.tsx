@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import PicUpload from '../../../components/wx/PicUpload'
-import RaisedButton from 'material-ui/RaisedButton'
+import PicUpload from '../../../../components/wx/PicUpload'
 import './UploadMaterial.less'
 import TextField from 'material-ui/TextField'
 

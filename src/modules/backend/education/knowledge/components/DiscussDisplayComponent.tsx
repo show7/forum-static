@@ -7,8 +7,8 @@
 
 import * as React from 'react'
 import './DiscussDisplayComponent.less'
-import { deleteKnowledgeDiscuss } from '../../../fragment/knowledge/async'
-import proxy from '../../../../components/proxy/requestProxy'
+import { deleteKnowledgeDiscuss } from '../../../../fragment/knowledge/async'
+import proxy from '../../../../../components/proxy/requestProxy'
 import { voteKnowledgeDiscuss } from '../async'
 import { Dialog, RaisedButton } from 'material-ui'
 

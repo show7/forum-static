@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from '../../../../redux/actions'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { SelectField, MenuItem, RadioButtonGroup, RadioButton, RaisedButton, TextField, Snackbar } from 'material-ui'
 import ChoiceEditor from '../component/ChoiceEditor'
 import { deleteExample, insertWarmupPractice, loadWarmUp, saveWarmup } from './async'
 import * as _ from 'lodash'
 import './WarmupPracticeImport.less'
-import Editor from '../../../../components/editor/Editor'
+import Editor from '../../../../../components/editor/Editor'
 import { loadAllKnowledges, loadAllProblemsAndKnowledges } from '../knowledge/async'
 
 interface WarmupPracticeImportState {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { RaisedButton, TextField, Toggle, Dialog } from 'material-ui'
 import { MessageTable } from './MessageTable'
 import { addAutoReplyMessage, deleteAutoReplyMessage, loadTextAutoReplyMessage, reloadAutoReplyMessage, updateAutoReplyMessage } from './async'
-import AlertMessage from '../../../../components/AlertMessage'
+import AlertMessage from '../../../../../components/AlertMessage'
 
 interface AutoReplyMessageState {
   data: any,

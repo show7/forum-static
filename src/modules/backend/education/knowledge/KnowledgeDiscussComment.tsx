@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { queryKnowledgeDiscuss, replyKnowledgeDiscuss } from './async'
-import Discuss from '../../fragment/components/Discuss'
+import Discuss from '../../../fragment/components/Discuss'
 import DiscussDisplayComponent from './components/DiscussDisplayComponent'
 
 export default class KnowledgeDiscussComment extends React.Component {

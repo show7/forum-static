@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { RaisedButton, TextField, Snackbar } from 'material-ui'
-import { startLoad, endLoad, alertMsg } from '../../../../redux/actions'
-import Editor from '../../../../components/editor/Editor'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import Editor from '../../../../../components/editor/Editor'
 import { connect } from 'react-redux'
 import Dialog from 'material-ui/Dialog'
 import { uploadAudioFile, updateAudioDB, loadAudio } from "./async"

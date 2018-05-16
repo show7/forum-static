@@ -1,4 +1,4 @@
-import { pget, ppost } from '../../../../utils/request'
+import { pget, ppost } from 'utils/request'
 
 export function loadSimpleKnowledges(problemId) {
   return pget(`/pc/operation/knowledge/simple/${problemId}`)

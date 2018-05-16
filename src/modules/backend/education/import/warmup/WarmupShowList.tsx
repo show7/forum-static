@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './WarmupShowList.less'
-import { set, startLoad, endLoad, alertMsg } from '../../../../redux/actions'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { loadWarmupList } from './async'
-import { BreakSignal, Stop } from '../../../../utils/request'
+import { BreakSignal, Stop } from 'utils/request'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
-import { removeHtmlTags } from '../../../../utils/textUtils'
+import { removeHtmlTags } from 'utils/textUtils'
 
 @connect(state => state)
 export default class WarmupShowList extends React.Component<any, any> {

@@ -1,4 +1,4 @@
-import proxy from '../../../components/proxy/requestProxy'
+import proxy from 'components/proxy/requestProxy'
 
 export function queryProblemKnowledges (problemId) {
   return proxy.getProxy(`/pc/asst/knowledge/load/problem/knowledges?problemId=${problemId}`)
