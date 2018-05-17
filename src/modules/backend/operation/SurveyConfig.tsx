@@ -4,7 +4,7 @@ import './SurveyConfig.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { loadSurveyConfigs, updateSurveyConfig } from "./async"
 import * as _ from "lodash";
-import { MessageTable } from '../message/autoreply/MessageTable'
+import { MessageTable } from '../admin/message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem } from 'material-ui'
 
 const cellStyle = {
