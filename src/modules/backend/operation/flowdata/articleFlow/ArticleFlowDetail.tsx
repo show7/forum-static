@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './ArticleFlowDetail.less';
 import { insertArticle, updateArticle } from '../async';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import requestProxy from 'components/proxy/requestProxy';
 import { TextField, RaisedButton } from 'material-ui';
 
 export default class ArticleFlowDetail extends React.Component {

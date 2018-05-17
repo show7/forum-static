@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Table } from 'antd';
 import { deleteLivesFlow, loadAllLivesFlow } from '../async';
-import { formatDate } from '../../../../utils/helpers';
+import { formatDate } from 'utils/helpers';
 import LiveFlowDetail from './LiveFlowDetail';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import requestProxy from 'components/proxy/requestProxy';
 import { RaisedButton, Dialog } from 'material-ui';
 
 export default class LiveFlowList extends React.Component {

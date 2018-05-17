@@ -1,26 +1,25 @@
 import * as React from 'react';
-import { Table } from 'antd';
-import { deleteActivityFlow, loadAllActivitiesFlow } from '../async';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import { deleteArticle, loadAllArticles } from '../async';
+import requestProxy from 'components/proxy/requestProxy';
 import { RaisedButton, Dialog } from 'material-ui';
-import ActivityFlowDetail from './ActivityFlowDetail';
+import { Table } from 'antd';
+import ArticleFlowDetail from './ArticleFlowDetail';
 
-export default class ActivityFlowList extends React.Component {
+export default class ArticleFlowList extends React.Component {
 
   constructor () {
     super();
     this.state = {
-      activityList: [],
+      articleFlowList: [],
       showDialog: false,
       editItem: {},
     };
     this.columns = [
-      { key: 1, title: '名称', dataIndex: 'name' },
-      { key: 2, title: '举办方', dataIndex: 'holder' },
-      { key: 3, title: '举办地点', dataIndex: 'location' },
-      { key: 4, title: '优先次序（值越大越靠前）', dataIndex: 'sequence' },
+      { key: 1, title: '标题', dataIndex: 'title', },
+      { key: 2, title: '描述', dataIndex: 'description', },
+      { key: 3, title: '标签', dataIndex: 'tag', },
       {
-        key: 5, title: '操作',
+        key: 4, title: '操作',
         render: (text, record) => {
           return (
             <div style={{ color: '#55cbcb', cursor: 'pointer' }}>
@@ -39,9 +38,10 @@ export default class ActivityFlowList extends React.Component {
   }
 
   async loadData () {
-    let activitiesRes = await loadAllActivitiesFlow();
+    let articlesRes = await loadAllArticles();
+    console.log(articlesRes);
     this.setState({
-      activityList: activitiesRes.msg,
+      articleFlowList: articlesRes.msg,
     });
   }
 
@@ -54,36 +54,36 @@ export default class ActivityFlowList extends React.Component {
 
   async handleDeleteRecord (item) {
     const { id } = item;
-    let deleteRes = await deleteActivityFlow(id);
+    let deleteRes = await deleteArticle(id);
     if (deleteRes.code === 200) {
-      requestProxy.alertMessage('删除活动数据成功');
+      requestProxy.alertMessage('删除文章数据成功');
       this.loadData();
     }
   }
 
   render () {
     const {
-      activityList,
+      articleFlowList,
       showDialog,
       editItem,
     } = this.state;
 
     return (
-      <div className="activity-flow-list-container"
+      <div className="article-flow-list-container"
            style={{ margin: '2rem' }}>
         <RaisedButton label="新增"
                       primary={true}
                       onClick={() => this.handleEditRecord()}/>
         <br/><br/>
         <Table columns={this.columns}
-               dataSource={activityList}/>
+               dataSource={articleFlowList}/>
         <Dialog open={showDialog}
                 autoScrollBodyContent={true}>
-          <ActivityFlowDetail data={editItem}
-                              requestClose={() => {
-                                this.setState({ showDialog: false });
-                                this.loadData();
-                              }}/>
+          <ArticleFlowDetail data={editItem}
+                             requestClose={() => {
+                               this.setState({ showDialog: false });
+                               this.loadData();
+                             }}/>
         </Dialog>
       </div>
     );

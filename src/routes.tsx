@@ -88,11 +88,10 @@ import KnowledgeDiscussComment from './modules/backend/education/knowledge/Knowl
 import PreviewImport from './modules/backend/education/import/preview/PreviewImport'
 import HomeBanner from './modules/backend/operation/flowdata/homeBanner/HomeBanner';
 import AddSocial from './modules/backend/operation/social/AddSocial'
-import LiveFlowList from './modules/backend/flowdata/liveFlow/LiveFlowList';
-import LiveFlowDetail from './modules/backend/flowdata/liveFlow/LiveFlowDetail';
-import ActivityFlowList from './modules/backend/flowdata/activityFlow/ActivityFlowList';
-import ArticleFlowList from './modules/backend/flowdata/articleFlow/ArticleFlowList';
-import FlowData from './modules/backend/flowdata/FlowData';
+import LiveFlowList from './modules/backend/operation/flowdata/liveFlow/LiveFlowList';
+import ActivityFlowList from './modules/backend/operation/flowdata/activityFlow/ActivityFlowList';
+import ArticleFlowList from './modules/backend/operation/flowdata/articleFlow/ArticleFlowList';
+import FlowData from './modules/backend/operation/flowdata/FlowData';
 
 const routes = (
   <Route path="/" onChange={() => {

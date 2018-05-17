@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './LiveFlowDetail.less';
 import { TextField, DatePicker, TimePicker, RaisedButton } from 'material-ui';
-import { formatDate } from '../../../../utils/helpers';
+import { formatDate } from 'utils/helpers';
 import { insertLivesFlow, updateLivesFlow } from '../async';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import requestProxy from 'components/proxy/requestProxy';
 
 export default class LiveFlowDetail extends React.Component {
 

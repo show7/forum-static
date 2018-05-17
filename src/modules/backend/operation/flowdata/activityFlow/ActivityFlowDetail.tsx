@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './ActivityFlowDetail.less';
-import { TextField, DatePicker, TimePicker, RaisedButton } from 'material-ui';
-import { formatDate } from '../../../../utils/helpers';
+import { TextField, RaisedButton } from 'material-ui';
+import { formatDate } from 'utils/helpers';
 import { insertActivityFlow, updateActivityFlow } from '../async';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import requestProxy from 'components/proxy/requestProxy';
 
 export default class ActivityFlowDetail extends React.Component {
 
