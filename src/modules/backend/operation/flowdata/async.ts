@@ -48,3 +48,51 @@ export function updateBanner (id, imageUrl, linkUrl, sequence) {
 export function deleteBanner (id) {
   return requestProxy.postProxy(`/backend/flow/banner/delete?id=${id}`);
 }
+
+export function loadAllLivesFlow () {
+  return requestProxy.getProxy('/backend/flow/lives');
+}
+
+export function insertLivesFlow (params) {
+  return requestProxy.postProxy('/backend/flow/lives/insert', params);
+}
+
+export function updateLivesFlow (params) {
+  return requestProxy.postProxy('/backend/flow/lives/update', params);
+}
+
+export function deleteLivesFlow (id) {
+  return requestProxy.postProxy(`/backend/flow/lives/delete?id=${id}`);
+}
+
+export function loadAllActivitiesFlow () {
+  return requestProxy.getProxy('/backend/flow/activities');
+}
+
+export function insertActivityFlow (params) {
+  return requestProxy.postProxy('/backend/flow/activities/insert', params);
+}
+
+export function updateActivityFlow (params) {
+  return requestProxy.postProxy('/backend/flow/activities/update', params);
+}
+
+export function deleteActivityFlow (id) {
+  return requestProxy.postProxy(`/backend/flow/activities/delete?id=${id}`);
+}
+
+export function loadAllArticles () {
+  return requestProxy.getProxy('/backend/flow/articles');
+}
+
+export function insertArticle (params) {
+  return requestProxy.postProxy('/backend/flow/article/insert', params);
+}
+
+export function updateArticle (params) {
+  return requestProxy.postProxy('/backend/flow/article/update', params);
+}
+
+export function deleteArticle (id) {
+  return requestProxy.postProxy(`/backend/flow/article/delete?id=${id}`);
+}
