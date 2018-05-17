@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { loadTargetDiscuss, loadTodayDiscuss } from './async'
+import { loadTargetDiscuss } from './async'
 import { Divider, MenuItem, RaisedButton, SelectField } from 'material-ui'
 import { removeHtmlTags } from 'utils/textUtils'
 import './WarmupList.less'

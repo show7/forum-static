@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from "react-redux"
 import _ from 'lodash'
-import { addProblemAndReviewSchedule, loadProblem, saveProblem } from './async'
+import { loadProblem, saveProblem } from './async'
 import { SelectField, MenuItem, RaisedButton, TextField, FlatButton, Snackbar } from 'material-ui'
 import Editor from 'components/editor/Editor'
 import { ProblemSelector } from '../component/ProblemSelector'

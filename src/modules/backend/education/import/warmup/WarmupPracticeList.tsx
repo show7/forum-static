@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import "./WarmupPracticeList.less"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import { loadAllWarmupList, loadWarmupList } from './async'
+import { loadAllWarmupList } from './async'
 import {BreakSignal, Stop} from "utils/request"
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
