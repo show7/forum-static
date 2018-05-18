@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import './BusinessSchoolApplication.less'
 import {
   loadBusinessApplicationList, rejectBusinessApplication,
-  approveBusinessApplication, ignoreBusinessApplication,
+  approveBusinessApplication,
   sendCheckedApplication, loadAssts, assignApplyInterviewer
 } from './async'
 import * as _ from 'lodash'
-import { MessageTable } from '../message/autoreply/MessageTable'
+import { MessageTable } from '../admin/message/autoreply/MessageTable'
 import { RaisedButton, TextField, Toggle, Dialog, Divider, SelectField, MenuItem, FlatButton } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 import isEmpty = require('lodash/isEmpty')

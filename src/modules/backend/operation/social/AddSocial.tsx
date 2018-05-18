@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux'
 import ExcelUpload from '../../../../components/ExcelUpload'
-import {alertMsg } from '../../../../redux/actions'
+import {alertMsg } from 'redux/actions'
 import './AddSocial.less'
 
 @connect(state=>state)

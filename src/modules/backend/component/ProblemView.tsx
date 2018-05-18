@@ -3,7 +3,7 @@ import * as _ from "lodash";
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {set, startLoad, endLoad, alertMsg} from "../../../redux/actions"
+import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 
 
 const style = {
