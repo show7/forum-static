@@ -84,7 +84,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '70px' }) },
         { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'isInterviewed', alias: '是否已经录入信息', style: _.merge({}, cellStyle, { width: '120px' }) },
-        { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle }
+        { tag: 'submitTime', alias: '问卷提交日期', style: cellStyle }
       ],
       data: [],
       profileId: '',
@@ -186,7 +186,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
           return
         }
       })
-
 
       let targetAdmit = interviewRecord.admit
       isAdmit.map((admit) => {
@@ -307,7 +306,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
     } = this.state
 
     if(_.isEmpty(remark)) {
-      alert('请填写面试备注')
+      alert('请选择面试备注')
       return
     }
     //如果选择是否录取，则需要check字段
@@ -324,6 +323,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       applyId,
       profileId,
       question,
+      type: 1,
       focusChannelName,
       touchDurationName,
       applyEventName,
@@ -424,7 +424,6 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
         </Dialog>
       )
     }
-
     /**
      * 面试记录信息
      * @returns {any}
