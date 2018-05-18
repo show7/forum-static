@@ -72,6 +72,11 @@ const isAdmit = [
   { id: 1, value: '否' }
 ]
 
+const applySource = [
+  {id: 1,value:'电话面试'},
+  {id: 2,value: '问卷申请'}
+]
+
 @connect(state => state)
 export default class BusinessSchoolApplication extends React.Component<any, any> {
   constructor(props) {
@@ -95,6 +100,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       applyId: '',
       interviewTime: '',
       question: '',
+      targetSource:'',
       targetChannel: '',
       focusChannelName: '',
       touchDuration: '',
@@ -173,6 +179,17 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       if(!_.isEmpty(interviewRecord.interviewTime)) {
         interviewTime = new Date(interviewRecord.interviewTime)
       }
+
+      let targetSource = interviewRecord.type
+      if(targetSource != '') {
+        applySource.map((target) => {
+          if(target.value.indexOf(targetSource) >= 0) {
+            targetSource = target
+            return
+          }
+        })
+      }
+
       let targetChannel = interviewRecord.focusChannel
       if(targetChannel != '') {
         focusChannels.map((target) => {
@@ -240,6 +257,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         question: interviewRecord.question,
         targetChannel,
         focusChannelName: interviewRecord.focusChannelName,
+        targetSource,
         targetTouchDuration,
         touchDurationName: interviewRecord.touchDurationName,
         targetApplyEvent,
@@ -270,10 +288,10 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   }
 
   handleClickRejectApplicationBtn() {
-    const { remark } = this.state
+    const { remark,targetSource } = this.state
 
-    if(_.isEmpty(remark)) {
-      alert('面试备注不能为空')
+    if(_.isEmpty(targetSource) || _.isEmpty(remark)) {
+      alert('申请来源和面试备注不能为空');
       return
     }
 
@@ -285,7 +303,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
   handleClickRejectApplication() {
     const {
-      editData = {}, interviewTime, applyId, profileId, question, targetChannel,
+      editData = {}, interviewTime, applyId, profileId, question,targetSource,targetChannel,
       focusChannelName, targetTouchDuration, touchDurationName,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, targetAdmit, remark
     } = this.state
@@ -297,6 +315,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       profileId,
       interviewTime,
       question,
+      type:targetSource.id,
       focusChannelName,
       touchDurationName,
       applyEventName,
@@ -342,17 +361,26 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
   checkCommentedApproval() {
     const {
       interviewTime, question, targetChannel,
-      targetTouchDuration,
+      targetTouchDuration,targetSource,
       targetApplyEvent, targetLearningWill, targetPotentialScore, targetAward, targetAdmit, remark
     } = this.state
 
-    if(interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
+    if(_.isEmpty(targetSource)){
+      alert('请选择申请来源');
+      return;
+    }
+    //问卷申请
+    if(targetSource.id === 2){
+      if(_.isEmpty(remark)){
+        alert('请输入面试备注');
+        return;
+      }
+    }else if(interviewTime.length == 0 || _.isEmpty(question) || _.isEmpty(targetChannel) || _.isEmpty(targetTouchDuration) ||
       _.isEmpty(targetApplyEvent) || _.isEmpty(targetLearningWill) || _.isEmpty(targetPotentialScore) ||
       _.isEmpty(targetAward) || _.isEmpty(remark) || _.isEmpty(targetAdmit)) {
       alert('请将信息填写完成')
       return
     }
-
     this.setState({
       RasiedClicked: true,
       showCouponChoose: true
@@ -363,15 +391,17 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
     const { dispatch } = this.props
     const {
       interviewTime, applyId, profileId, question, targetChannel,
-      focusChannelName, targetTouchDuration, touchDurationName,
+      focusChannelName, targetTouchDuration, touchDurationName,targetSource,
       targetApplyEvent, applyEventName, targetLearningWill, targetPotentialScore, targetAward, applyReason, targetAdmit, remark
     } = this.state
+
 
     let param = {
       applyId,
       profileId,
       interviewTime,
       question,
+      type: targetSource.id,
       focusChannel: targetChannel.value,
       focusChannelName,
       touchDuration: targetTouchDuration.value,
@@ -415,6 +445,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       targetChannel: '',
       focusChannelName: '',
       targetTouchDuration: '',
+      targetSource:'',
       touchDuration: '',
       touchDurationName: '',
       targetApplyEvent: '',
@@ -459,6 +490,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       applyId: '',
       interviewTime: '',
       question: '',
+      targetSource:'',
       targetChannel: '',
       focusChannelName: '',
       touchDuration: '',
@@ -660,6 +692,29 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       )
     }
 
+    const renderApplySource = () => {
+      const {targetSource} = this.state;
+
+      return(
+        <SelectField
+          value={targetSource}
+          floatingLabelText="选择申请来源"
+          onChange={(e, idx, value) => {
+            this.setState({ targetSource: value })
+          }
+          }
+        >
+          {
+            applySource.map((source, idx) => {
+              return (
+                <MenuItem key={idx} value={source} primaryText={source.value}/>
+              )
+            })
+          }
+        </SelectField>
+      )
+    }
+
     /**
      * 面试记录信息
      * @returns {any}
@@ -671,6 +726,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
 
       return (
         <div>
+          {renderApplySource()}
           <div className="backend-interview-container">
             <FlatButton label="面试时间"/>
           </div>
