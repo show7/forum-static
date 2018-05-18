@@ -1,46 +1,46 @@
-import * as React from 'react';
-import './ActivityFlowDetail.less';
-import { TextField, RaisedButton } from 'material-ui';
-import { formatDate } from 'utils/helpers';
-import { insertActivityFlow, updateActivityFlow } from '../async';
-import requestProxy from 'components/proxy/requestProxy';
+import * as React from 'react'
+import './ActivityFlowDetail.less'
+import { TextField, DatePicker, TimePicker, RaisedButton } from 'material-ui'
+import { formatDate } from '../../../../../utils/helpers'
+import { insertActivityFlow, updateActivityFlow } from '../async'
+import requestProxy from '../../../../../components/proxy/requestProxy'
 
 export default class ActivityFlowDetail extends React.Component {
 
   constructor () {
-    super();
+    super()
     this.state = {
       id: -1,
-    };
+    }
   }
 
   componentWillMount () {
-    this.setState(this.props.data);
+    this.setState(this.props.data)
   }
 
   componentWillReceiveProps (nextProps) {
-    this.props = nextProps;
-    this.setState(this.props.data);
+    this.props = nextProps
+    this.setState(this.props.data)
   }
 
   async handleSubmit () {
     const {
       id,
-    } = this.state;
+    } = this.state
     if (!this.state.sequence) {
-      this.state.sequence = 0;
+      this.state.sequence = 0
     }
     if (id > 0) {
-      let updateRes = await updateActivityFlow(this.state);
-      this.props.requestClose();
+      let updateRes = await updateActivityFlow(this.state)
+      this.props.requestClose()
       if (updateRes.code === 200) {
-        requestProxy.alertMessage('更新活动信息成功');
+        requestProxy.alertMessage('更新活动信息成功')
       }
     } else {
-      let insertRes = await insertActivityFlow(this.state);
-      this.props.requestClose();
+      let insertRes = await insertActivityFlow(this.state)
+      this.props.requestClose()
       if (insertRes.code === 200) {
-        requestProxy.alertMessage('插入活动信息成功');
+        requestProxy.alertMessage('插入活动信息成功')
       }
     }
   }
@@ -58,7 +58,7 @@ export default class ActivityFlowDetail extends React.Component {
       guestSaleLinkUrl,
       linkUrl,
       sequence,
-    } = this.state;
+    } = this.state
 
     return (
       <div className="activity-flow-detail-component">
@@ -80,11 +80,11 @@ export default class ActivityFlowDetail extends React.Component {
         <br/>
         <TextField floatingLabelText="开始时间，（2018-01-01 11:00:00）"
                    defaultValue={formatDate(new Date(startTime || 0), 'yyyy-MM-dd hh:mm:ss')}
-                   onChange={(e, v) => this.setState({ startTime: v })}/>
+                   onChange={(e, v) => this.setState({ startTime: new Date(v) })}/>
         <br/>
         <TextField floatingLabelText="结束时间，（2018-01-01 11:00:00）"
                    defaultValue={formatDate(new Date(endTime || 0), 'yyyy-MM-dd hh:mm:ss')}
-                   onChange={(e, v) => this.setState({ endTime: v })}/>
+                   onChange={(e, v) => this.setState({ endTime: new Date(v) })}/>
         <br/>
         <TextField floatingLabelText="1-准备中, 2-已关闭报名, 3-回顾"
                    defaultValue={status}
@@ -109,14 +109,14 @@ export default class ActivityFlowDetail extends React.Component {
         <section>
           <RaisedButton label="提交"
                         onClick={() => {
-                          this.handleSubmit();
+                          this.handleSubmit()
                         }}/>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <RaisedButton label="取消"
                         onClick={() => this.props.requestClose()}/>
         </section>
       </div>
-    );
+    )
   }
 
 }
