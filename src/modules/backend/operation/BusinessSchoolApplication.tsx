@@ -91,7 +91,8 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'level', alias: '职位层级', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'submitTime', alias: '问卷提交时间', style: cellStyle },
+        { tag: 'submitTime', alias: '问卷提交日期', style: cellStyle },
+        { tag: 'applySource',alias:'申请方式',style:cellStyle},
         { tag: 'interviewerName', alias: '面试人', style: _.merge({}, cellStyle, { width: '70px' }) },
         { tag: 'isInterviewed', alias: '是否已经面试', style: _.merge({}, cellStyle, { width: '70px' }) }
       ],
@@ -183,7 +184,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       let targetSource = interviewRecord.type
       if(targetSource != '') {
         applySource.map((target) => {
-          if(target.value.indexOf(targetSource) >= 0) {
+          if(target.id === targetSource){
             targetSource = target
             return
           }
@@ -402,18 +403,33 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
       interviewTime,
       question,
       type: targetSource.id,
-      focusChannel: targetChannel.value,
       focusChannelName,
-      touchDuration: targetTouchDuration.value,
       touchDurationName,
-      applyEvent: targetApplyEvent.value,
       applyEventName,
-      learningWill: targetLearningWill.id,
-      potentialScore: targetPotentialScore.id,
-      applyAward: targetAward.id,
       applyReason,
-      admit: targetAdmit.id,
       remark
+    }
+
+    if(!_.isEmpty(targetChannel)) {
+      param = _.merge(param, { focusChannel: targetChannel.value })
+    }
+    if(!_.isEmpty(targetTouchDuration)) {
+      param = _.merge(param, { touchDuration: targetTouchDuration.value })
+    }
+    if(!_.isEmpty(targetApplyEvent)) {
+      param = _.merge(param, { applyEvent: targetApplyEvent.value })
+    }
+    if(!_.isEmpty(targetLearningWill)) {
+      param = _.merge(param, { learningWill: targetLearningWill.id })
+    }
+    if(!_.isEmpty(targetPotentialScore)) {
+      param = _.merge(param, { potentialScore: targetPotentialScore.id })
+    }
+    if(!_.isEmpty(targetAward)) {
+      param = _.merge(param, { applyAward: targetAward.id })
+    }
+    if(!_.isEmpty(targetAdmit)) {
+      param = _.merge(param, { admit: targetAdmit.id })
     }
 
     dispatch(startLoad())
@@ -631,6 +647,7 @@ export default class BusinessSchoolApplication extends React.Component<any, any>
             {renderDialogItem('最近审核结果：', editData.verifiedResult)}
             {renderDialogItem('是否黑名单用户：', editData.isBlack)}
             {renderDialogItem('最终付费状态：', editData.finalPayStatus)}
+            {renderDialogItem('优惠券金额：',editData.coupons)}
             {renderDialogItem('面试官：', editData.interviewerName)}
             <div className="bs-dialog-header">
               问卷信息：
