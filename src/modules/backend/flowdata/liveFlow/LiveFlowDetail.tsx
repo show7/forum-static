@@ -1,46 +1,46 @@
-import * as React from 'react';
-import './LiveFlowDetail.less';
-import { TextField, DatePicker, TimePicker, RaisedButton } from 'material-ui';
-import { formatDate } from '../../../../utils/helpers';
-import { insertLivesFlow, updateLivesFlow } from '../async';
-import requestProxy from '../../../../components/proxy/requestProxy';
+import * as React from 'react'
+import './LiveFlowDetail.less'
+import { TextField, DatePicker, TimePicker, RaisedButton } from 'material-ui'
+import { formatDate } from '../../../../utils/helpers'
+import { insertLivesFlow, updateLivesFlow } from '../async'
+import requestProxy from '../../../../components/proxy/requestProxy'
 
 export default class LiveFlowDetail extends React.Component {
 
   constructor () {
-    super();
+    super()
     this.state = {
       id: -1,
-    };
+    }
   }
 
   componentWillMount () {
-    this.setState(this.props.data);
+    this.setState(this.props.data)
   }
 
   componentWillReceiveProps (nextProps) {
-    this.props = nextProps;
-    this.setState(this.props.data);
+    this.props = nextProps
+    this.setState(this.props.data)
   }
 
   async handleSubmit () {
     const {
       id,
-    } = this.state;
+    } = this.state
     if (!this.state.sequence) {
-      this.state.sequence = 0;
+      this.state.sequence = 0
     }
     if (id > 0) {
-      let updateRes = await updateLivesFlow(this.state);
-      this.props.requestClose();
+      let updateRes = await updateLivesFlow(this.state)
+      this.props.requestClose()
       if (updateRes.code === 200) {
-        requestProxy.alertMessage('更新直播信息成功');
+        requestProxy.alertMessage('更新直播信息成功')
       }
     } else {
-      let insertRes = await insertLivesFlow(this.state);
-      this.props.requestClose();
+      let insertRes = await insertLivesFlow(this.state)
+      this.props.requestClose()
       if (insertRes.code === 200) {
-        requestProxy.alertMessage('插入直播信息成功');
+        requestProxy.alertMessage('插入直播信息成功')
       }
     }
   }
@@ -59,7 +59,7 @@ export default class LiveFlowDetail extends React.Component {
       linkUrl,
       sequence,
       password,
-    } = this.state;
+    } = this.state
 
     return (
       <div className="live-flow-detail-component">
@@ -96,11 +96,11 @@ export default class LiveFlowDetail extends React.Component {
         <br/>
         <TextField floatingLabelText="开始时间，（2018-01-01 11:00:00）"
                    defaultValue={formatDate(new Date(startTime || 0), 'yyyy-MM-dd hh:mm:ss')}
-                   onChange={(e, v) => this.setState({ startTime: v })}/>
+                   onChange={(e, v) => this.setState({ startTime: new Date(v) })}/>
         <br/>
         <TextField floatingLabelText="结束时间，（2018-01-01 11:00:00）"
                    defaultValue={formatDate(new Date(endTime || 0), 'yyyy-MM-dd hh:mm:ss')}
-                   onChange={(e, v) => this.setState({ endTime: v })}/>
+                   onChange={(e, v) => this.setState({ endTime: new Date(v) })}/>
         <br/>
         <TextField floatingLabelText="链接地址"
                    defaultValue={linkUrl}
@@ -117,14 +117,14 @@ export default class LiveFlowDetail extends React.Component {
         <section>
           <RaisedButton label="提交"
                         onClick={() => {
-                          this.handleSubmit();
+                          this.handleSubmit()
                         }}/>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <RaisedButton label="取消"
                         onClick={() => this.props.requestClose()}/>
         </section>
       </div>
-    );
+    )
   }
 
 }
