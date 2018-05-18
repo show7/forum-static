@@ -28,6 +28,8 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword1: '',
       keyword2: '',
       keyword3: '',
+      keyword4:'',
+      keyword5:'',
       openIds: '',
       excludeOpenIds:'',
       source: '',
@@ -76,7 +78,7 @@ export default class SendTemplate extends React.Component<any, any> {
 
   sendTemplateToMime = () => {
     const { dispatch } = this.props
-    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, forcePush } = this.state
+    const { template, comment, first, remark, url, keyword1, keyword2, keyword3,keyword4,keyword5, openIds, source, forcePush } = this.state
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
@@ -103,6 +105,8 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword1,
       keyword2,
       keyword3,
+      keyword4,
+      keyword5,
       openIds,
       forcePush: push,
       source,
@@ -118,7 +122,7 @@ export default class SendTemplate extends React.Component<any, any> {
 
   sendTemplate = () => {
     const { dispatch } = this.props
-    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, forcePush, source,excludeOpenIds } = this.state
+    const { template, comment, first, remark, url, keyword1, keyword2, keyword3,keyword4,keyword5,openIds, forcePush, source,excludeOpenIds } = this.state
 
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds) || _.isEmpty(forcePush) || _.isEmpty(source)) {
@@ -145,6 +149,8 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword1,
       keyword2,
       keyword3,
+      keyword4,
+      keyword5,
       openIds,
       source,
       excludeOpenIds,
@@ -159,7 +165,7 @@ export default class SendTemplate extends React.Component<any, any> {
   }
 
   render() {
-    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, openIds, source, showImg, forcePush,excludeOpenIds } = this.state
+    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3,keyword4,keyword5,openIds, source, showImg, forcePush,excludeOpenIds } = this.state
 
       const renderLink = () => {
         return (
@@ -249,6 +255,13 @@ export default class SendTemplate extends React.Component<any, any> {
             </div>
             <TextField hintText='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword3}
                        onChange={(e, v) => this.setState({ keyword3: v })}/>
+
+            <TextField hintText='如果存在请输入keyword4，不存在则不需填写（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword4}
+                       onChange={(e, v) => this.setState({ keyword4: v })}/>
+
+            <TextField hintText='如果存在请输入keyword5，不存在则不需填写（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword5}
+                       onChange={(e, v) => this.setState({ keyword5: v })}/>
+
             <div>
             <textarea placeholder="请输入remark" className='comment-container' value={remark}
                       onChange={(e, v) => this.setState({ remark: e.target.value })}/>
