@@ -182,7 +182,6 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   highlight(id) {
-    console.log(this.getScrollTop())
     this.setState({
       highlightId: id,
       showConfirm: true,
