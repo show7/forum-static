@@ -52,12 +52,12 @@ export default class ApplicationList extends React.Component<any, any> {
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm: false })
-            this.confirmHighlight()
+            this.confirmHighlight();
           }
         },
           {
             label: '取消',
-            onClick: () => this.setState({ showConfirm: false })
+            onClick: () => {this.setState({ showConfirm: false },()=>{window.scroll(0,this.state.scrollTop)})}
           }
         ]
       },
@@ -68,15 +68,16 @@ export default class ApplicationList extends React.Component<any, any> {
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm2: false })
-            this.confirmUnhighlight()
+            this.confirmUnhighlight();
           }
         },
           {
             label: '取消',
-            onClick: () => this.setState({ showConfirm2: false })
+            onClick: () => {this.setState({ showConfirm2: false },()=>{window.scroll(0,this.state.scrollTop)})}
           }
         ]
-      }
+      },
+      scrollTop:0,
     }
   }
 
@@ -151,7 +152,8 @@ export default class ApplicationList extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(alertMsg(title, content))
     setTimeout(() => {
-      dispatch(set('base.showModal', false))
+      dispatch(set('base.showModal', false));
+      window.scroll(0,this.state.scrollTop)
     }, 1000)
   }
 
@@ -180,17 +182,34 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   highlight(id) {
+    console.log(this.getScrollTop())
     this.setState({
       highlightId: id,
-      showConfirm: true
+      showConfirm: true,
+      scrollTop: this.getScrollTop()
     })
   }
 
   unhighlight(id) {
     this.setState({
       highlightId: id,
-      showConfirm2: true
+      showConfirm2: true,
+      scrollTop: this.getScrollTop()
     })
+  }
+
+  /**
+   * 获取scrollTop
+   * @returns {number}
+   */
+  getScrollTop() {
+    let scrollTop=0;
+    if(document.documentElement&&document.documentElement.scrollTop) {
+      scrollTop=document.documentElement.scrollTop;
+    } else if(document.body) {
+      scrollTop = document.body.scrollTop;
+    }
+    return scrollTop;
   }
 
   showComment(id) {
@@ -328,7 +347,7 @@ export default class ApplicationList extends React.Component<any, any> {
                   </div>
                   <div className="rightArea">
                     {priority === 0 ?
-                      <div className="function-button" onClick={() => this.highlight(id)}>
+                      <div className="function-button"  onClick={() => this.highlight(id)}>
                         加精
                       </div> :
                       <div className="function-button" onClick={() => this.unhighlight(id)}>
