@@ -77,13 +77,12 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       meta: [
         { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'project', alias: '项目类型', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'interviewTime', alias: '合适的面试时间', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'interviewTime', alias: '合适面试时间', style: _.merge({}, cellStyle, { width: '90px' }) },
         { tag: 'workYear', alias: '首次工作时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'education', alias: '最高学历', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'college', alias: '院校名称', style: _.merge({}, cellStyle, { width: '70px' }) },
-        { tag: 'isBlack', alias: '黑名单', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'isInterviewed', alias: '是否已经录入信息', style: _.merge({}, cellStyle, { width: '120px' }) },
+        { tag: 'isInterviewed', alias: '是否录入信息', style: _.merge({}, cellStyle, { width: '120px' }) },
         { tag: 'submitTime', alias: '问卷提交日期', style: cellStyle }
       ],
       data: [],
