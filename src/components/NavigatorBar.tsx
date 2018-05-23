@@ -106,7 +106,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
                    this.setState({hoverShowNotes: false})
                  }}>
             <Menu style={{paddingTop: 20}}>
-              <MenuItem primaryText="消息通知" onClick={() => this.context.router.push('/fragment/message')}/>
+              <MenuItem primaryText="上次学到" onClick={() => window.location.href = '/redirect/latest/application'}/>
               <Divider/>
               <MenuItem primaryText="退出" onClick={() => this.handleClickLoginOut()}/>
             </Menu>
