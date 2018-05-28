@@ -30,14 +30,6 @@ export default class GroupLearnSubmit extends React.Component {
         request: {
           endpoint: '/file/ppt/upload'
         },
-        validation: {
-          allowedExtensions: [ 'ppt', 'pptx', 'pps' ],
-          sizeLimit: 1024 * 1024 * 10 // 10 mb
-        },
-        messages: {
-          typeError: "只支持PPT格式",
-          sizeError: "上传的PPT不能超过10mb"
-        },
         callbacks: {
           onSubmit: (id, fileName) => {
             this.setState({ submitLoading: true });
@@ -46,6 +38,7 @@ export default class GroupLearnSubmit extends React.Component {
             const { msg, code } = responseJSON;
             if(code !== 200) {
               requestProxy.alertMessage(msg);
+              this.setState({ submitLoading: false })
             } else {
               this.setState({ fileId: msg, submitLoading: false, uploadingSuccess: true });
             }
