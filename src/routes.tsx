@@ -105,6 +105,7 @@ const routes = (
         <Route path="/demo" component={LiveFlowList}/>
         <Route path="/backend" component={BackendWelcome}/>
         <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
+        <Route path="/backend/admin/upload/file" component={SubmitFile}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
@@ -152,7 +153,6 @@ const routes = (
         <Route path="/backend/survey/config" component={SurveyConfig}/>
         <Route path="/backend/application/import" component={ApplicationImport}/>
         <Route path="/backend/generate/qrcode" component={GenerateQrCode}/>
-        <Route path="/backend/upload/file" component={SubmitFile}/>
         <Route path="/backend/upload/richtext" component={SubmitRichText}/>
         <Route path="/backend/addvip" component={AddVipRiseMember}/>
         <Route path="/backend/opencourse" component={BatchOpenCourse}/>
