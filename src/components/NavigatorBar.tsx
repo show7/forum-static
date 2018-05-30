@@ -43,7 +43,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
     switch(navId) {
       case NavType.Home: {
         this.setState({activeNav: NavType.Home}, () => {
-          window.location.href = '/home'
+          window.location.href = '/'
         })
         break
       }
@@ -59,13 +59,13 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
       }
       case NavType.Course: {
         this.setState({activeNav: NavType.Course}, () => {
-          window.location.href = '/course_project';
+          window.location.href = '/courseProject.html';
         })
         break
       }
       case NavType.Article: {
         this.setState({activeNav: NavType.Article}, () => {
-          window.location.href = '/article';
+          window.location.href = '/article.html';
         })
         break
       }
@@ -81,9 +81,9 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
       this.setState({activeNav: NavType.Rise})
     } else if(url === '/home' || url === '/') {
       this.setState({activeNav: NavType.Home})
-    } else if(url === '/course_project') {
+    } else if(url === '/courseProject.html') {
       this.setState({activeNAV:NavType.Course})
-    } else if(url === '/article') {
+    } else if(url === '/article.html') {
       this.setState({activeNAV:NavType.Article});
     }
   }
@@ -121,7 +121,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
         <div className="navigator-bar">
           <div className="nav-logo">
             <div className="logo-img">
-              <AssetImg url="https://static.iqycamp.com/images/logo.png" width="60" height="60"/>
+              <AssetImg url="https://static.iqycamp.com/71527579350_-ze3vlyrx.pic_hd.jpg" width="60" height="60"/>
             </div>
             <span className="logo-name">圈外同学
             </span>
