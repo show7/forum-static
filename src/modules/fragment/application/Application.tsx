@@ -55,6 +55,7 @@ export default class Application extends React.Component<any, any> {
       submitId: msg.submitId,
       planId: msg.planId,
       applicationScore: msg.applicationScore,
+      type: msg.type,
       autoPushDraftFlag: false,
       showApplicationCache: msg.draft && !msg.isSynchronized,
     });
@@ -77,18 +78,20 @@ export default class Application extends React.Component<any, any> {
 
   // 定时保存方法
   autoSaveApplicationDraftTimer () {
-    clearInterval(timer);
-    timer = setInterval(() => {
-      const planId = this.state.planId;
-      const applicationId = this.props.location.query.id;
-      const draft = this.refs.editor.getValue();
-      if (draft.trim().length > 0) {
-        if (this.state.autoPushDraftFlag) {
-          autoSaveApplicationDraft(planId, applicationId, draft);
-          this.setState({ autoPushDraftFlag: false });
+    if(this.refs.editor){
+      clearInterval(timer);
+      timer = setInterval(() => {
+        const planId = this.state.planId;
+        const applicationId = this.props.location.query.id;
+        const draft = this.refs.editor.getValue();
+        if (draft.trim().length > 0) {
+          if (this.state.autoPushDraftFlag) {
+            autoSaveApplicationDraft(planId, applicationId, draft);
+            this.setState({ autoPushDraftFlag: false });
+          }
         }
-      }
-    }, 10000);
+      }, 10000);
+    }
   }
 
   onEdit () {
@@ -180,10 +183,7 @@ export default class Application extends React.Component<any, any> {
 
   render () {
     const {
-      data, otherList, end,
-      showOthers, edit, showDisable, integrated, loading,
-      commentsData = {},
-      showApplicationCache,
+      data, end, type, showOthers, edit, integrated, loading, commentsData = {}, showApplicationCache
     } = this.state;
     const { topic, description, content, voteCount, submitId, voteStatus, knowledgeId, pic } = data;
     const { planId, id } = this.props.location.query;
@@ -291,6 +291,7 @@ export default class Application extends React.Component<any, any> {
                                           id={id}
                                           planId={planId}
                                           showApplicationCache={showApplicationCache}
+                                          type={type}
                                           submitCallback={() => {
                                             this.componentWillMount();
                                           }}/>

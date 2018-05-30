@@ -14,6 +14,9 @@ import './ApplicationDiscussDistrict.less';
 import PersonalDiscussDistrict from '../../../components/PersonalDiscussDisctrict/PersonalDiscussDistrict';
 import { vote } from '../../async';
 import ApplicationSubmit from '../ApplicationSubmit/ApplicationSubmit';
+import GroupLearnSubmit from '../groupLearnSubmit/GroupLearnSubmit';
+
+const GROUP_LEARNING = 13; //小组作业
 
 export default class ApplicationDiscussDistrict extends React.Component {
   constructor () {
@@ -33,6 +36,7 @@ export default class ApplicationDiscussDistrict extends React.Component {
       id,
       planId,
       showApplicationCache = false,
+      type,
       submitCallback = () => {
       },
     } = this.props;
@@ -59,7 +63,16 @@ export default class ApplicationDiscussDistrict extends React.Component {
                                               switchFunc={() => this.setState({ editable: true })}
                                               voteFunc={(id) => vote(id)}/>;
             }) :
-            <ApplicationSubmit id={id}
+            type === GROUP_LEARNING ?
+              <GroupLearnSubmit id={id}
+                                 planId={planId}
+                                 submitCallback={() => {
+                                 submitCallback();
+                                 this.setState({
+                                   editable: false,
+                                 });
+                               }}/> :
+              <ApplicationSubmit id={id}
                                planId={planId}
                                submitCallback={() => {
                                  submitCallback();

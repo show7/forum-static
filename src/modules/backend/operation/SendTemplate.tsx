@@ -240,27 +240,38 @@ export default class SendTemplate extends React.Component<any, any> {
         return (
           <div>
             <div>
-            <textarea placeholder='请输入内容（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={first}
+            <textarea style={{height:'200px'}} placeholder='请输入内容（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={first}
                       onChange={(e, v) => this.setState({ first: e.target.value })}></textarea>
             </div>
-            <div>
-              <TextField hintText='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword1}
-                         onChange={(e, v) => this.setState({
-                           keyword1: v
-                         })}/>
-            </div>
-            <div>
-              <TextField hintText='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword2}
-                         onChange={(e, v) => this.setState({ keyword2: v })}/>
-            </div>
-            <TextField hintText='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword3}
-                       onChange={(e, v) => this.setState({ keyword3: v })}/>
 
-            <TextField hintText='如果存在请输入keyword4，不存在则不需填写（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword4}
-                       onChange={(e, v) => this.setState({ keyword4: v })}/>
+            <div>
+            <textarea placeholder='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword1}
+                      onChange={(e, v) => this.setState({ keyword1: e.target.value })}></textarea>
+            </div>
 
-            <TextField hintText='如果存在请输入keyword5，不存在则不需填写（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' fullWidth={200} value={keyword5}
-                       onChange={(e, v) => this.setState({ keyword5: v })}/>
+
+            <div>
+            <textarea placeholder='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword2}
+                      onChange={(e, v) => this.setState({ keyword2: e.target.value })}></textarea>
+            </div>
+
+
+            <div>
+            <textarea placeholder='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword3}
+                      onChange={(e, v) => this.setState({ keyword3: e.target.value })}></textarea>
+            </div>
+
+
+            <div>
+            <textarea placeholder='请输入keyword4（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword4}
+                      onChange={(e, v) => this.setState({ keyword4: e.target.value })}></textarea>
+            </div>
+
+
+            <div>
+            <textarea placeholder='请输入keyword5（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword5}
+                      onChange={(e, v) => this.setState({ keyword5: e.target.value })}></textarea>
+            </div>
 
             <div>
             <textarea placeholder="请输入remark" className='comment-container' value={remark}
