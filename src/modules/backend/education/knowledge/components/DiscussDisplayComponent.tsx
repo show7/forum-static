@@ -19,6 +19,7 @@ export default class DiscussDisplayComponent extends React.Component {
     this.state = {
       show: true,
       showDialog: false,
+      showReply: false,
       dialogContent: '',
       actions: [],
     }
@@ -29,13 +30,7 @@ export default class DiscussDisplayComponent extends React.Component {
   }
 
   componentWillMount () {
-    const {
-      discuss,
-    } = this.props
-
-    this.setState({
-      discuss: discuss,
-    })
+    this.setState(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -112,7 +107,6 @@ export default class DiscussDisplayComponent extends React.Component {
       clickVote = () => {
       },
       showVote = false,
-      showReply = false,
     } = this.props
 
     const {
@@ -120,6 +114,7 @@ export default class DiscussDisplayComponent extends React.Component {
       dialogContent,
       actions,
       showDialog,
+      showReply,
     } = this.state
 
     if (!this.state.show) {
@@ -139,8 +134,7 @@ export default class DiscussDisplayComponent extends React.Component {
                onClick={() => this.handleOpenPriorityDialog(discuss)}>{discuss.priority ? '取消加精' : '加精'}</div>
         }
         {
-          showReply &&
-          <div className="vote"
+          showReply && <div className="vote"
                onClick={() => this.handleGoReplyPage(discuss.id)}>回复</div>
         }
         {

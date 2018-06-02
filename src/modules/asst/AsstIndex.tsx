@@ -87,7 +87,7 @@ export default class Menu extends React.Component<any,any> {
           <ListItem
             style={this.state.index === 6 ? style.itemActive : style.item}
             value={6}
-            primaryText="知识点评论"
+            primaryText="评论知识点"
             onTouchTap={()=>this.onClick('/asst/knowledge/vote', 6)}
           />
           <ListItem

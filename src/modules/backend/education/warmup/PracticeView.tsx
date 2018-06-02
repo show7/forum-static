@@ -212,7 +212,7 @@ export default class PracticeView extends React.Component <any, any> {
     }
 
     const discussRender = (discuss, idx) => {
-      const { id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority } = discuss
+      const { id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority, commentType } = discuss
       return (
         <div className="comment-cell" key={id}>
           <div className="comment-avatar"><img className="comment-avatar-img" src={avatar}/></div>
@@ -223,9 +223,11 @@ export default class PracticeView extends React.Component <any, any> {
               <div className="right">
                 {!window.ENV.isAsst && <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div> }
 
-                <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
-                  回复
-                </div>
+                {commentType === 2 &&
+                  <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
+                    回复
+                  </div>
+                }
 
                 {!window.ENV.isAsst && priority === 0 &&
                 <div className="function-button" onClick={() => this.highlight(id)}>
