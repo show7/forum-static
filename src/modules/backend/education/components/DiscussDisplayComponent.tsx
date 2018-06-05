@@ -7,9 +7,7 @@
 
 import * as React from 'react'
 import './DiscussDisplayComponent.less'
-import { deleteKnowledgeDiscuss } from '../../../fragment/knowledge/async'
-import proxy from '../../../../components/proxy/requestProxy'
-import { voteKnowledgeDiscuss } from '../knowledge/async'
+import Discuss from '../../../fragment/components/Discuss'
 import { Dialog, RaisedButton } from 'material-ui'
 
 export default class DiscussDisplayComponent extends React.Component {
@@ -21,6 +19,8 @@ export default class DiscussDisplayComponent extends React.Component {
       showDialog: false,
       dialogContent: '',
       actions: [],
+      replyValue: '',
+      showDiscuss: false,
     }
   }
 
@@ -59,7 +59,11 @@ export default class DiscussDisplayComponent extends React.Component {
   }
 
   async togglePriority(discuss) {
-    let res = await voteKnowledgeDiscuss(discuss.id, !discuss.priority)
+    const {
+      clickVote = (discussId, priority) => {
+      },
+    } = this.props
+    let res = await clickVote(discuss.id, !discuss.priority)
     if(res.code === 200) {
       let targetDiscuss = JSON.parse(JSON.stringify(discuss))
       targetDiscuss.priority = !discuss.priority
@@ -69,49 +73,36 @@ export default class DiscussDisplayComponent extends React.Component {
     }
   }
 
-  handleOpenDeleteDialog(discuss) {
-    this.setState({
-      showDialog: true,
-      dialogContent: '确认删除该条评论么',
-      actions: [
-        <RaisedButton label={'取消'}
-                      onClick={() => this.setState({ showDialog: false })}/>,
-        <RaisedButton label={'确认'}
-                      primary={true}
-                      style={{ marginLeft: '20px' }}
-                      onClick={() => {
-                        this.deleteKnowledgeDiscuss(discuss)
-                        this.setState({ showDialog: false })
-                      }}/>,
-      ],
-    })
-  }
-
-  async deleteKnowledgeDiscuss(discuss) {
-    let res = await deleteKnowledgeDiscuss(discuss.id)
+  async onSubmit () {
+    const { discuss, replyValue } = this.state;
+    const { reply = (discussId, priority) => {
+      }
+    } = this.props;
+    let res = await reply(discuss.id, replyValue)
     if(res.code === 200) {
-      proxy.alertMessage('删除成功')
+      let targetDiscuss = JSON.parse(JSON.stringify(discuss))
+      targetDiscuss.replied = true
       this.setState({
-        show: false,
+        discuss: targetDiscuss,
+        showDiscuss: false
       })
     }
   }
 
-  handleGoReplyPage(id) {
-    window.open(`/backend/knowledge/discuss/reply?discussId=${id}`, '_blank')
+  onChange (v) {
+    this.setState({
+      replyValue: v,
+    })
   }
 
-  render() {
-    const {
-      clickVote = () => {
-      },
-    } = this.props
 
+  render() {
     const {
       discuss,
       dialogContent,
       actions,
       showDialog,
+      showDiscuss,
     } = this.state
 
     if(!this.state.show) {
@@ -121,17 +112,13 @@ export default class DiscussDisplayComponent extends React.Component {
     const replyComponent = () => {
       if(discuss.replied) {
         return (<div className="replied">已回复</div>)
-      }
-
-      if(discuss.commentType === 2 && !discuss.repliedId) {
+      }else{
         return (
           <div className="vote"
-               onClick={() => this.handleGoReplyPage(discuss.id)}>
+               onClick={() => this.setState({showDiscuss:true})}>
             回复</div>
         )
       }
-
-      return null
     }
 
     return (
@@ -141,11 +128,19 @@ export default class DiscussDisplayComponent extends React.Component {
         <span className="nickname">{discuss.name}</span>
         <span className="submit-time">{discuss.publishTime}</span>
         <div className="comment">{discuss.comment}</div>
-        {discuss.repliedName &&
+        {discuss.repliedName && !showDiscuss &&
           <div className="reply-comment">
             <span className="replied-name">{'回复' + discuss.repliedName + "："}</span>
             <div className="comment">{discuss.repliedComment}</div>
           </div>
+        }
+        {
+          showDiscuss && <Discuss isReply={false}
+                 placeholder={`在这里和大家讨论吧（限1000字）`}
+                 submit={() => this.onSubmit()}
+                 limit={1000}
+                 onChange={(v) => this.onChange(v)}
+                 showCancelBtn={false}/>
         }
         {
           <div className="vote"
@@ -153,11 +148,6 @@ export default class DiscussDisplayComponent extends React.Component {
         }
         {
           replyComponent()
-        }
-        {
-          discuss.isMine &&
-          <div className="vote"
-               onClick={() => this.handleOpenDeleteDialog(discuss)}>删除</div>
         }
         <Dialog open={showDialog}
                 title={dialogContent}

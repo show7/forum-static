@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { RaisedButton, SelectField, MenuItem } from 'material-ui'
 import { ProblemSelector } from '../import/component/ProblemSelector'
-import { queryKnowledgeDiscusses, queryProblemKnowledges } from './async'
-import KnowledgeVote from './components/KnowledgeVote'
+import { queryKnowledgeDiscusses, queryProblemKnowledges, replyKnowledgeDiscuss, voteKnowledgeDiscuss } from './async'
+import DiscussDisplayComponent from '../components/DiscussDisplayComponent'
 
 export default class KnowledgeComment extends React.Component {
 
@@ -39,6 +39,17 @@ export default class KnowledgeComment extends React.Component {
     }
   }
 
+  async voteKnowledgeDiscuss (discussId, priority){
+    let res = await voteKnowledgeDiscuss(discussId, priority)
+    return res
+  }
+
+  async replyKnowledge (discussId, value) {
+    const {selectKnowledgeId} = this.state;
+    let res = await replyKnowledgeDiscuss(value, selectKnowledgeId, discussId)
+    return res
+  }
+
   render () {
     const {
       knowledges,
@@ -67,7 +78,17 @@ export default class KnowledgeComment extends React.Component {
                       primary={true}
                       onClick={() => this.loadKnowledgeDiscuss(selectKnowledgeId)}></RaisedButton>
         <br/><br/>
-        <KnowledgeVote data={discusses}/>
+        {
+          discusses.map((discuss, index) => {
+            return (
+              <DiscussDisplayComponent key={index}
+                                       clickVote={(discussId, priority) => this.voteKnowledgeDiscuss(discussId, priority)}
+                                       discuss={discuss}
+                                       reply={(discussId, value)=>this.replyKnowledge(discussId, value)}
+                                       />
+            )
+          })
+        }
       </div>
     )
   }

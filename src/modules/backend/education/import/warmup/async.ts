@@ -4,10 +4,6 @@ export function loadWarmUp(warmupPracticeId) {
   return pget(`/pc/asst/warmup/load/${warmupPracticeId}`)
 }
 
-export function highlight(discussId){
-  return ppost(`/pc/operation/highlight/discuss/${discussId}`)
-}
-
 export function  loadAllWarmupList(problemId){
   return pget(`/pc/operation/warmup/load/all/${problemId}`)
 }

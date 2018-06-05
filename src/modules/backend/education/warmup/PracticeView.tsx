@@ -1,21 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './PracticeView.less'
-import { loadWarmUp, highlight, unhighlight, deleteWarmupDiscuss } from './async'
+import { loadWarmUp, replyDiscuss, highlight, unhighlight } from './async'
 import { BreakSignal, Stop } from 'utils/request'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import Subheader from 'material-ui/Subheader'
-import Avatar from 'material-ui/Avatar'
-import _ from 'lodash'
-import AlertMessage from '../../../../components/AlertMessage'
-import Confirm from '../../../../components/Confirm'
 import DiscussDisplayComponent from '../components/DiscussDisplayComponent'
-
-const avatarStyle = {
-  'position': 'fixed',
-  'right': 50,
-  'top': '20%'
-}
 
 @connect(state => state)
 export default class PracticeView extends React.Component <any, any> {
@@ -23,48 +13,7 @@ export default class PracticeView extends React.Component <any, any> {
     super()
     this.state = {
       data: {},
-      showDiscuss: false,
-      repliedId: 0,
-      warmupPracticeId: 0,
-      delMsgOpen: false,
-      nodelAuthority: false,
-      delDiscussId: 0,
       discussList: [],
-      showConfirm: false,
-      showConfirm2: false,
-      showId: '',
-      showConfirmModal: {
-        title: '提示',
-        content: '确认加精？',
-        actions: [ {
-          label: '确认',
-          onClick: () => {
-            this.setState({ showConfirm: false })
-            this.confirmHighlight()
-          }
-        },
-          {
-            label: '取消',
-            onClick: () => this.setState({ showConfirm: false })
-          }
-        ]
-      },
-      showConfirmModal2: {
-        title: '提示',
-        content: '是否取消加精？',
-        actions: [ {
-          label: '确认',
-          onClick: () => {
-            this.setState({ showConfirm2: false })
-            this.confirmUnhighlight()
-          }
-        },
-          {
-            label: '取消',
-            onClick: () => this.setState({ showConfirm2: false })
-          }
-        ]
-      }
     }
   }
 
@@ -95,95 +44,24 @@ export default class PracticeView extends React.Component <any, any> {
     }, 1000)
   }
 
-  highlight(id) {
-    this.setState({
-      showConfirm: true,
-      showId: id
-    })
+
+  async discuss(discussId, value) {
+    const { location } = this.props
+    const { id } = location.query
+    const param = { comment: value, repliedId: discussId, warmupPracticeId: id }
+    return await replyDiscuss(param)
   }
 
-  unhighlight(id) {
-    this.setState({
-      showConfirm2: true,
-      showId: id
-    })
-  }
-
-  confirmHighlight() {
-    const { data, showId } = this.state
-    highlight(showId).then(res => {
-      if(res.code === 200) {
-        this.showAlert('提交成功')
-      }
-      data.discussList.forEach((item) => {
-        if(item.id === showId) {
-          _.set(item, 'priority', 1)
-        }
-      })
-    })
-  }
-
-  confirmUnhighlight() {
-    const { data, showId } = this.state
-    unhighlight(showId).then(res => {
-      if(res.code === 200) {
-        this.showAlert('提交成功')
-      }
-      data.discussList.forEach((item) => {
-        if(item.id === showId) {
-          _.set(item, 'priority', 0)
-        }
-      })
-    })
-  }
-
-  reply(warmupPracticeId, repliedId) {
-    //TODO:backend修改为asst
-    if(repliedId) {
-      this.context.router.push({ pathname: '/backend/warmup/discuss', query: { warmupPracticeId, repliedId } })
-    } else {
-      this.context.router.push({ pathname: '/backend/warmup/discuss', query: { warmupPracticeId } })
+  async voteDiscuss(discussId, priority){
+    if(priority){
+      return await highlight(discussId)
+    }else{
+      return await unhighlight(discussId)
     }
-  }
-
-  onClickDelButton(discussId) {
-    this.setState({ delMsgOpen: true, delDiscussId: discussId })
-  }
-
-  deleteComment(id) {
-    this.setState({ delMsgOpen: false })
-    deleteWarmupDiscuss(id).then(res => {
-      if(res.code === 200) {
-        let newArray = []
-        this.state.discussList.map(discuss => {
-          if(discuss.id !== id) {
-            newArray.push(discuss)
-          }
-        })
-        this.setState({ discussList: newArray })
-      } else if(res.code === 201) {
-        this.setState({ nodelAuthority: true })
-      }
-    }).catch(e => {
-      console.error(e)
-    })
   }
 
   render() {
     const { data } = this.state
-    const { id } = data
-    let actions = [
-      {
-        label: '确认',
-        onClick: this.deleteComment.bind(this, this.state.delDiscussId)
-      },
-      {
-        label: '取消',
-        onClick: () => {
-          this.setState({ delMsgOpen: false })
-        }
-      }
-    ]
 
     const questionRender = (practice) => {
       const { id, question, choiceList = [] } = practice
@@ -215,7 +93,10 @@ export default class PracticeView extends React.Component <any, any> {
     const discussRender = (discuss, idx) => {
       return (
         <DiscussDisplayComponent key={idx}
-                                 discuss={discuss}/>
+                                 clickVote={(discussId, priority) => this.voteDiscuss(discussId, priority) }
+                                 discuss={discuss}
+                                 reply={(discussId, value) => this.discuss(discussId, value)}
+                                 />
       )
     }
 
@@ -232,15 +113,6 @@ export default class PracticeView extends React.Component <any, any> {
       <div className="warm-up-analysis">
         <Subheader>选择题</Subheader>
         {questionRender(data)}
-        <Avatar size={40} src="https://static.iqycamp.com/images/discuss.png" style={avatarStyle}
-                backgroundColor='none' onClick={this.reply.bind(this, id, null)}/>
-        <AlertMessage open={this.state.delMsgOpen} content="是否删除该条评论" actions={actions}/>
-        <AlertMessage open={this.state.nodelAuthority} content="对不起，暂时不能删除非助教评论"
-                      handleClose={() => this.setState({ nodelAuthority: false })}/>
-        <Confirm open={this.state.showConfirm} {...this.state.showConfirmModal}
-                 handlerClose={() => this.setState({ showConfirm: false })}/>
-        <Confirm open={this.state.showConfirm2} {...this.state.showConfirmModal2}
-                 handlerClose={() => this.setState({ showConfirm2: false })}/>
       </div>
     )
   }
