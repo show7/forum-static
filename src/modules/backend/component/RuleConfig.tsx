@@ -56,10 +56,10 @@ export default class RuleConfig extends React.Component<any, any> {
             你好，{'{nickanme}'}
             即将跳转到: {'{url}'}
           </div>
-          <TextField hintText="请输入关注文案" multiLine={true} onChange={(e, v) => this.handleChangeContent(e, v)}/>
+          <span style={{color:'red'}}>*</span><TextField hintText="请输入关注文案" multiLine={true} onChange={(e, v) => this.handleChangeContent(e, v)}/>
         </div>
         <div>
-          <TextField hintText="请输入跳转链接" multiLine={true} onChange={(e, v) => this.handleChangeLink(e, v)}/>
+          <span style={{color:'red'}}>*</span><TextField hintText="请输入跳转链接" multiLine={true} onChange={(e, v) => this.handleChangeLink(e, v)}/>
         </div>
       </div>
     )
