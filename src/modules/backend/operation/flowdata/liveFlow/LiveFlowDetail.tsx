@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './LiveFlowDetail.less'
-import { TextField, DatePicker, TimePicker, RaisedButton } from 'material-ui'
+import { TextField, DatePicker, TimePicker, RaisedButton, Checkbox } from 'material-ui'
 import { formatDate } from '../../../../../utils/helpers'
 import { insertLivesFlow, updateLivesFlow } from '../async'
 import requestProxy from '../../../../../components/proxy/requestProxy'
@@ -11,6 +11,19 @@ export default class LiveFlowDetail extends React.Component {
     super()
     this.state = {
       id: -1,
+      name: '',
+      speaker: '',
+      speakerDesc: '',
+      speakerIntro: '',
+      liveDesc: '',
+      thumbnail: '',
+      banner: '',
+      startTime: new Date(),
+      endTime: new Date(),
+      linkUrl: '',
+      permission: false,
+      sequence: 0,
+      password: '',
     }
   }
 
@@ -26,10 +39,9 @@ export default class LiveFlowDetail extends React.Component {
   async handleSubmit () {
     const {
       id,
+      startTime,
+      endTime,
     } = this.state
-    if (!this.state.sequence) {
-      this.state.sequence = 0
-    }
     if (id > 0) {
       let updateRes = await updateLivesFlow(this.state)
       this.props.requestClose()
@@ -57,6 +69,7 @@ export default class LiveFlowDetail extends React.Component {
       startTime,
       endTime,
       linkUrl,
+      permission = false,
       sequence,
       password,
     } = this.state
@@ -105,6 +118,13 @@ export default class LiveFlowDetail extends React.Component {
         <TextField floatingLabelText="链接地址"
                    defaultValue={linkUrl}
                    onChange={(e, v) => this.setState({ linkUrl: v })}/>
+        <br/>
+        <br/>
+        是否仅会员可见
+        <Checkbox checked={permission}
+                  onCheck={(e, v) => {
+                    this.setState({ permission: v })
+                  }}/>
         <br/>
         <TextField floatingLabelText="排序"
                    defaultValue={sequence}
