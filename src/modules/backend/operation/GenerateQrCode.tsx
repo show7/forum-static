@@ -44,6 +44,16 @@ export default class GenerateQrCode extends React.Component<any, any> {
       remark,
       ruleList
     }
+    let flag = true;
+    _.forEach(ruleList,item=>{
+      if(!item.content || !item.link) {
+        flag = false;
+      }
+    });
+    if(!flag) {
+      dispatch(alertMsg("有规则未填写完成"));
+      return;
+    }
     dispatch(startLoad())
     loadQrCodeByRule(param).then(res => {
       dispatch(endLoad())
