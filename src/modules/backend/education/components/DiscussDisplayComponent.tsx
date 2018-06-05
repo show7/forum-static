@@ -7,19 +7,18 @@
 
 import * as React from 'react'
 import './DiscussDisplayComponent.less'
-import { deleteKnowledgeDiscuss } from '../../../../fragment/knowledge/async'
-import proxy from '../../../../../components/proxy/requestProxy'
-import { voteKnowledgeDiscuss } from '../async'
+import { deleteKnowledgeDiscuss } from '../../../fragment/knowledge/async'
+import proxy from '../../../../components/proxy/requestProxy'
+import { voteKnowledgeDiscuss } from '../knowledge/async'
 import { Dialog, RaisedButton } from 'material-ui'
 
 export default class DiscussDisplayComponent extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       show: true,
       showDialog: false,
-      showReply: false,
       dialogContent: '',
       actions: [],
     }
@@ -29,19 +28,19 @@ export default class DiscussDisplayComponent extends React.Component {
     router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState(this.props)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.discuss !== this.props.discuss) {
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.discuss !== this.props.discuss) {
       this.setState({
         discuss: nextProps.discuss,
       })
     }
   }
 
-  handleOpenPriorityDialog (discuss) {
+  handleOpenPriorityDialog(discuss) {
     this.setState({
       showDialog: true,
       dialogContent: discuss.priority ? '确认将该评论取消加精么' : '确认将该条评论进行加精么',
@@ -59,9 +58,9 @@ export default class DiscussDisplayComponent extends React.Component {
     })
   }
 
-  async togglePriority (discuss) {
+  async togglePriority(discuss) {
     let res = await voteKnowledgeDiscuss(discuss.id, !discuss.priority)
-    if (res.code === 200) {
+    if(res.code === 200) {
       let targetDiscuss = JSON.parse(JSON.stringify(discuss))
       targetDiscuss.priority = !discuss.priority
       this.setState({
@@ -70,7 +69,7 @@ export default class DiscussDisplayComponent extends React.Component {
     }
   }
 
-  handleOpenDeleteDialog (discuss) {
+  handleOpenDeleteDialog(discuss) {
     this.setState({
       showDialog: true,
       dialogContent: '确认删除该条评论么',
@@ -88,9 +87,9 @@ export default class DiscussDisplayComponent extends React.Component {
     })
   }
 
-  async deleteKnowledgeDiscuss (discuss) {
+  async deleteKnowledgeDiscuss(discuss) {
     let res = await deleteKnowledgeDiscuss(discuss.id)
-    if (res.code === 200) {
+    if(res.code === 200) {
       proxy.alertMessage('删除成功')
       this.setState({
         show: false,
@@ -98,15 +97,14 @@ export default class DiscussDisplayComponent extends React.Component {
     }
   }
 
-  handleGoReplyPage (id) {
+  handleGoReplyPage(id) {
     window.open(`/backend/knowledge/discuss/reply?discussId=${id}`, '_blank')
   }
 
-  render () {
+  render() {
     const {
       clickVote = () => {
       },
-      showVote = false,
     } = this.props
 
     const {
@@ -114,31 +112,50 @@ export default class DiscussDisplayComponent extends React.Component {
       dialogContent,
       actions,
       showDialog,
-      showReply,
     } = this.state
 
-    if (!this.state.show) {
+    if(!this.state.show) {
+      return null
+    }
+
+    const replyComponent = () => {
+      if(discuss.replied) {
+        return (<div className="replied">已回复</div>)
+      }
+
+      if(discuss.commentType === 2 && !discuss.repliedId) {
+        return (
+          <div className="vote"
+               onClick={() => this.handleGoReplyPage(discuss.id)}>
+            回复</div>
+        )
+      }
+
       return null
     }
 
     return (
-      <div className="dicuss-item">
-        <img className="headimage"
-             src={discuss.headImgUrl}></img>
-        <div className="nickname">{discuss.nickName}</div>
-        <div className="submit-time">{discuss.publishTime}</div>
+      <div className="discuss-item">
+        <img className="head-image"
+             src={discuss.avatar}></img>
+        <span className="nickname">{discuss.name}</span>
+        <span className="submit-time">{discuss.publishTime}</span>
         <div className="comment">{discuss.comment}</div>
+        {discuss.repliedName &&
+          <div className="reply-comment">
+            <span className="replied-name">{'回复' + discuss.repliedName + "："}</span>
+            <div className="comment">{discuss.repliedComment}</div>
+          </div>
+        }
         {
-         !window.ENV.isAsst &&  showVote &&
           <div className="vote"
                onClick={() => this.handleOpenPriorityDialog(discuss)}>{discuss.priority ? '取消加精' : '加精'}</div>
         }
         {
-          showReply && <div className="vote"
-               onClick={() => this.handleGoReplyPage(discuss.id)}>回复</div>
+          replyComponent()
         }
         {
-          discuss.isSelf &&
+          discuss.isMine &&
           <div className="vote"
                onClick={() => this.handleOpenDeleteDialog(discuss)}>删除</div>
         }

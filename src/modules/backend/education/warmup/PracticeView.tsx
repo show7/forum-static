@@ -9,6 +9,7 @@ import Avatar from 'material-ui/Avatar'
 import _ from 'lodash'
 import AlertMessage from '../../../../components/AlertMessage'
 import Confirm from '../../../../components/Confirm'
+import DiscussDisplayComponent from '../components/DiscussDisplayComponent'
 
 const avatarStyle = {
   'position': 'fixed',
@@ -35,7 +36,7 @@ export default class PracticeView extends React.Component <any, any> {
       showConfirmModal: {
         title: '提示',
         content: '确认加精？',
-        actions: [{
+        actions: [ {
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm: false })
@@ -51,7 +52,7 @@ export default class PracticeView extends React.Component <any, any> {
       showConfirmModal2: {
         title: '提示',
         content: '是否取消加精？',
-        actions: [{
+        actions: [ {
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm2: false })
@@ -212,41 +213,9 @@ export default class PracticeView extends React.Component <any, any> {
     }
 
     const discussRender = (discuss, idx) => {
-      const { id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId, priority, commentType } = discuss
       return (
-        <div className="comment-cell" key={id}>
-          <div className="comment-avatar"><img className="comment-avatar-img" src={avatar}/></div>
-          <div className="comment-area">
-            <div className="comment-head">
-              <div className="comment-name">{name}</div>
-              <div className="comment-time">{discussTime}</div>
-              <div className="right">
-                {!window.ENV.isAsst && <div className="function-button" onClick={() => this.onClickDelButton(discuss.id)}>删除</div> }
-
-                {commentType === 2 &&
-                  <div className="function-button" onClick={() => this.reply(warmupPracticeId, id)}>
-                    回复
-                  </div>
-                }
-
-                {!window.ENV.isAsst && priority === 0 &&
-                <div className="function-button" onClick={() => this.highlight(id)}>
-                  加精
-                </div>}
-                {!window.ENV.isAsst && priority === 1 &&
-                <div className="function-button" onClick={() => this.unhighlight(id)}>
-                  取消加精
-                </div>
-                }
-              </div>
-            </div>
-            <div className="comment-content">{comment}</div>
-            {repliedComment ?
-              <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
-          </div>
-          <div className="comment-hr"/>
-
-        </div>
+        <DiscussDisplayComponent key={idx}
+                                 discuss={discuss}/>
       )
     }
 

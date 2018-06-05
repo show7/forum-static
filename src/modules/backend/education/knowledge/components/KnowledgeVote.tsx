@@ -1,5 +1,5 @@
 import * as React from 'react'
-import DiscussDisplayComponent from './DiscussDisplayComponent'
+import DiscussDisplayComponent from '../../components/DiscussDisplayComponent'
 
 export default class KnowledgeVote extends React.Component {
 
@@ -54,12 +54,9 @@ export default class KnowledgeVote extends React.Component {
       <div>
         {
           discusses.map((discuss, index) => {
-            let showReply = discuss.commentType === 2
             return (
               <DiscussDisplayComponent key={index}
-                                       discuss={discuss}
-                                       showVote={true}
-                                       showReply={showReply}/>
+                                       discuss={discuss}/>
             )
           })
         }

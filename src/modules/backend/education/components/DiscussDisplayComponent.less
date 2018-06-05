@@ -1,4 +1,4 @@
-.dicuss-item {
+.discuss-item {
   display: block;
   position: relative;
   background: #FFF;
@@ -6,15 +6,20 @@
   padding: 10px 20px;
   margin: 2rem 0;
   border-radius: 5px;
-  .headimage {
+  .reply-comment{
+    margin-left: 40px;
+    margin-top: 20px;
+    .replied-name{
+      color: #55CBCB;
+      font-size: 13px;
+    }
+  }
+  .head-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    position: relative;
   }
   .nickname {
-    display: inline-block;
-    position: absolute;
     top: 10px;
     margin-left: 10px;
     height: 15px;
@@ -22,8 +27,6 @@
     font-size: 15px;
   }
   .submit-time {
-    display: inline-block;
-    position: absolute;
     top: 35px;
     margin-left: 10px;
     height: 15px;
@@ -47,5 +50,13 @@
     &:hover {
       cursor: pointer;
     }
+  }
+  .replied{
+    color: #333;
+    font-size: 15px;
+    width: 5rem;
+    float: right;
+    margin-left: 2rem;
+    display: inline-block;
   }
 }
