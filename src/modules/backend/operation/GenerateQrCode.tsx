@@ -49,8 +49,10 @@ export default class GenerateQrCode extends React.Component<any, any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
+        const { link, qrCode } = msg;
         this.setState({
-          img: msg
+          img: qrCode,
+          link: link
         })
       }
       else {
@@ -66,14 +68,14 @@ export default class GenerateQrCode extends React.Component<any, any> {
 
   handleRule(memberTypeIds, link, content, id) {
     let { ruleList } = this.state
-    ruleList[id] = { memberTypeIds, link, content }
+    ruleList[ id ] = { memberTypeIds, link, content }
     this.setState({
       ruleList: ruleList
     })
   }
 
   render() {
-    const { scene, img, remark } = this.state
+    const { scene, img, remark, link } = this.state
 
     const renderRules = () => {
       let rules = []
@@ -113,9 +115,10 @@ export default class GenerateQrCode extends React.Component<any, any> {
       <div className="qrcode-container">
         {renderScene()}
         {img != '' && <div className="hint-container">
-          <div>活动链接地址：</div>
+          <div>活动链接地址：{link}</div>
           右击图片进行保存</div>}
         <img src={img}/>
+
 
       </div>
     )
