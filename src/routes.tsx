@@ -69,7 +69,6 @@ import PracticeView from './modules/backend/education/warmup/PracticeView'
 import ApplicationCatalog from './modules/backend/education/application/ApplicationCatalog'
 import ApplicationProblemList from './modules/backend/education/application/ApplicationProblemList'
 import ProblemList from './modules/backend/education/import/application/ProblemList'
-import Discuss from './modules/backend/education/warmup/Discuss'
 import WarmProblemList from './modules/backend/education/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/education/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/operation/user/UserInfo'
@@ -84,7 +83,6 @@ import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOp
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
 import KnowledgeComment from './modules/backend/education/knowledge/KnowledgeComment'
 import sa from 'sa-sdk-javascript';
-import KnowledgeDiscussComment from './modules/backend/education/knowledge/KnowledgeDiscussComment'
 import PreviewImport from './modules/backend/education/import/preview/PreviewImport'
 import HomeBanner from './modules/backend/operation/flowdata/homeBanner/HomeBanner';
 import AddSocial from './modules/backend/operation/social/AddSocial'
@@ -115,7 +113,6 @@ const routes = (
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
         </Route>
         <Route path="/backend/warmup/list" component={WarmupList}/>
-        <Route path="/backend/warmup/discuss" component={Discuss}/>
 
         <Route path="/backend/template" component={SendTemplate}/>
 
@@ -133,8 +130,6 @@ const routes = (
         <Route path="/backend/application/management" component={ProblemList}>
           <Route path="/backend/application/catalog" component={CatalogView}/>
         </Route>
-
-        <Route path="/backend/knowledge/discuss/reply" component={KnowledgeDiscussComment}/>
 
         <Route path="/backend/user/info" component={UserInfo}/>
         <Route path="/backend/camp/identity" component={CampIdentityModify}/>
