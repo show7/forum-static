@@ -113,6 +113,9 @@ export default class DiscussDisplayComponent extends React.Component {
       if(discuss.replied) {
         return (<div className="replied">已回复</div>)
       }else{
+        if(showDiscuss){
+          return null
+        }
         return (
           <div className="vote"
                onClick={() => this.setState({showDiscuss:true})}>
@@ -128,7 +131,7 @@ export default class DiscussDisplayComponent extends React.Component {
         <span className="nickname">{discuss.name}</span>
         <span className="submit-time">{discuss.publishTime}</span>
         <div className="comment">{discuss.comment}</div>
-        {discuss.repliedName && !showDiscuss &&
+        {discuss.repliedName &&
           <div className="reply-comment">
             <span className="replied-name">{'回复' + discuss.repliedName + "："}</span>
             <div className="comment">{discuss.repliedComment}</div>
@@ -142,7 +145,7 @@ export default class DiscussDisplayComponent extends React.Component {
                  onChange={(v) => this.onChange(v)}
                  showCancelBtn={false}/>
         }
-        {
+        { !showDiscuss &&
           <div className="vote"
                onClick={() => this.handleOpenPriorityDialog(discuss)}>{discuss.priority ? '取消加精' : '加精'}</div>
         }
