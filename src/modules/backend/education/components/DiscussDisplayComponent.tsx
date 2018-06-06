@@ -129,7 +129,7 @@ export default class DiscussDisplayComponent extends React.Component {
         <img className="head-image"
              src={discuss.avatar}></img>
         <span className="nickname">{discuss.name}</span>
-        <span className="submit-time">{discuss.publishTime}</span>
+        <span className="submit-time">{discuss.discussTime}</span>
         <div className="comment">{discuss.comment}</div>
         {discuss.repliedName &&
           <div className="reply-comment">
