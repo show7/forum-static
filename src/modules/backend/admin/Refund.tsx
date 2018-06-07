@@ -100,6 +100,7 @@ export default class Refund extends React.Component<any,any> {
         <FlatButton label="是否关闭会员"/><br/>
 
         <select onChange={(event) => {this.chooseExpired(event.currentTarget.value)}}>
+          <option disabled selected value></option>
           <option value={true}>关闭会员</option>
           <option value={false}>保留会员</option>
         </select><br/><br/>
