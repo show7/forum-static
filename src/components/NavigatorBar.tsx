@@ -49,7 +49,7 @@ export default class NavigatorBar extends React.Component<any, NavigatorBarState
       }
       case NavType.Rise: {
         this.setState({activeNav: NavType.Rise}, () => {
-          this.context.router.push({pathname: '/fragment/rise'})
+          window.location.href = '/fragment/rise'
         })
         break
       }
