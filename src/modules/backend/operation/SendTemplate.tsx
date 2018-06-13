@@ -28,11 +28,12 @@ export default class SendTemplate extends React.Component<any, any> {
       keyword1: '',
       keyword2: '',
       keyword3: '',
-      keyword4:'',
-      keyword5:'',
+      keyword4: '',
+      keyword5: '',
       openIds: '',
-      excludeOpenIds:'',
+      excludeOpenIds: '',
       source: '',
+      showForcePush: false,
       showImg: false,
       showConfirm: false,
       showConfirmModal: {
@@ -61,14 +62,14 @@ export default class SendTemplate extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         let temp = []
-        for(let i = 0; i < res.msg.length; i++) {
+
+        for(let i = 0; i < res.msg.templateMsgs.length; i++) {
           temp.push({
-            value: res.msg[i].remark,
-            key: i
+            value: res.msg.templateMsgs[i].remark,
+            key: res.msg.templateMsgs[i].id
           })
         }
-        this.setState({ templates: temp })
-
+        this.setState({ templates: temp, showForcePush: res.msg.showForcePush })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -78,7 +79,7 @@ export default class SendTemplate extends React.Component<any, any> {
 
   sendTemplateToMime = () => {
     const { dispatch } = this.props
-    const { template, comment, first, remark, url, keyword1, keyword2, keyword3,keyword4,keyword5, openIds, source, forcePush } = this.state
+    const { template, comment, first, remark, url, keyword1, keyword2, keyword3, keyword4, keyword5, openIds, source, forcePush } = this.state
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
@@ -97,7 +98,7 @@ export default class SendTemplate extends React.Component<any, any> {
     }
 
     let param = {
-      templateId: template.key + 1,
+      templateId: template.key,
       comment,
       first,
       remark,
@@ -122,17 +123,25 @@ export default class SendTemplate extends React.Component<any, any> {
 
   sendTemplate = () => {
     const { dispatch } = this.props
-    const { template, comment, first, remark, url, keyword1, keyword2, keyword3,keyword4,keyword5,openIds, forcePush, source,excludeOpenIds } = this.state
+    const { showForcePush, template, comment, first, remark, url, keyword1, keyword2, keyword3, keyword4, keyword5, openIds, forcePush, source, excludeOpenIds } = this.state
 
     if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
       || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
       return
     }
+
     if(source.length > 32) {
       dispatch(alertMsg('英文消息用途过长'))
       return
     }
+
+
+    if(!showForcePush && openIds.split("\n").length> 1000) {
+      dispatch(alertMsg('发送人数过多'))
+      return
+    }
+
     let push
     if(forcePush.id === 0) {
       push = true
@@ -141,7 +150,7 @@ export default class SendTemplate extends React.Component<any, any> {
     }
 
     let param = {
-      templateId: template.key + 1,
+      templateId: template.key,
       comment,
       first,
       remark,
@@ -165,36 +174,36 @@ export default class SendTemplate extends React.Component<any, any> {
   }
 
   render() {
-    const { templates, template, comment, first, remark, url, keyword1, keyword2, keyword3,keyword4,keyword5,openIds, source, showImg, forcePush,excludeOpenIds } = this.state
+    const { showForcePush, templates, template, comment, first, remark, url, keyword1, keyword2, keyword3, keyword4, keyword5, openIds, source, showImg, forcePush, excludeOpenIds } = this.state
 
-      const renderLink = () => {
-        return (
-          <div className="introduction-link">
-            如果你是初次使用本功能，请先观看教学视频!<br/>
-            链接: https://pan.baidu.com/s/1i0OjM2Aqh9LBqm6E3cLtMg 密码: k9pz
-          </div>
-        )
-      }
+    const renderLink = () => {
+      return (
+        <div className="introduction-link">
+          如果你是初次使用本功能，请先观看教学视频!<br/>
+          链接: https://pan.baidu.com/s/1i0OjM2Aqh9LBqm6E3cLtMg 密码: k9pz
+        </div>
+      )
+    }
 
-      const  renderSelectTemplate = () => {
-        return (
-          <div>
-            <SelectField
-              floatingLabelText='请选择模板消息类型'
-              value={template}
-              onChange={(event, index, value) => this.setState({ template: value })}
-            >
-              {
-                templates.map((item, idx) => {
-                  return (
-                    <MenuItem key={idx} value={item} primaryText={item.value}/>
-                  )
-                })
-              }
-            </SelectField>
-          </div>
-        )
-      }
+    const renderSelectTemplate = () => {
+      return (
+        <div>
+          <SelectField
+            floatingLabelText='请选择模板消息类型'
+            value={template}
+            onChange={(event, index, value) => this.setState({ template: value })}
+          >
+            {
+              templates.map((item, idx) => {
+                return (
+                  <MenuItem key={idx} value={item} primaryText={item.value}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
+      )
+    }
 
     const
       renderForcePushSelect = () => {
@@ -240,36 +249,42 @@ export default class SendTemplate extends React.Component<any, any> {
         return (
           <div>
             <div>
-            <textarea style={{height:'200px'}} placeholder='请输入内容（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={first}
+            <textarea style={{ height: '200px' }} placeholder='请输入内容（如果会用到xxx这种指代用户昵称的内容请替换为{username}）'
+                      className='comment-container' value={first}
                       onChange={(e, v) => this.setState({ first: e.target.value })}></textarea>
             </div>
 
             <div>
-            <textarea placeholder='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword1}
+            <textarea placeholder='请输入keyword1（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container'
+                      value={keyword1}
                       onChange={(e, v) => this.setState({ keyword1: e.target.value })}></textarea>
             </div>
 
 
             <div>
-            <textarea placeholder='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword2}
+            <textarea placeholder='请输入keyword2（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container'
+                      value={keyword2}
                       onChange={(e, v) => this.setState({ keyword2: e.target.value })}></textarea>
             </div>
 
 
             <div>
-            <textarea placeholder='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword3}
+            <textarea placeholder='请输入keyword3（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container'
+                      value={keyword3}
                       onChange={(e, v) => this.setState({ keyword3: e.target.value })}></textarea>
             </div>
 
 
             <div>
-            <textarea placeholder='请输入keyword4（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword4}
+            <textarea placeholder='请输入keyword4（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container'
+                      value={keyword4}
                       onChange={(e, v) => this.setState({ keyword4: e.target.value })}></textarea>
             </div>
 
 
             <div>
-            <textarea placeholder='请输入keyword5（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container' value={keyword5}
+            <textarea placeholder='请输入keyword5（如果会用到xxx这种指代用户昵称的内容请替换为{username}）' className='comment-container'
+                      value={keyword5}
                       onChange={(e, v) => this.setState({ keyword5: e.target.value })}></textarea>
             </div>
 
@@ -337,7 +352,7 @@ export default class SendTemplate extends React.Component<any, any> {
         {renderLink()}
         <div className="title-container">配置内容填写</div>
         {renderSelectTemplate()}
-        {renderForcePushSelect()}
+        {showForcePush && renderForcePushSelect()}
         {renderComment()}
         <div className="title-container">模板消息内容填写</div>
         {renderRemark()}
