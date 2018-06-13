@@ -76,7 +76,7 @@ export default class AsstBusinessSchoolApp extends React.Component<any, any> {
       page: 1,
       meta: [
         { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
-        { tag: 'project', alias: '项目类型', style: _.merge({}, cellStyle, { width: '100px' }) },
+        { tag: 'project', alias: '项目类型', style: _.merge({}, cellStyle, { width: '120px' }) },
         { tag: 'interviewTime', alias: '合适面试时间', style: _.merge({}, cellStyle, { width: '90px' }) },
         { tag: 'workYear', alias: '首次工作时间', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'industry', alias: '当前职位', style: _.merge({}, cellStyle, { width: '100px' }) },
