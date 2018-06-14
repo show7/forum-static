@@ -48,7 +48,7 @@ export default class PracticeView extends React.Component <any, any> {
   async discuss(discussId, value) {
     const { location } = this.props
     const { id } = location.query
-    const param = { comment: value, repliedId: discussId, warmupPracticeId: id }
+    const param = { comment: value, repliedId: discussId, referenceId: id ,CommentType:1 }
     return await replyDiscuss(param)
   }
 

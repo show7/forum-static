@@ -169,7 +169,7 @@ export default class NewPracticeView extends React.Component <any, any> {
       dispatch(alertMsg('作业还没写完哦', '提示'))
       return
     }
-    const param = { comment: content, repliedId, warmupPracticeId }
+    const param = { comment: content, repliedId, referenceId:warmupPracticeId,CommentType:1 }
     replyDiscuss(param).then(res => {
       if(res.code === 200) {
         let newArray = []
