@@ -42,6 +42,14 @@ export default class LiveFlowDetail extends React.Component {
       startTime,
       endTime,
     } = this.state
+    if (!this.state.startTime) {
+      requestProxy.alertMessage('请输入开始时间')
+      return
+    }
+    if (!this.state.endTime) {
+      requestProxy.alertMessage('请输入结束时间')
+      return
+    }
     if (id > 0) {
       let updateRes = await updateLivesFlow(this.state)
       this.props.requestClose()
