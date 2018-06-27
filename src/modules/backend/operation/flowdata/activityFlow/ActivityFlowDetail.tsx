@@ -30,6 +30,14 @@ export default class ActivityFlowDetail extends React.Component {
     if (!this.state.sequence) {
       this.state.sequence = 0
     }
+    if (!this.state.startTime) {
+      requestProxy.alertMessage('请填写开始时间')
+      return
+    }
+    if (!this.state.endTime) {
+      requestProxy.alertMessage('请填写结束时间')
+      return
+    }
     if (id > 0) {
       let updateRes = await updateActivityFlow(this.state)
       this.props.requestClose()

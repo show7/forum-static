@@ -61,7 +61,8 @@ export default class ProxyComponent extends React.Component {
       return (
         <Dialog open={showAlert}
                 modal={false}
-                actions={alertParams}>
+                actions={alertParams}
+                style={{ zIndex: 10000 }}>
           {alertContent}
         </Dialog>
       )
