@@ -3,7 +3,7 @@ import { Dialog, SelectField, MenuItem, TextField, RaisedButton, Snackbar } from
 import { addCertificate } from './async';
 import { ProblemSelector } from '../../education/import/component/ProblemSelector';
 
-interface CampIdentityModifyState {
+interface CertificateAddState {
   year: number,
   month: number,
   identityType: any,
@@ -14,7 +14,7 @@ interface CampIdentityModifyState {
   problemId: number
 }
 
-export default class CampIdentityModify extends React.Component<any, CampIdentityModifyState> {
+export default class CertificateAdd extends React.Component<any, CertificateAddState> {
 
   constructor () {
     super();
