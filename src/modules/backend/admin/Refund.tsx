@@ -2,7 +2,7 @@ import * as React from "react"
 import { connect } from "react-redux"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { refund } from "./async"
-import { RaisedButton, TextField, FlatButton, SelectField, MenuItem } from 'material-ui'
+import { RaisedButton, TextField, SelectField, MenuItem } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 
 @connect(state => state)

@@ -15,13 +15,13 @@ export default class AddVipRiseMember extends React.Component {
       month: 0,
       memo: '',
       memberTypeId: 0,
-      memberTypes:[],
+      memberTypes: [],
     }
   }
 
   componentWillMount() {
     loadRiseMember().then(res => {
-      this.setState({memberTypes:res.msg})
+      this.setState({ memberTypes: res.msg })
     })
   }
 

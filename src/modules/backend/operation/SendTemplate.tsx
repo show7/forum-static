@@ -20,7 +20,7 @@ export default class SendTemplate extends React.Component<any, any> {
     this.state = {
       templates: [],
       template: '',
-      forcePush: forcePushs[1],
+      forcePush: forcePushs[ 1 ],
       comment: '',
       first: '',
       remark: '',
@@ -39,7 +39,7 @@ export default class SendTemplate extends React.Component<any, any> {
       showConfirmModal: {
         title: '提示',
         content: '已经和开发人员确认模板消息内容无误？',
-        actions: [{
+        actions: [ {
           label: '已确认',
           onClick: () => {
             this.setState({ showConfirm: false })
@@ -65,8 +65,8 @@ export default class SendTemplate extends React.Component<any, any> {
 
         for(let i = 0; i < res.msg.templateMsgs.length; i++) {
           temp.push({
-            value: res.msg.templateMsgs[i].remark,
-            key: res.msg.templateMsgs[i].id
+            value: res.msg.templateMsgs[ i ].remark,
+            key: res.msg.templateMsgs[ i ].id
           })
         }
         this.setState({ templates: temp, showForcePush: res.msg.showForcePush })
@@ -135,8 +135,7 @@ export default class SendTemplate extends React.Component<any, any> {
       return
     }
 
-
-    if(!showForcePush && openIds.split("\n").length> 1000) {
+    if(!showForcePush && openIds.split("\n").length > 1000) {
       dispatch(alertMsg('发送人数过多'))
       return
     }
