@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './SubmitFile.less'
-import { FlatButton } from 'material-ui'
+import { RaisedButton } from 'material-ui'
 import { uploadFile } from '../async'
 import AlertMessage from '../../../../components/AlertMessage'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
@@ -70,8 +70,8 @@ export default class SubmitFile extends React.Component {
     return (
       <div className="submit-file-container">
         <input type="file" id='file'/>
-        <br/>
-        <FlatButton label="点击提交" onClick={() => this.handleSubmitFile()}/>
+        <p/>
+        <RaisedButton label="点击提交" onClick={() => this.handleSubmitFile()}/>
         {renderAlert()}
       </div>
     )

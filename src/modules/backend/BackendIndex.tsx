@@ -73,12 +73,10 @@ export default class Fragment extends React.Component<any, any> {
                 }}>小课知识导入
             </div>
             <div className="catalog-name" onClick={() => {
-                  this.props.dispatch(set('menu', Menus.WARM_UP_NEWPRACTICE))
                   this.context.router.push({ pathname: '/backend/warmup/import' })
                 }}>选择题导入
             </div>
             <div className="catalog-name" onClick={() => {
-                  this.props.dispatch(set('menu', Menus.WARM_UP_MANAGE))
                   this.context.router.push({ pathname: '/backend/warmup/management' })
                 }}>选择题管理
             </div>
@@ -87,14 +85,13 @@ export default class Fragment extends React.Component<any, any> {
                 }}>应用题导入
             </div>
             <div className="catalog-name" onClick={() => {
-                  this.props.dispatch(set('menu', Menus.APPLICATION_MANAGE))
                   this.context.router.push({ pathname: '/backend/application/management' })
                 }}>应用题管理
             </div>
             <div className="catalog-name" onClick={() => this.context.router.push("/asst/knowledge/vote")}>
               知识点评论加精
             </div>
-            <div className="catalog-name" onClick={()=>{this.props.dispatch(set('menu',Menus.WARM_UP_DISCUSS))
+            <div className="catalog-name" onClick={()=>{
                     this.context.router.push({pathname:'/backend/warmup/view/seven'})}}>
               7天选择题评论
             </div>
@@ -103,7 +100,6 @@ export default class Fragment extends React.Component<any, any> {
               选择题评论
             </div>
             <div className="catalog-name" onClick={() => {
-              this.props.dispatch(set('menu', Menus.APPLICATION_DISCUSS))
               this.context.router.push({ pathname: '/asst/application/problem/list' })
             }}>应用练习评论
             </div>
@@ -162,6 +158,14 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/add/social'})}}>
               社群信息导入
             </div>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/message/reply' })}}>
+              服务号自动回复
+            </div>
+            <div className="catalog-name"
+                 onClick={() => {this.context.router.push({ pathname: '/backend/message/subscribe' })}}>
+              服务号关注回复
+            </div>
           </div>
           <Subheader style={style.listTitle}>
             <div className="listTitle">管理员功能</div>
@@ -172,22 +176,13 @@ export default class Fragment extends React.Component<any, any> {
               this.context.router.push({ pathname: '/backend/admin/config' })
             }}>项目配置
             </div>
-            <div className="catalog-name"
-                 onClick={() => {
+            <div className="catalog-name" onClick={() => {
                    this.context.router.push({ pathname: '/backend/admin/upload/file' })
-                 }}>图片上传
+            }}>图片上传
             </div>
             <div className="catalog-name" onClick={() => {
                 this.context.router.push({ pathname: '/backend/admin/wx/upload/image' })
-              }}>微信上传图片
-            </div>
-            <div className="catalog-name"
-                 onClick={() => {this.context.router.push({ pathname: '/backend/message/reply' })}}>
-              自动回复
-            </div>
-            <div className="catalog-name"
-                 onClick={() => {this.context.router.push({ pathname: '/backend/message/subscribe' })}}>
-              关注回复
+            }}>微信上传图片
             </div>
             <div className="catalog-name" onClick={() => {
               this.context.router.push({ pathname: '/backend/admin/refund' })

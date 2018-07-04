@@ -80,8 +80,7 @@ export default class SendTemplate extends React.Component<any, any> {
   sendTemplateToMime = () => {
     const { dispatch } = this.props
     const { template, comment, first, remark, url, keyword1, keyword2, keyword3, keyword4, keyword5, openIds, source, forcePush } = this.state
-    if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
-      || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(forcePush) || _.isEmpty(source)) {
+    if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(keyword1) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
       return
     }
@@ -125,8 +124,8 @@ export default class SendTemplate extends React.Component<any, any> {
     const { dispatch } = this.props
     const { showForcePush, template, comment, first, remark, url, keyword1, keyword2, keyword3, keyword4, keyword5, openIds, forcePush, source, excludeOpenIds } = this.state
 
-    if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(first) || _.isEmpty(remark)
-      || _.isEmpty(keyword1) || _.isEmpty(keyword2) || _.isEmpty(keyword3) || _.isEmpty(openIds) || _.isEmpty(forcePush) || _.isEmpty(source)) {
+    if(_.isEmpty(template) || _.isEmpty(comment) || _.isEmpty(keyword1) ||
+      _.isEmpty(openIds) || _.isEmpty(forcePush) || _.isEmpty(source)) {
       dispatch(alertMsg('请将信息填写完成'))
       return
     }
