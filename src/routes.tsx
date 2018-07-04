@@ -75,7 +75,6 @@ import UserInfo from './modules/backend/operation/user/UserInfo'
 import SendTemplate from './modules/backend/operation/SendTemplate'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/education/warmup/WarmupList'
-import NewPracticeView from './modules/backend/education/warmup/NewPracticeView'
 import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichText'
 import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
@@ -102,7 +101,6 @@ const routes = (
       <Route component={BackendIndex}>
         <Route path="/demo" component={LiveFlowList}/>
         <Route path="/backend" component={BackendWelcome}/>
-        <Route path="backend/warmup/view/seven" component={NewPracticeView}/>
         <Route path="/backend/admin/upload/file" component={SubmitFile}/>
         <Route path="/backend/admin/config" component={ProjectConfig}>
           <Route path="/backend/project/config" component={ConfigDetail}/>

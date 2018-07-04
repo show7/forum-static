@@ -92,10 +92,6 @@ export default class Fragment extends React.Component<any, any> {
               知识点评论加精
             </div>
             <div className="catalog-name" onClick={()=>{
-                    this.context.router.push({pathname:'/backend/warmup/view/seven'})}}>
-              7天选择题评论
-            </div>
-            <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/asst/warmup/problem/list'})}}>
               选择题评论
             </div>
