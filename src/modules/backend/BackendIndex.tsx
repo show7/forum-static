@@ -1,13 +1,10 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { List, ListItem, makeSelectable } from 'material-ui/List'
 import './BackendIndex.less'
-import { Grid, Row, Col } from 'react-flexbox-grid'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { List, ListItem, makeSelectable } from 'material-ui/List'
+import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
-import { Menus } from '../../utils/Invariables'
 
 const style = {
   divider: {
@@ -66,7 +63,7 @@ export default class Fragment extends React.Component<any, any> {
             </div>
             <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/preview/import' })
-                }}> 课前思考导入
+                }}>课前思考导入
             </div>
             <div className="catalog-name" onClick={() => {
                   this.context.router.push({ pathname: '/backend/knowledge/import' })
@@ -88,16 +85,17 @@ export default class Fragment extends React.Component<any, any> {
                   this.context.router.push({ pathname: '/backend/application/management' })
                 }}>应用题管理
             </div>
-            <div className="catalog-name" onClick={() => this.context.router.push("/asst/knowledge/vote")}>
-              知识点评论加精
+            <div className="catalog-name" onClick={
+              () => this.context.router.push({ pathname: '/asst/knowledge/vote' })}>
+              知识点评论
             </div>
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/asst/warmup/problem/list'})}}>
               选择题评论
             </div>
             <div className="catalog-name" onClick={() => {
-              this.context.router.push({ pathname: '/asst/application/problem/list' })
-            }}>应用练习评论
+              this.context.router.push({ pathname: '/asst/application/problem/list' })}}>
+              应用题评论
             </div>
             <div className="catalog-name"
                  onClick={() => {this.context.router.push({ pathname: '/backend/assist/management' })}}>
@@ -113,7 +111,7 @@ export default class Fragment extends React.Component<any, any> {
               用户信息
             </div>
             <div className="catalog-name"
-                 onClick={() => {this.context.router.push({ pathname: '/backend/camp/identity' })}}>
+                 onClick={() => {this.context.router.push({ pathname: '/backend/add/certificate' })}}>
               添加证书
             </div>
             <div className="catalog-name"

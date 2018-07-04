@@ -55,7 +55,6 @@ import SubscribeMessage from './modules/backend/admin/message/autoreply/Subscrib
 import BusinessSchoolApplication from './modules/backend/operation/BusinessSchoolApplication'
 import SurveyConfig from './modules/backend/operation/SurveyConfig'
 import ApplicationImport from './modules/backend/education/import/application/ApplicationImport'
-import CampIdentityModify from './modules/backend/operation/camp/CampIdentityModify'
 import AsstImport from './modules/backend/education/import/assist/AsstImport'
 import UploadMaterial from './modules/backend/admin/wx/UploadMaterial'
 import AsstBusinessSchoolApp from './modules/asst/application/AsstBusinessSchoolApp'
@@ -80,6 +79,7 @@ import SubmitFile from './modules/backend/common/submitimage/SubmitFile'
 import AddVipRiseMember from './modules/backend/operation/viprisemember/AddVipRiseMember'
 import BatchOpenCourse from './modules/backend/operation/batchopencourse/BatchOpenCourse'
 import CertificateOperate from './modules/backend/operation/certificate/CertificateOperate'
+import CertificateAdd from './modules/backend/operation/certificate/CertificateAdd'
 import KnowledgeComment from './modules/backend/education/knowledge/KnowledgeComment'
 import sa from 'sa-sdk-javascript';
 import PreviewImport from './modules/backend/education/import/preview/PreviewImport'
@@ -130,7 +130,7 @@ const routes = (
         </Route>
 
         <Route path="/backend/user/info" component={UserInfo}/>
-        <Route path="/backend/camp/identity" component={CampIdentityModify}/>
+        <Route path="/backend/add/certificate" component={CertificateAdd}/>
         <Route path="/backend/assist/management" component={AsstManagement}>
           <Route path="/backend/assist/standard" component={AsstStandard}/>
           <Route path="/backend/assist/execution" component={AsstExecution}/>
