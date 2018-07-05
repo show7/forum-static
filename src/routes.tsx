@@ -96,7 +96,7 @@ const routes = (
   <Route path="/" onChange={() => {
     sa.quick('autoTrackSinglePage');
   }}>
-    <Route path="/login" component={Login}/>
+    <Route path=  "/login" component={Login}/>
     <Route component={Base}>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>

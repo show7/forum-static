@@ -162,6 +162,9 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name" onClick={()=>{this.context.router.push({pathname:'/backend/add/social'})}}>
               社群信息导入
             </div>
+            <div className="catalog-name" onClick={() => {this.context.router.push({pathname: '/backend/add/addcoupon'})}}>
+                创建优惠券
+            </div>
           </div>
           <Subheader style={style.listTitle}>
             <div className="listTitle">管理员功能</div>
