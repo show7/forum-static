@@ -90,6 +90,7 @@ import LiveFlowList from './modules/backend/operation/flowdata/liveFlow/LiveFlow
 import ActivityFlowList from './modules/backend/operation/flowdata/activityFlow/ActivityFlowList';
 import ArticleFlowList from './modules/backend/operation/flowdata/articleFlow/ArticleFlowList';
 import FlowData from './modules/backend/operation/flowdata/FlowData';
+import addCoupon from './modules/backend/operation/coupon/addCoupon'
 
 const routes = (
   <Route path="/" onChange={() => {
@@ -123,6 +124,7 @@ const routes = (
         <Route path="/backend/home/articles" component={ArticleFlowList}/>
 
         <Route path="/backend/add/social" component={AddSocial}/>
+        <Route path="/backend/add/coupon" component={}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>
