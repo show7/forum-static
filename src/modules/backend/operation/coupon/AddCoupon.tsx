@@ -3,7 +3,7 @@ import { formatDate } from 'utils/helpers'
 import extend = require("lodash/extend");
 import * as React from 'react';
 
-export default class addCoupon extends React.Component{
+export default class AddCoupon extends React.Component{
   constructor(){
     super();
     this.state = {
