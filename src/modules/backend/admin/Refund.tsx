@@ -40,7 +40,7 @@ export default class Refund extends React.Component<any,any> {
       return
     }
 
-    if(!expired) {
+    if(expired == null) {
       dispatch(alertMsg('请选择是否关闭会员'))
       return
     }
