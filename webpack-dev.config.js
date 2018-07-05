@@ -9,6 +9,9 @@ module.exports = {
 		"webpack/hot/only-dev-server",
 		"./src/index.tsx"
 	],
+  dev: {
+	  port: 4000,
+  },
 	output: {
 		path: path.join(__dirname, "__build__"),
 		filename: "pc_bundle.js",
