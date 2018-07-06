@@ -83,3 +83,13 @@ export function sendFullAttendance(year, month, memberTypeId) {
     year: year, month: month, memberTypeId: memberTypeId
   })
 }
+
+
+export function addCoupon(riseId, amount, expired, description) {
+  return ppost('/pc/operation/add/coupon', {
+    riseId: riseId,
+    amount: amount,
+    expired: expired,
+    description: description
+  });
+}
