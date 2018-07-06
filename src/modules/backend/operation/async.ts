@@ -89,7 +89,7 @@ export function addCoupon(riseId, amount, expired, description) {
   return ppost('/pc/operation/add/coupon', {
     riseId: riseId,
     amount: amount,
-    expired: expired,
+    expiredDate: expired,
     description: description
   });
 }
