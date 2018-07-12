@@ -25,7 +25,7 @@ export default class AddCoupon extends React.Component{
         console.log(this.state);
         const {riseId, amount, expired, description} = this.state;
         const {dispatch} = this.props;
-        if(riseId == [] || expired == null || description == null) {
+        if(riseId.length == 0 || expired == null || description == null) {
           dispatch(alertMsg("请填写信息完整"));
           return;
         }
