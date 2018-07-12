@@ -4,7 +4,7 @@ import * as React from 'react';
 import './AddCoupon.less';
 import {addCoupon} from '../async';
 import {connect} from 'react-redux';
-import {alertMsg} from 'redux/actions';
+import {alertMsg} from '../../../../redux/actions';
 
 @connect(state => state)
 export default class AddCoupon extends React.Component{
@@ -35,7 +35,7 @@ export default class AddCoupon extends React.Component{
         }
         addCoupon(riseId, amount, expired, description).then(res => {
             if(res.code == "200"){
-                dispatch.alertMsg("插入优惠券成功");
+                dispatch(alertMsg("插入优惠券成功"));
             }else{
                 dispatch(alertMsg(res.msg));
             }
