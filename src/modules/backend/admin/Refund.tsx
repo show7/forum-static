@@ -2,7 +2,7 @@ import * as React from "react"
 import { connect } from "react-redux"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import { refund } from "./async"
-import { RaisedButton, TextField, FlatButton } from 'material-ui'
+import { RaisedButton, TextField, SelectField, MenuItem } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 
 @connect(state => state)
@@ -40,7 +40,7 @@ export default class Refund extends React.Component<any,any> {
       return
     }
 
-    if(!expired) {
+    if(expired == null) {
       dispatch(alertMsg('请选择是否关闭会员'))
       return
     }
@@ -97,13 +97,12 @@ export default class Refund extends React.Component<any,any> {
               }}
         /><br/>
 
-        <FlatButton label="是否关闭会员"/><br/>
-
-        <select onChange={(event) => {this.chooseExpired(event.currentTarget.value)}}>
-          <option disabled selected value></option>
-          <option value={true}>关闭会员</option>
-          <option value={false}>保留会员</option>
-        </select><br/><br/>
+        <SelectField value={this.state.expired}
+                     floatingLabelText="是否保留会员"
+                     onChange={(e, idx, value) => this.chooseExpired(value)}>
+          <MenuItem key={1} value={true} primaryText="关闭会员"/>
+          <MenuItem key={2} value={false} primaryText="保留会员"/>
+        </SelectField>
 
         <Confirm content="确定要退款吗？" open={alert} actions={actions}/>
 

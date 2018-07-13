@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './SubmitFile.less'
-import { FlatButton } from 'material-ui'
+import { RaisedButton } from 'material-ui'
 import { uploadFile } from '../async'
 import AlertMessage from '../../../../components/AlertMessage'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
@@ -9,26 +9,26 @@ import { connect } from 'react-redux'
 @connect(state => state)
 export default class SubmitFile extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       copyValue: '',
     }
   }
 
-  handleSubmitFile () {
+  handleSubmitFile() {
     let node = document.getElementById('file')
     const { dispatch } = this.props
-    if (node && node.files) {
-      let file = node.files[0]
-      if (file) {
-        if (/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
+    if(node && node.files) {
+      let file = node.files[ 0 ]
+      if(file) {
+        if(/.*[\u4e00-\u9fa5]+.*$/.test(file.name)) {
           dispatch(alertMsg('文件名不能包含中文'))
         } else {
           let formData = new FormData()
           formData.append('file', file)
           uploadFile(formData).then(res => {
-            if (res.code === 200) {
+            if(res.code === 200) {
               this.setState({
                 showAlert: true,
                 copyValue: res.msg,
@@ -44,7 +44,7 @@ export default class SubmitFile extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const {
       showAlert = false,
     } = this.state
@@ -70,8 +70,8 @@ export default class SubmitFile extends React.Component {
     return (
       <div className="submit-file-container">
         <input type="file" id='file'/>
-        <br/>
-        <FlatButton label="点击提交" onClick={() => this.handleSubmitFile()}/>
+        <p/>
+        <RaisedButton label="点击提交" onClick={() => this.handleSubmitFile()}/>
         {renderAlert()}
       </div>
     )

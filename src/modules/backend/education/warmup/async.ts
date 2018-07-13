@@ -6,7 +6,6 @@ export function loadWarmUp(warmupPracticeId) {
 }
 
 export function replyDiscuss(params) {
-  // return ppost(`/pc/asst/reply/discuss`, params)
   return ppost(`/rise/practice/warmup/discuss`, params)
 }
 
