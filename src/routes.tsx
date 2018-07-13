@@ -89,12 +89,13 @@ import LiveFlowList from './modules/backend/operation/flowdata/liveFlow/LiveFlow
 import ActivityFlowList from './modules/backend/operation/flowdata/activityFlow/ActivityFlowList';
 import ArticleFlowList from './modules/backend/operation/flowdata/articleFlow/ArticleFlowList';
 import FlowData from './modules/backend/operation/flowdata/FlowData';
+import addCoupon, {default as AddCoupon} from './modules/backend/operation/coupon/AddCoupon'
 
 const routes = (
   <Route path="/" onChange={() => {
     sa.quick('autoTrackSinglePage');
   }}>
-    <Route path="/login" component={Login}/>
+    <Route path=  "/login" component={Login}/>
     <Route component={Base}>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
@@ -121,6 +122,7 @@ const routes = (
         <Route path="/backend/home/articles" component={ArticleFlowList}/>
 
         <Route path="/backend/add/social" component={AddSocial}/>
+        <Route path="/backend/add/coupon" component={AddCoupon}/>
 
         <Route path="/backend/warmup/newpractice">
           <Route path="/backend/warmup/import" component={WarmupPracticeImport}/>

@@ -17,7 +17,7 @@ import { merge, isEmpty, isPlainObject, isArray } from 'lodash';
 import ProxyComponent from '../../components/proxy/ProxyComponent'
 
 @connect(state => state)
-export default class Main extends React.Component<any, any> {
+export default class  Main extends React.Component<any, any> {
 
   constructor(props) {
     super(props)

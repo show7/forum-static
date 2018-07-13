@@ -4,7 +4,7 @@ import AssetImg from './AssetImg'
 
 
 
-export default class Author extends React.Component{
+export default class Author extends React.Component<any, any>{
   constructor(props){
     super(props);
     this.style = {
