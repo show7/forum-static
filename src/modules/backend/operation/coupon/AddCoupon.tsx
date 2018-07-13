@@ -11,7 +11,7 @@ export default class AddCoupon extends React.Component{
   constructor(){
     super();
     this.state = {
-        riseId: [],
+        riseIdList: [],
         amount: 0,
         expired: null,
         description: null
@@ -19,13 +19,13 @@ export default class AddCoupon extends React.Component{
   }
 
   handleAddCoupon(){
-    let temp = this.state.riseId;
+    let temp = this.state.riseIdList;
     temp = temp.filter((val, index) => {return val != ""});
-    this.setState({riseId: temp}, () =>{
+    this.setState({riseIdList: temp}, () =>{
         console.log(this.state);
-        const {riseId, amount, expired, description} = this.state;
+        const {riseIdList, amount, expired, description} = this.state;
         const {dispatch} = this.props;
-        if(riseId.length == 0 || expired == null || description == null) {
+        if(riseIdList.length == 0 || expired == null || description == null) {
           dispatch(alertMsg("请填写信息完整"));
           return;
         }
@@ -33,7 +33,7 @@ export default class AddCoupon extends React.Component{
           dispatch(alertMsg("优惠券金额要大于零"));
           return;
         }
-        addCoupon(riseId, amount, expired, description).then(res => {
+        addCoupon(riseIdList, amount, expired, description).then(res => {
             if(res.code == "200"){
                 dispatch(alertMsg("插入优惠券成功"));
             }else{
@@ -53,7 +53,7 @@ export default class AddCoupon extends React.Component{
         <br/>
         <TextField hintText={"优惠券描述"} onChange={(e, v) =>{this.setState({description: v})}}/>
         <br/>
-        <TextField hintText={"输入要赠与的学员Id"} multiLine={true} onChange={(e, v) => {this.setState({riseId: v.split("\n")})}}/>
+        <TextField hintText={"输入要赠与的学员Id"} multiLine={true} onChange={(e, v) => {this.setState({riseIdList: v.split("\n")})}}/>
         <br/>
         <RaisedButton label={"提交"} onClick={() => this.handleAddCoupon()} primary={true}/>
       </div>
