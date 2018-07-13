@@ -87,7 +87,7 @@ export function sendFullAttendance(year, month, memberTypeId) {
 
 export function addCoupon(riseId, amount, expired, description) {
   return ppost('/pc/operation/add/coupon', {
-    riseId: riseId,
+    riseIdList: riseId,
     amount: amount,
     expiredDate: expired,
     description: description
