@@ -264,6 +264,7 @@ export default class UserInfo extends React.Component<any, any> {
                 <div style={{marginBottom:'20px'}}>
                   {renderDialogItem('当前会员类型：', item.memberName)}
                   {renderDialogItem('入学日期：', item.openDate)}
+                  {renderDialogItem('过期日期：',item.expireDate)}
                   {renderDialogItem('班级：', item.className)}
                   {renderDialogItem('小组：', item.groupId)}
                 </div>
