@@ -23,3 +23,7 @@ export function refund(param) {
 export function sendRedPacket(param) {
   return ppost('/pc/admin/send/red/packet', param);
 }
+
+export function refreshStock() {
+  return ppost('/pc/admin/refresh/stock')
+}

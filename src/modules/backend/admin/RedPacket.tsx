@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import { sendRedPacket } from "./async"
+import { sendRedPacket, refreshStock } from "./async"
 import { RaisedButton, TextField, SelectField, MenuItem } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 
@@ -60,6 +60,22 @@ export default class RedPacket extends React.Component {
     })
   }
 
+  onClickRefreshStock() {
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    refreshStock().then(res => {
+      if(res.code === 200) {
+        dispatch(alertMsg("开始刷新分红信息"));
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+
+    }).catch(e => {
+      dispatch(endLoad());
+      dispatch(alertMsg(e));
+    })
+  }
+
   render() {
     const { alert } = this.state;
     const actions = [
@@ -75,7 +91,12 @@ export default class RedPacket extends React.Component {
     ]
     return (
       <div className="red-packet">
-        <h3>发送红包给股东</h3>
+        <br/><br/>
+        <h3>发送红包给股东</h3><br/>
+        <RaisedButton
+          className="submit-btn" label="刷新分红信息" primary={true}
+          onTouchTap={() => this.onClickRefreshStock()}/><br/>
+
         <TextField
           floatingLabelText="请输入活动id"
           multiLine={false}
