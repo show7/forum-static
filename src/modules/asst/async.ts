@@ -8,13 +8,13 @@ export function loadApplicationList(problemId) {
   return pget(`/pc/asst/application/${problemId}`)
 }
 
-export function loadApplicationListByNickName(problemId, nickName) {
+export function loadApplicationListByNickName(problemId, nickName,startDate,endDate) {
   nickName = encodeURI(nickName)
-  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}`)
+  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}?startDate=${startDate}&endDate=${endDate}`)
 }
 
-export function loadApplicationListByMemberId(problemId, memberId) {
-  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}`)
+export function loadApplicationListByMemberId(problemId, memberId,startDate,endDate) {
+  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}?startDate=${startDate}&endDate=${endDate}`)
 }
 
 export function loadApplicationProblems() {
@@ -45,8 +45,8 @@ export function loadClassNameAndGroup(){
   return pget(`/pc/asst/load/classname/group`)
 }
 
-export function loadSubmitByProblemIdClassNameGroup(problemId,className,groupId){
-  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}`)
+export function loadSubmitByProblemIdClassNameGroup(problemId,className,groupId,startDate,endDate){
+  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}?startDate=${startDate}&endDate=${endDate}`)
 }
 
 export function submitComment(type, submitId, content) {
