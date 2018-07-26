@@ -339,7 +339,7 @@ export default class ApplicationList extends React.Component<any, any> {
           <RaisedButton
             label="昵称/学号搜索" primary={true}
             style={{ marginRight: 50 }}
-            onClick={() => this.setState({ nameSearch: false, selected: true })}
+            onClick={() => this.setState({ nameSearch: true, selected: true })}
           />
           <RaisedButton
             label="班级和小组搜索" primary={true}
