@@ -138,11 +138,18 @@ export default class ApplicationList extends React.Component<any, any> {
     const { problemId } = this.props.location.query
     const { dispatch } = this.props
     const { className, groupId, classSearch } = this.state
-    let startDate = this.state.startDate
-    let endDate = this.state.endDate
-    if (!endDate){
+    let startDate = this.state.startDate ? this.state.startDate:null
+    let endDate = this.state.endDate ? this.state.endDate:null
+
+    if ( startDate && !endDate ) {
       let dat = new Date();
-          endDate = dat.getFullYear() + '-' + dat.getMonth() + '-' + dat.getDay()
+      let month = dat.getMonth()+1 > 9 ? (dat.getMonth()+1) : ('0'+ (dat.getMonth()+1));
+      let day = dat.getDate()> 9 ? dat.getDate() : '0'+ getDate();
+          endDate = dat.getFullYear() + '-' + month + '-' + day
+    }
+    if (!startDate && endDate) {
+      dispatch(alertMsg('已选择了结束时间，必须有开始时间'))
+      return
     }
     if(classSearch) {
       if(className != '' && groupId != '') {
