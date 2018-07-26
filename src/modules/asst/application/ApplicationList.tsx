@@ -6,9 +6,10 @@ import Divider from 'material-ui/Divider'
 import { BreakSignal, Stop } from '../../../utils/request'
 import VerticalBarLoading from '../../../components/VerticalBarLoading'
 import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { formatDate } from 'utils/helpers'
 import { loadApplicationList, commentCount, loadApplicationListByNickName, loadApplicationListByMemberId, loadClassNameAndGroup, loadSubmitByProblemIdClassNameGroup } from '../async'
 import CommentTip from '../component/CommentTip'
-import { TextField, RaisedButton, SelectField, MenuItem } from 'material-ui'
+import { TextField, RaisedButton, SelectField, MenuItem ,DatePicker} from 'material-ui'
 
 import './ApplicationList.less'
 
@@ -137,13 +138,19 @@ export default class ApplicationList extends React.Component<any, any> {
     const { problemId } = this.props.location.query
     const { dispatch } = this.props
     const { className, groupId, classSearch } = this.state
+    let startDate = this.state.startDate
+    let endDate = this.state.endDate
+    if (!endDate){
+      let dat = new Date();
+          endDate = dat.getFullYear() + '-' + dat.getMonth() + '-' + dat.getDay()
+    }
     if(classSearch) {
       if(className != '' && groupId != '') {
-        loadSubmitByProblemIdClassNameGroup(problemId, className, groupId).then(res => {
+        loadSubmitByProblemIdClassNameGroup(problemId, className, groupId,startDate,endDate).then(res => {
           const { code, msg } = res
           if(code === 200) {
             this.setState({
-              isClick:true,
+              isClick: true,
               search: msg
             })
           }
@@ -157,7 +164,7 @@ export default class ApplicationList extends React.Component<any, any> {
       let nickName = document.getElementById('nickName').value
       let memberId = document.getElementById('memberId').value
       if(nickName && !memberId) {
-        loadApplicationListByNickName(problemId, nickName).then(res => {
+        loadApplicationListByNickName(problemId, nickName,startDate,endDate).then(res => {
           if(res.code === 200) {
             this.setState({ search: res.msg })
           } else {
@@ -165,7 +172,7 @@ export default class ApplicationList extends React.Component<any, any> {
           }
         }).catch(e => dispatch(alertMsg(e)))
       } else if(!nickName && memberId) {
-        loadApplicationListByMemberId(problemId, memberId).then(res => {
+        loadApplicationListByMemberId(problemId, memberId,startDate,endDate).then(res => {
           if(res.code === 200) {
             this.setState({ search: res.msg })
           } else {
@@ -257,6 +264,25 @@ export default class ApplicationList extends React.Component<any, any> {
       )
     }
 
+    const renderData = () => {
+      return (
+        <div className="data-box">
+          <DatePicker hintText={"选择查询开始时间"} formatDate={(date) => {
+            return formatDate(date, 'yyyy-MM-dd')
+          }}
+                      onChange={(e, v) => {
+                        this.setState({startDate: formatDate(v, 'yyyy-MM-dd')})
+                      }}/>
+          <DatePicker hintText={"选择查询结束时间"} formatDate={(date) => {
+            return formatDate(date, 'yyyy-MM-dd')
+          }}
+                      onChange={(e, v) => {
+                        this.setState({endDate: formatDate(v, 'yyyy-MM-dd')})
+                      }}/>
+        </div>
+      )
+    }
+
     /**
      * 渲染搜索界面
      */
@@ -266,11 +292,16 @@ export default class ApplicationList extends React.Component<any, any> {
           {classSearch ? <div>
               {renderClassName()}
               {renderGroupId()}
+              {renderData()}
             </div> :
             <div>
               <div className="search-box" onKeyDown={(e) => e.keyCode === 13 ? this.onClickSearchWorks() : null}>
                 <TextField hintText="输入用户昵称" id='nickName'/><br/>
                 <TextField hintText="输入用户训练营学号" id='memberId'/><br/>
+                <DatePicker hintText={"选择查询开始时间"} formatDate={(date) => { return formatDate(date, 'yyyy-MM-dd')}}
+                            onChange={(e, v) => {this.setState({startDate:  formatDate(v, 'yyyy-MM-dd')})}}/>
+                <DatePicker hintText={"选择查询结束时间"} formatDate={(date) => { return formatDate(date, 'yyyy-MM-dd')}}
+                            onChange={(e, v) => {this.setState({endDate:  formatDate(v, 'yyyy-MM-dd')})}}/>
               </div>
             </div>
           }
