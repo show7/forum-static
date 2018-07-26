@@ -8,13 +8,15 @@ export function loadApplicationList(problemId) {
   return pget(`/pc/asst/application/${problemId}`)
 }
 
-export function loadApplicationListByNickName(problemId, nickName,startDate,endDate) {
+export function loadApplicationListByNickName(problemId, nickName, startDate, endDate) {
   nickName = encodeURI(nickName)
-  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}?startDate=${startDate}&endDate=${endDate}`)
+  let append = getAppendDate(startDate, endDate)
+  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}${append}`)
 }
 
-export function loadApplicationListByMemberId(problemId, memberId,startDate,endDate) {
-  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}?startDate=${startDate}&endDate=${endDate}`)
+export function loadApplicationListByMemberId(problemId, memberId, startDate, endDate) {
+  let append = getAppendDate(startDate, endDate)
+  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}${append}`)
 }
 
 export function loadApplicationProblems() {
@@ -41,12 +43,13 @@ export function loadComments(type, submitId, page) {
   return pget(`/pc/asst/comment/${type}/${submitId}`, { page: page })
 }
 
-export function loadClassNameAndGroup(){
+export function loadClassNameAndGroup() {
   return pget(`/pc/asst/load/classname/group`)
 }
 
-export function loadSubmitByProblemIdClassNameGroup(problemId,className,groupId,startDate,endDate){
-  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}?startDate=${startDate}&endDate=${endDate}`)
+export function loadSubmitByProblemIdClassNameGroup(problemId, className, groupId, startDate, endDate) {
+  let append = getAppendDate(startDate, endDate)
+  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}${append}`)
 }
 
 export function submitComment(type, submitId, content) {
@@ -65,16 +68,24 @@ export function deleteComment(commentId) {
   return ppost(`/pc/asst/delete/comment/${commentId}`)
 }
 
-export function loadHotPractice(page) {
-  return pget(`/pc/asst/hot/warmup`, {page:page});
+function getAppendDate(startDate, endDate){
+  let append = '?'
+  if(startDate) {
+    append = append + 'startDate=' + startDate
+  }
+  if(endDate) {
+    if(append !== '?') {
+      append = append + '&endDate=' + endDate
+    } else {
+      append = append + 'endDate=' + endDate
+    }
+  }
+  if(append == '?'){
+    append = ''
+  }
+
+  return append
 }
-
-export function loadWarmUp(warmupPracticeId) {
-  return pget(`/pc/asst/warmup/load/${warmupPracticeId}`)
-}
-
-
-
 
 export const CommentType = {
   Challenge: 1,
