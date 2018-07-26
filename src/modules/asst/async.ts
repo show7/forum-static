@@ -8,15 +8,17 @@ export function loadApplicationList(problemId) {
   return pget(`/pc/asst/application/${problemId}`)
 }
 
-export function loadApplicationListByNickName(problemId, nickName, startDate, endDate) {
+export function loadApplicationListByNickName(problemId, nickName) {
   nickName = encodeURI(nickName)
-  let append = getAppendDate(startDate, endDate)
-  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}${append}`)
+  return pget(`/pc/asst/application/nickname/${problemId}/${nickName}`)
 }
 
-export function loadApplicationListByMemberId(problemId, memberId, startDate, endDate) {
-  let append = getAppendDate(startDate, endDate)
-  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}${append}`)
+export function loadApplicationListByMemberId(problemId, memberId) {
+  return pget(`/pc/asst/application/memberid/${problemId}/${memberId}`)
+}
+
+export function loadApplicationListByTime(problemId, startDate, endDate) {
+  return pget(`/pc/asst/application/time/${problemId}?startDate=${startDate}&endDate=${endDate}`)
 }
 
 export function loadApplicationProblems() {
@@ -47,9 +49,8 @@ export function loadClassNameAndGroup() {
   return pget(`/pc/asst/load/classname/group`)
 }
 
-export function loadSubmitByProblemIdClassNameGroup(problemId, className, groupId, startDate, endDate) {
-  let append = getAppendDate(startDate, endDate)
-  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}${append}`)
+export function loadSubmitByProblemIdClassNameGroup(problemId, className, groupId) {
+  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}`)
 }
 
 export function submitComment(type, submitId, content) {
@@ -66,25 +67,6 @@ export function requestAsstComment(moduleId, submitId) {
 
 export function deleteComment(commentId) {
   return ppost(`/pc/asst/delete/comment/${commentId}`)
-}
-
-function getAppendDate(startDate, endDate){
-  let append = '?'
-  if(startDate) {
-    append = append + 'startDate=' + startDate
-  }
-  if(endDate) {
-    if(append !== '?') {
-      append = append + '&endDate=' + endDate
-    } else {
-      append = append + 'endDate=' + endDate
-    }
-  }
-  if(append == '?'){
-    append = ''
-  }
-
-  return append
 }
 
 export const CommentType = {
