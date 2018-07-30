@@ -52,6 +52,7 @@ export default class RedPacket extends React.Component {
         dispatch(endLoad());
         dispatch(alertMsg("发送成功"));
       } else {
+        dispatch(endLoad());
         dispatch(alertMsg(res.msg));
       }
     }).catch(ex => {
