@@ -130,6 +130,7 @@ export default class DiscussDisplayComponent extends React.Component {
              src={discuss.avatar}></img>
         <span className="nickname">{discuss.name}</span>
         <span className="submit-time">{discuss.discussTime}</span>
+        <span className={`comment-type ${discuss.commentType == 1 ? '':'askQ'}`}>{discuss.commentType == 1 ? '留言':'提问'}</span>
         <div className="comment">{discuss.comment}</div>
         {discuss.repliedName &&
           <div className="reply-comment">
