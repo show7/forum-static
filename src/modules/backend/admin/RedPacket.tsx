@@ -15,17 +15,21 @@ export default class RedPacket extends React.Component {
       wishing: '',
       sendName: '',
       riseIds: '',
+      sceneId: '',
       alert: false,
     }
   }
 
   onSubmit() {
-    const { actName, totalAmount, wishing, sendName, profileId } = this.state;
+    const { actName, totalAmount, wishing, sendName, profileId, sceneId } = this.state;
     const { dispatch } = this.props;
-    dispatch(startLoad());
-    let param = { actName, totalAmount, wishing, sendName, profileId };
+    let param = { actName, totalAmount, wishing, sendName, profileId, sceneId };
     if(!actName) {
       dispatch(alertMsg("请输入活动名"))
+      return;
+    }
+    if(!sceneId) {
+      dispatch(alertMsg("请输入场景值"));
       return;
     }
 
@@ -46,7 +50,7 @@ export default class RedPacket extends React.Component {
       dispatch(alertMsg("请输入红包接受者"))
       return;
     }
-
+    dispatch(startLoad());
     sendRedPacket(param).then(res => {
       if(res.code === 200) {
         dispatch(endLoad());
@@ -78,15 +82,17 @@ export default class RedPacket extends React.Component {
   }
 
   onClickSendStock() {
-    const { actName, totalAmount, wishing, sendName, profileId } = this.state;
+    const { actName, totalAmount, wishing, sendName, profileId, sceneId } = this.state;
     const { dispatch } = this.props;
-    dispatch(startLoad());
-    let param = { actName, totalAmount, wishing, sendName, profileId };
+    let param = { actName, totalAmount, wishing, sendName, profileId, sceneId };
     if(!actName) {
       dispatch(alertMsg("请输入活动名"))
       return;
     }
-
+    if(!sceneId) {
+      dispatch(alertMsg("请输入场景值"));
+      return;
+    }
     if(!totalAmount) {
       dispatch(alertMsg("请输入红包金额"))
       return;
@@ -100,7 +106,7 @@ export default class RedPacket extends React.Component {
       dispatch(alertMsg("请输入发送人"))
       return;
     }
-
+    dispatch(startLoad());
     sendStock(param).then(res => {
       if(res.code === 200) {
         dispatch(endLoad());
@@ -143,6 +149,14 @@ export default class RedPacket extends React.Component {
           multiLine={false}
           onChange={(ev, value) => {
             this.setState({ actName: value })
+          }}
+        /><br/>
+
+        <TextField
+          floatingLabelText="请输入场景值"
+          multiLine={false}
+          onChange={(ev, value) => {
+            this.setState({ sceneId: value })
           }}
         /><br/>
 
