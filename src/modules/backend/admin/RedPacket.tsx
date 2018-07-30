@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import { sendRedPacket, refreshStock } from "./async"
+import { sendRedPacket, refreshStock, sendStock } from "./async"
 import { RaisedButton, TextField, SelectField, MenuItem } from 'material-ui'
 import Confirm from '../../../components/Confirm'
 
@@ -76,6 +76,43 @@ export default class RedPacket extends React.Component {
     })
   }
 
+  onClickSendStock() {
+    const { actName, totalAmount, wishing, sendName, profileId } = this.state;
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    let param = { actName, totalAmount, wishing, sendName, profileId };
+    if(!actName) {
+      dispatch(alertMsg("请输入活动名"))
+      return;
+    }
+
+    if(!totalAmount) {
+      dispatch(alertMsg("请输入红包金额"))
+      return;
+    }
+
+    if(!wishing) {
+      dispatch(alertMsg("请输入祝福语"))
+      return;
+    }
+    if(!sendName) {
+      dispatch(alertMsg("请输入发送人"))
+      return;
+    }
+
+    sendStock(param).then(res => {
+      if(res.code === 200) {
+        dispatch(endLoad());
+        dispatch(alertMsg("发送成功"));
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
+  }
+
   render() {
     const { alert } = this.state;
     const actions = [
@@ -96,6 +133,9 @@ export default class RedPacket extends React.Component {
         <RaisedButton
           className="submit-btn" label="刷新分红信息" primary={true}
           onTouchTap={() => this.onClickRefreshStock()}/><br/>
+        <RaisedButton
+          className="submit-btn" label="发送红包给所有股东" primary={true}
+          onTouchTap={() => this.onClickSendStock()}/><br/>
 
         <TextField
           floatingLabelText="请输入活动id"

@@ -27,3 +27,7 @@ export function sendRedPacket(param) {
 export function refreshStock() {
   return ppost('/pc/admin/refresh/stock')
 }
+
+export function sendStock() {
+  return ppost('/pc/admin/send/stock')
+}
