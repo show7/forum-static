@@ -70,11 +70,12 @@ export default class RedPacket extends React.Component {
     dispatch(startLoad());
     refreshStock().then(res => {
       if(res.code === 200) {
+        dispatch(endLoad());
         dispatch(alertMsg("开始刷新分红信息"));
       } else {
+        dispatch(endLoad());
         dispatch(alertMsg(res.msg));
       }
-
     }).catch(e => {
       dispatch(endLoad());
       dispatch(alertMsg(e));
@@ -93,11 +94,6 @@ export default class RedPacket extends React.Component {
       dispatch(alertMsg("请输入场景值"));
       return;
     }
-    if(!totalAmount) {
-      dispatch(alertMsg("请输入红包金额"))
-      return;
-    }
-
     if(!wishing) {
       dispatch(alertMsg("请输入祝福语"))
       return;
