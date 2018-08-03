@@ -53,8 +53,8 @@ export function loadQrCodeByRule(param) {
   return ppost(`/subscribe/rule/tmp/qrCode`, param)
 }
 
-export function openVipRiseMember(riseId, month, memo, memberTypeId) {
-  return ppost(`/pc/operation/add/member/vip?riseId=${riseId}&memo=${memo}&month=${month}&memberTypeId=${memberTypeId}`)
+export function openVipRiseMember(param) {
+  return ppost('/pc/operation/add/risemember/vip', param)
 }
 
 export function loadRiseMember() {
