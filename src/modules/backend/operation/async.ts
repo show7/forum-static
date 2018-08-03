@@ -54,7 +54,7 @@ export function loadQrCodeByRule(param) {
 }
 
 export function openVipRiseMember(param) {
-  return ppost('/pc/operation/add/member/vip', param)
+  return ppost('/pc/operation/add/risemember/vip', param)
 }
 
 export function loadRiseMember() {
