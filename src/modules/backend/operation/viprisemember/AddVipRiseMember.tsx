@@ -60,8 +60,10 @@ export default class AddVipRiseMember extends React.Component {
                      floatingLabelText="选择会员有效期（月）"
                      onChange={(e, idx, value) => this.setState({ month: value })}>
           <MenuItem key={1} value={1} primaryText="1 个月"/>
-          <MenuItem key={2} value={6} primaryText="6 个月"/>
-          <MenuItem key={3} value={12} primaryText="12 个月"/>
+          <MenuItem key={2} value={4} primaryText="4 个月"/>
+          <MenuItem key={3} value={6} primaryText="6 个月"/>
+          <MenuItem key={4} value={8} primaryText="8 个月"/>
+          <MenuItem key={5} value={12} primaryText="12 个月"/>
         </SelectField>
         <br/>
         <SelectField value={this.state.vip}
