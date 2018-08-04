@@ -12,7 +12,7 @@ export default class AddVipRiseMember extends React.Component {
   constructor() {
     super()
     this.state = {
-      riseId: '',
+      riseIds: [],
       month: 0,
       memo: '',
       memberTypeId: 0,
@@ -29,9 +29,9 @@ export default class AddVipRiseMember extends React.Component {
   }
 
   handleClickOpenRiseMember() {
-    const { riseId, month, memo, memberTypeId, vip, startDate } = this.state
+    const { riseIds, month, memo, memberTypeId, vip, startDate } = this.state
     const { dispatch } = this.props
-    if(_.isEmpty(riseId) || month === 0 || memberTypeId === 0) {
+    if(_.isEmpty(riseIds) || month === 0 || memberTypeId === 0) {
       dispatch(alertMsg('请补充完整数据再提交'))
       return
     }
@@ -41,7 +41,7 @@ export default class AddVipRiseMember extends React.Component {
       return
     }
 
-    openVipRiseMember({riseId, month, memo, memberTypeId, vip, startDate}).then(res => {
+    openVipRiseMember({riseIds, month, memo, memberTypeId, vip, startDate}).then(res => {
       if(res.code === 200) {
         dispatch(alertMsg('更新成功'))
       } else {
@@ -54,7 +54,9 @@ export default class AddVipRiseMember extends React.Component {
     const { memberTypeId, memberTypes } = this.state
     return (
       <div className="add-vip-risemember-container">
-        <TextField hintText="输入圈外 Id" onChange={(e, v) => this.setState({ riseId: v, })}/>
+        <TextField
+          multiLine={true}
+          hintText="输入圈外 Id" onChange={(e, v) => this.setState({ riseIds: v.split('\n') })}/>
         <br/>
         <SelectField value={this.state.month}
                      floatingLabelText="选择会员有效期（月）"

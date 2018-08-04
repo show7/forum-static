@@ -21,10 +21,6 @@ export function approveBusinessApplication(id, coupon, param) {
   return ppost('/pc/operation/bs/application/approve', { id: id, coupon: coupon, interviewDto: param })
 }
 
-export function ignoreBusinessApplication(id, param) {
-  return ppost('/pc/operation/bs/application/ignore', { id: id, interviewDto: param })
-}
-
 export function sendCheckedApplication(time) {
   return pget(`/pc/operation/notice/bs/application/${time}`)
 }
