@@ -4,6 +4,10 @@ export function loadAccount() {
   return pget('/account/get')
 }
 
+export function loadTitles(problemId) {
+  return pget(`/pc/asst/application/load/title/${problemId}`)
+}
+
 export function loadApplicationList(problemId) {
   return pget(`/pc/asst/application/${problemId}`)
 }
@@ -49,8 +53,8 @@ export function loadClassNameAndGroup() {
   return pget(`/pc/asst/load/classname/group`)
 }
 
-export function loadSubmitByProblemIdClassNameGroup(problemId, className, groupId) {
-  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}`)
+export function loadSubmitByProblemIdClassNameGroup(param) {
+  return ppost(`/pc/asst/application/load/submit`, param)
 }
 
 export function submitComment(type, submitId, content) {
