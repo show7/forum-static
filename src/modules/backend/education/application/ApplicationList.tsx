@@ -431,8 +431,6 @@ export default class ApplicationList extends React.Component<any, any> {
           <div className="title">
             <span className="title-text">圈柚的作业</span>
           </div>
-          {renderDate()}
-          {renderToggle()}
           {otherLoading ? <VerticalBarLoading/> : renderOther()}
           <Divider style={style.divider}/>
           {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
@@ -447,6 +445,8 @@ export default class ApplicationList extends React.Component<any, any> {
           <span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <hr/>
+        {renderDate()}
+        {renderToggle()}
         <div className="myApplicationContainer">
           <div className="desc" dangerouslySetInnerHTML={{ __html: application.description }}/>
           {
