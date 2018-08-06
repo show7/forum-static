@@ -8,8 +8,8 @@ export function loadRiseWorkList(problemId){
   return pget(`/pc/asst/homework/${problemId}`);
 }
 
-export function loadApplicationSubmit(cid, index,show) {
-  return pget(`/pc/asst/application/submit/${cid}`, {page:index,show:show});
+export function loadApplicationSubmit(cid,param) {
+  return ppost(`/pc/asst/application/submit/${cid}`,param)
 }
 
 export function highlight(submitId){

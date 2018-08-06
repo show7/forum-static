@@ -9,11 +9,10 @@ import { set, startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import { formatDate } from 'utils/helpers'
 import {
   loadApplicationList, commentCount, loadApplicationListByNickName, loadApplicationListByMemberId,
-  loadClassNameAndGroup, loadSubmitByProblemIdClassNameGroup, loadApplicationListByTime
+  loadClassNameAndGroup, loadSubmitByProblemIdClassNameGroup, loadApplicationListByTime, loadTitles
 } from '../async'
 import CommentTip from '../component/CommentTip'
 import { TextField, RaisedButton, SelectField, MenuItem, DatePicker } from 'material-ui'
-
 import './ApplicationList.less'
 
 const style = {
@@ -57,6 +56,8 @@ export default class ApplicationList extends React.Component<any, any> {
     super(props)
     this.state = {
       data: [],
+      titles: [],
+      title: '',
       todayComment: -1,
       totalComment: -1,
       searchNickName: '',
@@ -68,7 +69,7 @@ export default class ApplicationList extends React.Component<any, any> {
       classSearch: false,
       nameSearch: false,
       timeSearch: false,
-      isClick: false,
+      isClick: false
     }
   }
 
@@ -80,6 +81,15 @@ export default class ApplicationList extends React.Component<any, any> {
     }
 
     this.setState({ otherLoading: true })
+
+    loadTitles(problemId).then(res => {
+      if(res.code === 200) {
+        this.setState({ titles: res.msg })
+      } else {
+        dispatch(alertMsg('获取标题出错'))
+      }
+    })
+
     loadApplicationList(problemId).then(res => {
       if(res.code === 200) {
         this.setState({ other: res.msg, otherLoading: false })
@@ -117,6 +127,7 @@ export default class ApplicationList extends React.Component<any, any> {
         })
       }
     })
+
   }
 
   componentWillReceiveProps(newProps) {
@@ -125,7 +136,8 @@ export default class ApplicationList extends React.Component<any, any> {
       return
     } else {
       this.setState({
-        search: [], selected: false, nameSearch: false, classSearch: false, timeSearch: false, isClick: false, className: '', groupId: ''
+        search: [], selected: false, nameSearch: false, classSearch: false, timeSearch: false, isClick: false,
+        className: '', groupId: ''
       })
       this.componentWillMount(newProps.location.query.problemId)
     }
@@ -143,11 +155,19 @@ export default class ApplicationList extends React.Component<any, any> {
   onClickSearchWorks() {
     const { problemId } = this.props.location.query
     const { dispatch } = this.props
-    const { className, groupId, classSearch, nameSearch, timeSearch } = this.state
+    const { className, groupId, title, classSearch, nameSearch, timeSearch } = this.state
 
     if(classSearch) {
       if(className != '' && groupId != '') {
-        loadSubmitByProblemIdClassNameGroup(problemId, className, groupId).then(res => {
+        let param = {
+          problemId: parseInt(problemId),
+          className,
+          groupId
+        }
+        if(!_.isEmpty(title)) {
+          param = _.merge(param, { applicationId: title.id })
+        }
+        loadSubmitByProblemIdClassNameGroup(param).then(res => {
           const { code, msg } = res
           if(code === 200) {
             this.setState({
@@ -200,13 +220,14 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   getTodayStr() {
-    let dat = new Date();
-    let month = dat.getMonth() + 1 > 9 ? (dat.getMonth() + 1) : ('0' + (dat.getMonth() + 1));
-    let day = dat.getDate() > 9 ? dat.getDate() : '0' + getDate();
+    let dat = new Date()
+    let month = dat.getMonth() + 1 > 9 ? (dat.getMonth() + 1) : ('0' + (dat.getMonth() + 1))
+    let day = dat.getDate() > 9 ? dat.getDate() : '0' + getDate()
     return dat.getFullYear() + '-' + month + '-' + day
   }
 
   render() {
+    console.log(this.state)
     const { other = [], search = [], otherLoading, todayComment, totalComment, selected, classSearch, timeSearch, nameSearch, isClick } = this.state
     const renderSubmits = () => {
       if(isClick) {
@@ -284,20 +305,39 @@ export default class ApplicationList extends React.Component<any, any> {
       )
     }
 
+    const renderTitles = () => {
+      const { titles, title } = this.state
+      return (
+        <div>
+          <SelectField floatingLabelText="选择应用题标题" maxHeight={300} value={title} onChange={(ev, idx, value) => {
+            this.setState({ title: value })
+          }}>
+            {
+              titles.map((item, idx) => {
+                return (
+                  <MenuItem key={idx} value={item} primaryText={item.topic}/>
+                )
+              })
+            }
+          </SelectField>
+        </div>
+      )
+    }
+
     const renderData = () => {
       return (
         <div className="data-box">
-          <DatePicker hintText={"选择查询开始时间"} formatDate={(date) => {
+          <DatePicker hintText={'选择查询开始时间'} formatDate={(date) => {
             return formatDate(date, 'yyyy-MM-dd')
           }}
                       onChange={(e, v) => {
-                        this.setState({startDate: formatDate(v, 'yyyy-MM-dd')})
+                        this.setState({ startDate: formatDate(v, 'yyyy-MM-dd') })
                       }}/>
-          <DatePicker hintText={"选择查询结束时间"} formatDate={(date) => {
+          <DatePicker hintText={'选择查询结束时间'} formatDate={(date) => {
             return formatDate(date, 'yyyy-MM-dd')
           }}
                       onChange={(e, v) => {
-                        this.setState({endDate: formatDate(v, 'yyyy-MM-dd')})
+                        this.setState({ endDate: formatDate(v, 'yyyy-MM-dd') })
                       }}/>
         </div>
       )
@@ -312,6 +352,7 @@ export default class ApplicationList extends React.Component<any, any> {
           {classSearch && <div>
             {renderClassName()}
             {renderGroupId()}
+            {renderTitles()}
           </div>
           }
           {nameSearch && <div>
@@ -325,7 +366,7 @@ export default class ApplicationList extends React.Component<any, any> {
             {renderData()}
           </div>
           }
-          <RaisedButton primary={true} label="点击搜索" onClick={()=>this.onClickSearchWorks()}/>
+          <RaisedButton primary={true} label="点击搜索" onClick={() => this.onClickSearchWorks()}/>
         </div>
       )
     }
