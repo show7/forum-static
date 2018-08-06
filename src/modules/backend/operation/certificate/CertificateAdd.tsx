@@ -34,8 +34,10 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
 
   MEMBERTYPE = {
     CORE_ABILITY: 3,
-    MONTH_CAMP: 5,
-    BUSINESS_THINKG: 8,
+    MONTH_CAMP: 14,
+    BUSINESS_THINK: 8,
+    L1: 12,
+    L2: 10
   };
 
   handleMemberIds () {
@@ -100,11 +102,17 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
                     value={this.MEMBERTYPE.CORE_ABILITY}
                     primaryText={'核心能力'}></MenuItem>
           <MenuItem key={12}
-                    value={this.MEMBERTYPE.BUSINESS_THINKG}
+                    value={this.MEMBERTYPE.BUSINESS_THINK}
                     primaryText={'商业思维'}></MenuItem>
           <MenuItem key={13}
                     value={this.MEMBERTYPE.MONTH_CAMP}
                     primaryText={'专项课'}></MenuItem>
+          <MenuItem key={14}
+                    value={this.MEMBERTYPE.L1}
+                    primaryText={'L1'}></MenuItem>
+          <MenuItem key={15}
+                    value={this.MEMBERTYPE.L2}
+                    primaryText={'L2'}></MenuItem>
         </SelectField>
         <br/>
         <SelectField value={identityType}
