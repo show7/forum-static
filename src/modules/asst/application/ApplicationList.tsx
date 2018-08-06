@@ -162,8 +162,7 @@ export default class ApplicationList extends React.Component<any, any> {
         let param = {
           problemId: parseInt(problemId),
           className,
-          groupId,
-          applicationId: ''
+          groupId
         }
         if(!_.isEmpty(title)) {
           param = _.merge(param, { applicationId: title.id })
