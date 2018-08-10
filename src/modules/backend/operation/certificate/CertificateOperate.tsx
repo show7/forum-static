@@ -93,11 +93,12 @@ export default class CertificateOperate extends React.Component {
 
   MEMBERTYPE = {
     CORE_ABILITY: 3,
+    CAMP: 5,
     MONTH_CAMP: 14,
     BUSINESS_THINK: 8,
     L1: 12,
-    L2: 10
-  };
+    L2: 10,
+  }
 
   render () {
     const {
@@ -138,20 +139,17 @@ export default class CertificateOperate extends React.Component {
         <SelectField floatingLabelText={'选择生成学习项目'}
                      value={memberTypeId}
                      onChange={(event, index, value) => this.setState({ memberTypeId: value })}>
-          <MenuItem key={11}
-                    value={this.MEMBERTYPE.CORE_ABILITY}
+          <MenuItem value={this.MEMBERTYPE.CORE_ABILITY}
                     primaryText={'核心能力'}></MenuItem>
-          <MenuItem key={12}
-                    value={this.MEMBERTYPE.BUSINESS_THINK}
+          <MenuItem value={this.MEMBERTYPE.CAMP}
+                    primaryText={'深度阅读训练营'}></MenuItem>
+          <MenuItem value={this.MEMBERTYPE.BUSINESS_THINK}
                     primaryText={'商业思维'}></MenuItem>
-          <MenuItem key={13}
-                    value={this.MEMBERTYPE.MONTH_CAMP}
+          <MenuItem value={this.MEMBERTYPE.MONTH_CAMP}
                     primaryText={'专项课'}></MenuItem>
-          <MenuItem key={14}
-                    value={this.MEMBERTYPE.L1}
+          <MenuItem value={this.MEMBERTYPE.L1}
                     primaryText={'L1'}></MenuItem>
-          <MenuItem key={15}
-                    value={this.MEMBERTYPE.L2}
+          <MenuItem value={this.MEMBERTYPE.L2}
                     primaryText={'L2'}></MenuItem>
         </SelectField>
         <br/><br/>
