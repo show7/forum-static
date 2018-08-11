@@ -66,12 +66,6 @@ export function openCourseByriseIds(riseIds, problemId, startDate, sendWelcomeMs
   })
 }
 
-export function generateCertificate(year, month, memberTypeId) {
-  return proxy.postProxy(`/rise/operation/backend/generate/certificate`, {
-    year: year, month: month, memberTypeId: memberTypeId
-  })
-}
-
 export function sendCertificate(year, month, memberTypeId) {
   return proxy.postProxy(`/rise/operation/backend/send/certificate`, {
     year: year, month: month, memberTypeId: memberTypeId

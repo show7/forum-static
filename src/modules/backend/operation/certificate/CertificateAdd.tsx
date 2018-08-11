@@ -164,7 +164,7 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
           <MenuItem value={this.IdentityType.EXCELLENT_TEAM}
                     primaryText="优秀团队"/>
           <MenuItem value={this.IdentityType.NORMAL_GRADUATE}
-                    primaryText="优秀结课"/>
+                    primaryText="结课证书"/>
           <MenuItem value={this.IdentityType.EXCELLENT_COACH}
                     primaryText="优秀教练"/>
           <MenuItem value={this.IdentityType.EXCELLENT_COMMITTEE}

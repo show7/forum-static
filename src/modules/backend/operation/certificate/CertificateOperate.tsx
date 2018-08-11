@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Dialog, SelectField, MenuItem, RaisedButton } from 'material-ui'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { generateCertificate, sendCertificate, sendFullAttendance } from '../async'
+import { sendCertificate, sendFullAttendance } from '../async'
 import proxy from 'components/proxy/requestProxy'
 
 @connect(state => state)
@@ -21,27 +21,6 @@ export default class CertificateOperate extends React.Component {
     }
   }
 
-  handleGenerateCertificate () {
-    const {
-      year,
-      month,
-      memberTypeId,
-    } = this.state
-    this.setState({
-      showDialog: true,
-      dialogContent: `点击生成${year}年${month}月的证书`,
-      handleFunc: async () => {
-        if (memberTypeId === 0) {
-          return
-        }
-        let res = await generateCertificate(year, month, memberTypeId)
-        proxy.alertMessage('证书正在生成中，生成成功你将收到模板消息提醒')
-        this.setState({
-          showDialog: false,
-        })
-      },
-    })
-  }
 
   handleSendCertificate () {
     const {
@@ -154,13 +133,10 @@ export default class CertificateOperate extends React.Component {
         </SelectField>
         <br/><br/>
         <RaisedButton primary={true}
-                      label={'生成证书'}
-                      onClick={() => this.handleGenerateCertificate()}></RaisedButton>
-        <RaisedButton secondary={true}
                       label={'发送证书'}
                       onClick={() => this.handleSendCertificate()}
                       style={{ marginLeft: '20px' }}></RaisedButton>
-        <RaisedButton secondary={true}
+        <RaisedButton primary={true}
                       label={'发送全勤奖'}
                       onClick={() => this.handleSendFullAttendance()}
                       style={{ marginLeft: '20px' }}></RaisedButton>
