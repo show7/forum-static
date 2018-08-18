@@ -124,6 +124,11 @@ export default class Fragment extends React.Component<any, any> {
               模板消息
             </div>
             <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/customer/msg'})
+            }}>
+              客服消息
+            </div>
+            <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/addvip'})
             }}>
               添加vip会员

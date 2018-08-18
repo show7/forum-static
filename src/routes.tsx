@@ -72,7 +72,8 @@ import ProblemList from './modules/backend/education/import/application/ProblemL
 import WarmProblemList from './modules/backend/education/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/education/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/operation/user/UserInfo'
-import SendTemplate from './modules/backend/operation/SendTemplate'
+import SendTemplate from './modules/backend/operation/msg/SendTemplate'
+import CustomerMessage from './modules/backend/operation/msg/CustomerMessage'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/education/warmup/WarmupList'
 import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichText'
@@ -116,6 +117,7 @@ const routes = (
         <Route path="/backend/warmup/list" component={WarmupList}/>
 
         <Route path="/backend/template" component={SendTemplate}/>
+        <Route path="/backend/customer/msg" component={CustomerMessage}/>
 
         <Route path="/backend/home/config" component={FlowData}/>
         <Route path="/backend/home/banner" component={HomeBanner}/>

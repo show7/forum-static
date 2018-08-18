@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { MenuItem, RaisedButton, SelectField, TextField } from 'material-ui'
-import { alertMsg, startLoad, endLoad } from 'redux/actions'
-import { loadTemplates, sendTemplateMsg } from './async'
+import { alertMsg, startLoad, endLoad } from '../../../../redux/actions'
+import { loadTemplates, sendTemplateMsg } from '../async'
 import './SendTemplate.less'
 import * as _ from 'lodash'
-import Confirm from '../../../components/Confirm'
+import Confirm from '../../../../components/Confirm'
 
 const forcePushs = [
   { id: 0, value: '是' },
