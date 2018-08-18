@@ -174,6 +174,10 @@ export default class Fragment extends React.Component<any, any> {
             }}>项目配置
             </div>
             <div className="catalog-name" onClick={() => {
+              this.context.router.push({ pathname: '/backend/upload/richtext' })
+            }}>富文本上传
+            </div>
+            <div className="catalog-name" onClick={() => {
                    this.context.router.push({ pathname: '/backend/admin/upload/file' })
             }}>图片上传
             </div>
