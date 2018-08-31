@@ -24,8 +24,9 @@ export default class UserInfo extends React.Component<any, any> {
     this.state = {
       page: 1,
       meta: [
-        {tag:'headimgurl',alias:'头像',style: _.merge({}, cellStyle, { width: '100px' })},
-        { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '100px' }) },
+        {tag:'riseId',alias:'riseId',style: _.merge({}, cellStyle, { width: '200px' })},
+        {tag:'headimgurl',alias:'头像',style: _.merge({}, cellStyle, { width: '200px' })},
+        { tag: 'nickname', alias: '昵称', style: _.merge({}, cellStyle, { width: '200px' }) },
         { tag: 'memberId', alias: '学号', style: _.merge({}, cellStyle, { width: '100px' }) },
         { tag: 'memberTypes', alias: '会员类型', style: _.merge({}, cellStyle,{width:'150px'}) }
       ],
