@@ -21,10 +21,6 @@ export function approveBusinessApplication(id, coupon, param) {
   return ppost('/pc/operation/bs/application/approve', { id: id, coupon: coupon, interviewDto: param })
 }
 
-export function ignoreBusinessApplication(id, param) {
-  return ppost('/pc/operation/bs/application/ignore', { id: id, interviewDto: param })
-}
-
 export function sendCheckedApplication(time) {
   return pget(`/pc/operation/notice/bs/application/${time}`)
 }
@@ -45,6 +41,10 @@ export function sendTemplateMsg(param) {
   return ppost('/pc/operation/send/template/msg', param)
 }
 
+export function sendCustomerMsg(param) {
+  return ppost('/pc/operation/send/customer/msg', param)
+}
+
 export function loadQrCode(scene, remark) {
   return pget(`/subscribe/per/qrCode?scene=${scene}&remark=${remark}`)
 }
@@ -53,8 +53,8 @@ export function loadQrCodeByRule(param) {
   return ppost(`/subscribe/rule/tmp/qrCode`, param)
 }
 
-export function openVipRiseMember(riseId, month, memo, memberTypeId) {
-  return ppost(`/pc/operation/add/member/vip?riseId=${riseId}&memo=${memo}&month=${month}&memberTypeId=${memberTypeId}`)
+export function openVipRiseMember(param) {
+  return ppost('/pc/operation/add/risemember/vip', param)
 }
 
 export function loadRiseMember() {
@@ -67,12 +67,6 @@ export function openCourseByriseIds(riseIds, problemId, startDate, sendWelcomeMs
     problemId: problemId,
     startDate: startDate,
     sendWelcomeMsg: sendWelcomeMsg
-  })
-}
-
-export function generateCertificate(year, month, memberTypeId) {
-  return proxy.postProxy(`/rise/operation/backend/generate/certificate`, {
-    year: year, month: month, memberTypeId: memberTypeId
   })
 }
 

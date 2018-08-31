@@ -1,4 +1,4 @@
-import {pget,ppost} from "../../../utils/request"
+import { pget, ppost } from "../../../utils/request"
 
 export function loadConfig(projectId) {
   return pget(`/pc/admin/config/${projectId}`);
@@ -18,4 +18,16 @@ export function updateConfig(param) {
 
 export function refund(param) {
   return ppost(`/pc/admin/refund`, param)
+}
+
+export function sendRedPacket(param) {
+  return ppost('/pc/admin/send/red/packet', param);
+}
+
+export function refreshStock() {
+  return ppost('/pc/admin/refresh/stock')
+}
+
+export function sendStock(param) {
+  return ppost('/pc/admin/send/stock', param);
 }

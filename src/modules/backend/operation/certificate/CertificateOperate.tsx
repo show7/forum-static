@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Dialog, SelectField, MenuItem, RaisedButton } from 'material-ui'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { generateCertificate, sendCertificate, sendFullAttendance } from '../async'
+import { sendCertificate, sendFullAttendance } from '../async'
 import proxy from 'components/proxy/requestProxy'
 
 @connect(state => state)
@@ -21,27 +21,6 @@ export default class CertificateOperate extends React.Component {
     }
   }
 
-  handleGenerateCertificate () {
-    const {
-      year,
-      month,
-      memberTypeId,
-    } = this.state
-    this.setState({
-      showDialog: true,
-      dialogContent: `点击生成${year}年${month}月的证书`,
-      handleFunc: async () => {
-        if (memberTypeId === 0) {
-          return
-        }
-        let res = await generateCertificate(year, month, memberTypeId)
-        proxy.alertMessage('证书正在生成中，生成成功你将收到模板消息提醒')
-        this.setState({
-          showDialog: false,
-        })
-      },
-    })
-  }
 
   handleSendCertificate () {
     const {
@@ -93,8 +72,11 @@ export default class CertificateOperate extends React.Component {
 
   MEMBERTYPE = {
     CORE_ABILITY: 3,
-    MONTH_CAMP: 5,
-    BUSINESS_THINKG: 8,
+    CAMP: 5,
+    MONTH_CAMP: 14,
+    BUSINESS_THINK: 8,
+    L1: 12,
+    L2: 10,
   }
 
   render () {
@@ -136,25 +118,25 @@ export default class CertificateOperate extends React.Component {
         <SelectField floatingLabelText={'选择生成学习项目'}
                      value={memberTypeId}
                      onChange={(event, index, value) => this.setState({ memberTypeId: value })}>
-          <MenuItem key={11}
-                    value={this.MEMBERTYPE.CORE_ABILITY}
+          <MenuItem value={this.MEMBERTYPE.CORE_ABILITY}
                     primaryText={'核心能力'}></MenuItem>
-          <MenuItem key={12}
-                    value={this.MEMBERTYPE.BUSINESS_THINKG}
+          <MenuItem value={this.MEMBERTYPE.CAMP}
+                    primaryText={'深度阅读训练营'}></MenuItem>
+          <MenuItem value={this.MEMBERTYPE.BUSINESS_THINK}
                     primaryText={'商业思维'}></MenuItem>
-          <MenuItem key={13}
-                    value={this.MEMBERTYPE.MONTH_CAMP}
+          <MenuItem value={this.MEMBERTYPE.MONTH_CAMP}
                     primaryText={'专项课'}></MenuItem>
+          <MenuItem value={this.MEMBERTYPE.L1}
+                    primaryText={'L1'}></MenuItem>
+          <MenuItem value={this.MEMBERTYPE.L2}
+                    primaryText={'L2'}></MenuItem>
         </SelectField>
         <br/><br/>
         <RaisedButton primary={true}
-                      label={'生成证书'}
-                      onClick={() => this.handleGenerateCertificate()}></RaisedButton>
-        <RaisedButton secondary={true}
                       label={'发送证书'}
                       onClick={() => this.handleSendCertificate()}
                       style={{ marginLeft: '20px' }}></RaisedButton>
-        <RaisedButton secondary={true}
+        <RaisedButton primary={true}
                       label={'发送全勤奖'}
                       onClick={() => this.handleSendFullAttendance()}
                       style={{ marginLeft: '20px' }}></RaisedButton>

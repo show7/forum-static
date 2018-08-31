@@ -13,6 +13,7 @@ import CatalogView from './modules/backend/education/import/application/Catalog'
 import ProjectConfig from './modules/backend/admin/ProjectConfig'
 import ConfigDetail from './modules/backend/admin/ConfigDetail'
 import Refund from './modules/backend/admin/Refund'
+import RedPacket from './modules/backend/admin/RedPacket'
 import WarmupProblemList from './modules/backend/education/import/warmup/ProblemList'
 import WarmupPracticeList from './modules/backend/education/import/warmup/WarmupPracticeList'
 import AsstIndex from './modules/asst/AsstIndex'
@@ -71,7 +72,8 @@ import ProblemList from './modules/backend/education/import/application/ProblemL
 import WarmProblemList from './modules/backend/education/import/warmup/WarmProblemList'
 import WarmupShowList from './modules/backend/education/import/warmup/WarmupShowList'
 import UserInfo from './modules/backend/operation/user/UserInfo'
-import SendTemplate from './modules/backend/operation/SendTemplate'
+import SendTemplate from './modules/backend/operation/msg/SendTemplate'
+import CustomerMessage from './modules/backend/operation/msg/CustomerMessage'
 import GenerateQrCode from './modules/backend/operation/GenerateQrCode'
 import WarmupList from './modules/backend/education/warmup/WarmupList'
 import SubmitRichText from './modules/backend/common/submitrichtext/SubmitRichText'
@@ -89,13 +91,13 @@ import LiveFlowList from './modules/backend/operation/flowdata/liveFlow/LiveFlow
 import ActivityFlowList from './modules/backend/operation/flowdata/activityFlow/ActivityFlowList';
 import ArticleFlowList from './modules/backend/operation/flowdata/articleFlow/ArticleFlowList';
 import FlowData from './modules/backend/operation/flowdata/FlowData';
-import addCoupon, {default as AddCoupon} from './modules/backend/operation/coupon/AddCoupon'
+import addCoupon, { default as AddCoupon } from './modules/backend/operation/coupon/AddCoupon'
 
 const routes = (
   <Route path="/" onChange={() => {
     sa.quick('autoTrackSinglePage');
   }}>
-    <Route path=  "/login" component={Login}/>
+    <Route path="/login" component={Login}/>
     <Route component={Base}>
       <Route path="pc/static/reject" component={Reject}/>
       <Route path="servercode" component={ServerCode}/>
@@ -107,6 +109,7 @@ const routes = (
           <Route path="/backend/project/config" component={ConfigDetail}/>
         </Route>
         <Route path="/backend/admin/refund" component={Refund}/>
+        <Route path="/backend/admin/redpacket" component={RedPacket}/>
         <Route path="/backend/admin/wx/upload/image" component={UploadMaterial}/>
         <Route path="/backend/warmup/management" component={WarmupProblemList}>
           <Route path="/backend/warmup/edit/list" component={WarmupPracticeList}/>
@@ -114,6 +117,7 @@ const routes = (
         <Route path="/backend/warmup/list" component={WarmupList}/>
 
         <Route path="/backend/template" component={SendTemplate}/>
+        <Route path="/backend/customer/msg" component={CustomerMessage}/>
 
         <Route path="/backend/home/config" component={FlowData}/>
         <Route path="/backend/home/banner" component={HomeBanner}/>
@@ -142,7 +146,7 @@ const routes = (
         <Route path="/backend/message/reply" component={AutoReplyMessage}/>
         <Route path="/backend/message/subscribe" component={SubscribeMessage}/>
         <Route path="/backend/knowledge/import" component={KnowledgeImport}/>
-        <Route path="/backend/preview/import" component={PreviewImport} />
+        <Route path="/backend/preview/import" component={PreviewImport}/>
         <Route path="/backend/problem/import" component={ProblemImport}/>
         <Route path="/backend/business/school/application" component={BusinessSchoolApplication}/>
         <Route path="/backend/survey/config" component={SurveyConfig}/>

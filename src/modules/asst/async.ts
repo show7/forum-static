@@ -4,6 +4,10 @@ export function loadAccount() {
   return pget('/account/get')
 }
 
+export function loadTitles(problemId) {
+  return pget(`/pc/asst/application/load/title/${problemId}`)
+}
+
 export function loadApplicationList(problemId) {
   return pget(`/pc/asst/application/${problemId}`)
 }
@@ -15,6 +19,10 @@ export function loadApplicationListByNickName(problemId, nickName) {
 
 export function loadApplicationListByMemberId(problemId, memberId) {
   return pget(`/pc/asst/application/memberid/${problemId}/${memberId}`)
+}
+
+export function loadApplicationListByTime(problemId, startDate, endDate) {
+  return pget(`/pc/asst/application/time/${problemId}?startDate=${startDate}&endDate=${endDate}`)
 }
 
 export function loadApplicationProblems() {
@@ -41,12 +49,12 @@ export function loadComments(type, submitId, page) {
   return pget(`/pc/asst/comment/${type}/${submitId}`, { page: page })
 }
 
-export function loadClassNameAndGroup(){
+export function loadClassNameAndGroup() {
   return pget(`/pc/asst/load/classname/group`)
 }
 
-export function loadSubmitByProblemIdClassNameGroup(problemId,className,groupId){
-  return pget(`/pc/asst/application/${problemId}/${className}/${groupId}`)
+export function loadSubmitByProblemIdClassNameGroup(param) {
+  return ppost(`/pc/asst/application/load/submit`, param)
 }
 
 export function submitComment(type, submitId, content) {
@@ -64,17 +72,6 @@ export function requestAsstComment(moduleId, submitId) {
 export function deleteComment(commentId) {
   return ppost(`/pc/asst/delete/comment/${commentId}`)
 }
-
-export function loadHotPractice(page) {
-  return pget(`/pc/asst/hot/warmup`, {page:page});
-}
-
-export function loadWarmUp(warmupPracticeId) {
-  return pget(`/pc/asst/warmup/load/${warmupPracticeId}`)
-}
-
-
-
 
 export const CommentType = {
   Challenge: 1,

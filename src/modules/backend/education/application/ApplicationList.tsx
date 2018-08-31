@@ -1,3 +1,4 @@
+import { DatePicker, RaisedButton } from 'material-ui'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import Divider from 'material-ui/Divider'
@@ -7,6 +8,7 @@ import Avatar from 'material-ui/Avatar'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import _ from 'lodash'
 import './ApplicationList.less'
+import { formatDate } from '../../../../utils/helpers'
 import { loadApplicationSubmit, highlight, unhighlight, loadApplication, submitComment, saveApplicationPractice } from './async'
 import Snackbar from 'material-ui/Snackbar'
 import { imgSrc } from 'utils/imgSrc'
@@ -36,7 +38,7 @@ export default class ApplicationList extends React.Component<any, any> {
       application: {},
       topic: '',
       topicEditable: false,
-      show:true,
+      show: true,
       descriptionEditable: false,
       snackOpen: false,
       message: '',
@@ -52,12 +54,12 @@ export default class ApplicationList extends React.Component<any, any> {
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm: false })
-            this.confirmHighlight();
+            this.confirmHighlight()
           }
         },
           {
             label: '取消',
-            onClick: () => {this.setState({ showConfirm: false },()=>{window.scroll(0,this.state.scrollTop)})}
+            onClick: () => {this.setState({ showConfirm: false }, () => {window.scroll(0, this.state.scrollTop)})}
           }
         ]
       },
@@ -68,23 +70,25 @@ export default class ApplicationList extends React.Component<any, any> {
           label: '确认',
           onClick: () => {
             this.setState({ showConfirm2: false })
-            this.confirmUnhighlight();
+            this.confirmUnhighlight()
           }
         },
           {
             label: '取消',
-            onClick: () => {this.setState({ showConfirm2: false },()=>{window.scroll(0,this.state.scrollTop)})}
+            onClick: () => {this.setState({ showConfirm2: false }, () => {window.scroll(0, this.state.scrollTop)})}
           }
         ]
       },
-      scrollTop:0,
+      scrollTop: 0,
+      startDate: '',
+      endDate: ''
     }
   }
 
   componentWillMount() {
     const { location, dispatch, page } = this.props
     const { applicationId } = location.query
-    const { index,show } = this.state
+    const { index, show } = this.state
     const scrollValue = _.get(page, 'scroll')
 
     loadApplication(applicationId).then(res => {
@@ -98,8 +102,11 @@ export default class ApplicationList extends React.Component<any, any> {
         dispatch(alertMsg(err.title, err.msg))
       }
     })
-
-    loadApplicationSubmit(applicationId, index,show).then(res => {
+    let param = {
+      pageId: index,
+      show
+    }
+    loadApplicationSubmit(applicationId, param).then(res => {
       if(res.code === 200) {
         this.setState({ other: res.msg, otherLoading: false })
         if(scrollValue) {
@@ -152,17 +159,23 @@ export default class ApplicationList extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(alertMsg(title, content))
     setTimeout(() => {
-      dispatch(set('base.showModal', false));
-      window.scroll(0,this.state.scrollTop)
+      dispatch(set('base.showModal', false))
+      window.scroll(0, this.state.scrollTop)
     }, 1000)
   }
 
   loadMoreContent() {
     const { location, dispatch } = this.props
     const { applicationId } = location.query
-    const { index, other,show } = this.state
+    const { index, other, show, startDate, endDate } = this.state
 
-    loadApplicationSubmit(applicationId, index + 1,show).then(res => {
+    let param = {
+      pageId: index + 1,
+      show,
+      startDate,
+      endDate
+    }
+    loadApplicationSubmit(applicationId, param).then(res => {
       if(res.code === 200) {
         let hasMore = true
         if(res.msg.length === 0) {
@@ -202,25 +215,13 @@ export default class ApplicationList extends React.Component<any, any> {
    * @returns {number}
    */
   getScrollTop() {
-    let scrollTop=0;
-    if(document.documentElement&&document.documentElement.scrollTop) {
-      scrollTop=document.documentElement.scrollTop;
+    let scrollTop = 0
+    if(document.documentElement && document.documentElement.scrollTop) {
+      scrollTop = document.documentElement.scrollTop
     } else if(document.body) {
-      scrollTop = document.body.scrollTop;
+      scrollTop = document.body.scrollTop
     }
-    return scrollTop;
-  }
-
-  showComment(id) {
-    const { other } = this.state
-
-    other.forEach((item) => {
-      if(item.id === id) {
-        _.set(item, 'commenting', 1)
-      }
-    })
-
-    this.setState({ other })
+    return scrollTop
   }
 
   comment(id) {
@@ -277,31 +278,51 @@ export default class ApplicationList extends React.Component<any, any> {
     }, 2000)
   }
 
-  onClickTopicEdit() {
-    this.setState({ topicEditable: true }, () => {
-      this.refs.editor_topic.focus()
+  search() {
+    const { dispatch, location } = this.props
+    const { startDate, endDate, show } = this.state
+    const { applicationId } = location.query
+    let param = {
+      pageId: 1,
+      show: show,
+      startDate,
+      endDate
+    }
+    dispatch(startLoad())
+    loadApplicationSubmit(applicationId, param).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.setState({ other: res.msg, otherLoading: false, index: 1,hasMore:true})
+      } else {
+        this.setState({ otherLoading: false })
+        throw new BreakSignal(res.msg, '提示')
+      }
+    }).catch(err => {
+      if(err instanceof BreakSignal) {
+        this.setState({ otherLoading: false })
+        dispatch(alertMsg(err.title, err.msg))
+      }
     })
-  }
 
-  onClickDescriptionEdit() {
-    this.setState({ descriptionEditable: true })
   }
 
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   是否显示加精作业开关
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  toggled(){
-    const {dispatch,location} = this.props
+  toggled() {
+    const { dispatch, location } = this.props
     const { applicationId } = location.query
-    const {show } = this.state
-
-    if(this.refs.toggle){
-      console.log(this.refs.toggle)
+    const { show, startDate, endDate } = this.state
+    let param = {
+      pageId: 1,
+      show: !show,
+      startDate,
+      endDate
     }
 
-    loadApplicationSubmit(applicationId, 1,!show).then(res => {
+    loadApplicationSubmit(applicationId, param).then(res => {
       if(res.code === 200) {
-        this.setState({ other: res.msg, otherLoading: false,index:1,show:!show})
+        this.setState({ other: res.msg, otherLoading: false, index: 1, show: !show,hasMore:true })
 
       } else {
         this.setState({ otherLoading: false })
@@ -316,55 +337,75 @@ export default class ApplicationList extends React.Component<any, any> {
   }
 
   render() {
-    const { other = [], hasMore, otherLoading, application} = this.state
+    const { other = [], hasMore, otherLoading, application } = this.state
+    const renderDate = () => {
+      return (
+        <div className="data-box">
+          <DatePicker hintText={'选择查询开始时间'} formatDate={(date) => {
+            return formatDate(date, 'yyyy-MM-dd')
+          }}
+                      onChange={(e, v) => {
+                        this.setState({ startDate: formatDate(v, 'yyyy-MM-dd') })
+                      }}/>
+          <DatePicker hintText={'选择查询结束时间'} formatDate={(date) => {
+            return formatDate(date, 'yyyy-MM-dd')
+          }}
+                      onChange={(e, v) => {
+                        this.setState({ endDate: formatDate(v, 'yyyy-MM-dd') })
+                      }}/>
+          <RaisedButton primary={true} label="点击搜索" onClick={() => this.search()}/>
+        </div>
+      )
+    }
+
     const renderOther = () => {
       return (
         <div className="otherContainer">
           {other.map((item, index) => {
-            const { id, upName, headPic, upTime, content, applicationId, priority, comment, commenting } = item
+            const { id, upName, headPic, upTime, content, priority, commenting } = item
             return (
               <div className="other-show">
-              <div key={index} className="workItemContainer">
-                <div className="titleArea">
-                  <div className="leftArea">
-                    <div className="author">
-                      <div className="avatar">
-                        <Avatar
-                          src={headPic}
-                          size={30}
-                        />
-                      </div>
-                      <div className="upInfo">
-                        <div className="upName">{upName}</div>
-                        <div className="upTime">{upTime + '上传'}</div>
+                <div key={index} className="workItemContainer">
+                  <div className="titleArea">
+                    <div className="leftArea">
+                      <div className="author">
+                        <div className="avatar">
+                          <Avatar
+                            src={headPic}
+                            size={30}
+                          />
+                        </div>
+                        <div className="upInfo">
+                          <div className="upName">{upName}</div>
+                          <div className="upTime">{upTime + '上传'}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="workContentContainer">
-                  <div className="content" dangerouslySetInnerHTML={{ __html: content }}>
-                  </div>
-                  <div className="rightArea">
-                    {priority === 0 ?
-                      <div className="function-button"  onClick={() => this.highlight(id)}>
-                        加精
-                      </div> :
-                      <div className="function-button" onClick={() => this.unhighlight(id)}>
-                        取消加精
-                      </div>}
-                    <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
-                  </div>
-                  {commenting === 1 ?
-                    <div className="commentSubmit">
+                  <div className="workContentContainer">
+                    <div className="content" dangerouslySetInnerHTML={{ __html: content }}>
+                    </div>
+                    <div className="rightArea">
+                      {priority === 0 ?
+                        <div className="function-button" onClick={() => this.highlight(id)}>
+                          加精
+                        </div> :
+                        <div className="function-button" onClick={() => this.unhighlight(id)}>
+                          取消加精
+                        </div>}
+                      <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
+                    </div>
+                    {commenting === 1 ?
+                      <div className="commentSubmit">
                                 <textarea value={this.state.comment} placeholder="和作者切磋讨论一下吧"
                                           onChange={(e) => {
                                             this.setState({ comment: e.target.value })
                                           }}/>
-                      <div className="commentBtn" onClick={() => this.comment(id)}>提交</div>
-                    </div> : null
-                  }
+                        <div className="commentBtn" onClick={() => this.comment(id)}>提交</div>
+                      </div> : null
+                    }
+                  </div>
                 </div>
-              </div>
               </div>
             )
           })}
@@ -378,8 +419,8 @@ export default class ApplicationList extends React.Component<any, any> {
       return (
         <div className="toggle-container">
           <Toggle ref="toggle"
-            label="是否显示加精作业"
-            defaultToggled={true} onToggle={(e,v)=>this.toggled()}
+                  label="是否显示加精作业"
+                  defaultToggled={true} onToggle={(e, v) => this.toggled()}
           />
         </div>
       )
@@ -390,7 +431,6 @@ export default class ApplicationList extends React.Component<any, any> {
           <div className="title">
             <span className="title-text">圈柚的作业</span>
           </div>
-          {renderToggle()}
           {otherLoading ? <VerticalBarLoading/> : renderOther()}
           <Divider style={style.divider}/>
           {hasMore ? <div className="more" onClick={() => this.loadMoreContent()}>点击加载更多</div> :
@@ -405,6 +445,8 @@ export default class ApplicationList extends React.Component<any, any> {
           <span onClick={() => this.context.router.goBack()} className="backBtn"><img src={imgSrc.backList}/>返回列表</span>
         </div>
         <hr/>
+        {renderDate()}
+        {renderToggle()}
         <div className="myApplicationContainer">
           <div className="desc" dangerouslySetInnerHTML={{ __html: application.description }}/>
           {

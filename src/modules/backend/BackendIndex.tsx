@@ -124,6 +124,11 @@ export default class Fragment extends React.Component<any, any> {
               模板消息
             </div>
             <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/customer/msg'})
+            }}>
+              客服消息
+            </div>
+            <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/addvip'})
             }}>
               添加vip会员
@@ -174,6 +179,10 @@ export default class Fragment extends React.Component<any, any> {
             }}>项目配置
             </div>
             <div className="catalog-name" onClick={() => {
+              this.context.router.push({ pathname: '/backend/upload/richtext' })
+            }}>富文本上传
+            </div>
+            <div className="catalog-name" onClick={() => {
                    this.context.router.push({ pathname: '/backend/admin/upload/file' })
             }}>图片上传
             </div>
@@ -184,6 +193,10 @@ export default class Fragment extends React.Component<any, any> {
             <div className="catalog-name" onClick={() => {
               this.context.router.push({ pathname: '/backend/admin/refund' })
             }}>退款
+            </div>
+            <div className="catalog-name" onClick={() => {
+              this.context.router.push({ pathname: '/backend/admin/redpacket' })
+            }}>发红包
             </div>
           </div>
         </List>

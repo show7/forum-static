@@ -1,13 +1,11 @@
 import * as React from "react";
-import {connect} from "react-redux";
-import {List, ListItem,makeSelectable} from 'material-ui/List';
-import {Grid, Row, Col} from "react-flexbox-grid"
-import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {loadProblems} from "./async"
+import { connect } from "react-redux";
+import { List } from 'material-ui/List';
+import { Grid, Row, Col } from "react-flexbox-grid"
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { loadProblems } from "./async"
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-
 
 const style = {
   divider: {
@@ -31,7 +29,6 @@ const style = {
   }
 }
 
-
 @connect(state => state)
 export default class ProjectConfig extends React.Component<any,any> {
 
@@ -52,8 +49,6 @@ export default class ProjectConfig extends React.Component<any,any> {
 
   }
 
-
-
   render() {
 
     const renderMenu = () => {
@@ -67,16 +62,28 @@ export default class ProjectConfig extends React.Component<any,any> {
           <div className="catalog-area">
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/project/config', query:{projectId:'rise'}})
-            }}>RISE</div>
+            }}>RISE
+            </div>
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/project/config', query:{projectId:'course'}})
-            }}>训练营</div>
+            }}>训练营
+            </div>
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/project/config', query:{projectId:'job'}})
-            }}>JOB</div>
+            }}>JOB
+            </div>
             <div className="catalog-name" onClick={()=>{
               this.context.router.push({pathname:'/backend/project/config', query:{projectId:'arch'}})
-            }}>架构</div>
+            }}>架构
+            </div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/project/config', query:{projectId:'front'}})
+            }}>前端资源
+            </div>
+            <div className="catalog-name" onClick={()=>{
+              this.context.router.push({pathname:'/backend/project/config', query:{projectId:'template'}})
+            }}>模板消息
+            </div>
           </div>
         </List>
       )

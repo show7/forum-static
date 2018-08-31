@@ -53,7 +53,7 @@ export default class AddCoupon extends React.Component{
         <br/>
         <TextField hintText={"优惠券描述"} onChange={(e, v) =>{this.setState({description: v})}}/>
         <br/>
-        <TextField hintText={"输入要赠与的学员Id"} multiLine={true} onChange={(e, v) => {this.setState({riseIdList: v.split("\n")})}}/>
+        <TextField hintText={"输入要赠与学员的圈外id"} multiLine={true} onChange={(e, v) => {this.setState({riseIdList: v.split("\n")})}}/>
         <br/>
         <RaisedButton label={"提交"} onClick={() => this.handleAddCoupon()} primary={true}/>
       </div>
