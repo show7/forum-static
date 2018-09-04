@@ -13,7 +13,7 @@ interface CertificateAddState {
   showSnack: boolean,
   memberTypeId: string,
   problemId: number,
-  groupId: number,
+  groupNo: number,
   profileSearchType: number
 }
 
@@ -59,6 +59,7 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
       memberIdListStr = '',  // memberId 列表
       riseIdListStr = '',  // riseId 列表
       profileSearchType, // 用户查找类型
+      groupNo, // 小组号
     } = this.state
     let memberIds = memberIdListStr.split('\n')
     memberIds = memberIds.map(memberId => memberId.trim()).filter(memberId => memberId != '')
@@ -75,6 +76,7 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
       memberIds: memberIds,
       riseIds: riseIds,
       profileSearchType: profileSearchType,
+      groupNo: groupNo,
     }
 
     let addCertificateRes = await addCertificate(param)
@@ -102,7 +104,7 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
       showSnack = false,
       memberTypeId,
       problemId,
-      groupId,
+      groupNo,
       profileSearchType,
     } = this.state
 
@@ -154,7 +156,7 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
         <br/>
         <SelectField value={identityType}
                      floatingLabelText="选择身份类型"
-                     onChange={(e, i, v) => this.setState({ identityType: v, problemId: -1 })}>
+                     onChange={(e, i, v) => this.setState({ identityType: v })}>
           <MenuItem value={this.IdentityType.EXCELLENT_CLASS_LEADER}
                     primaryText="优秀班长"/>
           <MenuItem value={this.IdentityType.EXCELLENT_GROUP_LEADER}
@@ -174,9 +176,9 @@ export default class CertificateAdd extends React.Component<any, CertificateAddS
         {
           this.state.identityType === this.IdentityType.EXCELLENT_TEAM &&
           <div>
-            <TextField value={memberIdListStr}
+            <TextField value={groupNo}
                        floatingLabelText="输入小组号，如 1，2"
-                       onChange={(e, v) => this.setState({ memberIdListStr: v })}>
+                       onChange={(e, v) => this.setState({ groupNo: v })}>
             </TextField>
             <br/>
           </div>
