@@ -10,11 +10,11 @@ export function learnKnowledge (practicePlanId) {
 }
 
 export function loadRoadMap () {
-  return pget(`/rise/plan/roadmap/`);
+  return proxy.getProxy(`/rise/plan/roadmap/`);
 }
 
 export function loadProblem (id) {
-  return pget(`/rise/problem/get/${id}`);
+  return proxy.getProxy(`/rise/problem/get/${id}`);
 }
 
 export function loadKnowledge (id) {
@@ -26,11 +26,11 @@ export function loadDiscuss (knowledgeId, offset) {
 }
 
 export function discussKnowledge (body) {
-  return ppost(`/rise/practice/knowledge/discuss`, body);
+  return proxy.postProxy(`/rise/practice/knowledge/discuss`, body);
 }
 
 export function deleteKnowledgeDiscuss (id) {
-  return ppost(`/rise/practice/knowledge/discuss/del/${id}`);
+  return proxy.postProxy(`/rise/practice/knowledge/discuss/del/${id}`);
 }
 
 export function loadKnowledgePriorityDiscuss (knowledgeId) {

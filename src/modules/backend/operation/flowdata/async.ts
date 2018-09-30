@@ -5,7 +5,7 @@ import requestProxy from 'components/proxy/requestProxy';
  * @returns {Promise<T>}
  */
 export function loadAllHomeBanners () {
-  return requestProxy.getProxy('/backend/flow/banners');
+  return requestProxy.getProxy('/pc/operation/flow/banners');
 }
 
 /**
@@ -16,7 +16,7 @@ export function loadAllHomeBanners () {
  * @returns {Promise<T>}
  */
 export function insertBanner (imageUrl, linkUrl, sequence) {
-  return requestProxy.postProxy('/backend/flow/banner/insert', {
+  return requestProxy.postProxy('/pc/operation/flow/banner/insert', {
     imageUrl: imageUrl,
     linkUrl: linkUrl,
     sequence: sequence,
@@ -32,7 +32,7 @@ export function insertBanner (imageUrl, linkUrl, sequence) {
  * @returns {Promise<T>}
  */
 export function updateBanner (id, imageUrl, linkUrl, sequence) {
-  return requestProxy.postProxy('/backend/flow/banner/update', {
+  return requestProxy.postProxy('/pc/operation/flow/banner/update', {
     id: id,
     imageUrl: imageUrl,
     linkUrl: linkUrl,
@@ -46,53 +46,53 @@ export function updateBanner (id, imageUrl, linkUrl, sequence) {
  * @returns {Promise<T>}
  */
 export function deleteBanner (id) {
-  return requestProxy.postProxy(`/backend/flow/banner/delete?id=${id}`);
+  return requestProxy.postProxy(`/pc/operation/flow/banner/delete?id=${id}`);
 }
 
 export function loadAllLivesFlow () {
-  return requestProxy.getProxy('/backend/flow/lives');
+  return requestProxy.getProxy('/pc/operation/flow/lives');
 }
 
 export function insertLivesFlow (params) {
-  return requestProxy.postProxy('/backend/flow/lives/insert', params);
+  return requestProxy.postProxy('/pc/operation/flow/lives/insert', params);
 }
 
 export function updateLivesFlow (params) {
-  return requestProxy.postProxy('/backend/flow/lives/update', params);
+  return requestProxy.postProxy('/pc/operation/flow/lives/update', params);
 }
 
 export function deleteLivesFlow (id) {
-  return requestProxy.postProxy(`/backend/flow/lives/delete?id=${id}`);
+  return requestProxy.postProxy(`/pc/operation/flow/lives/delete?id=${id}`);
 }
 
 export function loadAllActivitiesFlow () {
-  return requestProxy.getProxy('/backend/flow/activities');
+  return requestProxy.getProxy('/pc/operation/flow/activities');
 }
 
 export function insertActivityFlow (params) {
-  return requestProxy.postProxy('/backend/flow/activities/insert', params);
+  return requestProxy.postProxy('/pc/operation/flow/activities/insert', params);
 }
 
 export function updateActivityFlow (params) {
-  return requestProxy.postProxy('/backend/flow/activities/update', params);
+  return requestProxy.postProxy('/pc/operation/flow/activities/update', params);
 }
 
 export function deleteActivityFlow (id) {
-  return requestProxy.postProxy(`/backend/flow/activities/delete?id=${id}`);
+  return requestProxy.postProxy(`/pc/operation/flow/activities/delete?id=${id}`);
 }
 
 export function loadAllArticles () {
-  return requestProxy.getProxy('/backend/flow/articles');
+  return requestProxy.getProxy('/pc/operation/flow/articles');
 }
 
 export function insertArticle (params) {
-  return requestProxy.postProxy('/backend/flow/article/insert', params);
+  return requestProxy.postProxy('/pc/operation/flow/article/insert', params);
 }
 
 export function updateArticle (params) {
-  return requestProxy.postProxy('/backend/flow/article/update', params);
+  return requestProxy.postProxy('/pc/operation/flow/article/update', params);
 }
 
 export function deleteArticle (id) {
-  return requestProxy.postProxy(`/backend/flow/article/delete?id=${id}`);
+  return requestProxy.postProxy(`/pc/operation/flow/article/delete?id=${id}`);
 }
