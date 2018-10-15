@@ -58,6 +58,7 @@ export default class DiscussDisplayComponent extends React.Component {
     })
   }
 
+
   async togglePriority(discuss) {
     const {
       clickVote = (discussId, priority) => {
@@ -67,6 +68,22 @@ export default class DiscussDisplayComponent extends React.Component {
     if(res.code === 200) {
       let targetDiscuss = JSON.parse(JSON.stringify(discuss))
       targetDiscuss.priority = !discuss.priority
+      this.setState({
+        discuss: targetDiscuss,
+      })
+    }
+  }
+
+
+  async toggleHide(discuss) {
+    const {
+      clickHide = (discussId, hide) => {
+      },
+    } = this.props
+    let res = await clickHide(discuss.id, !discuss.hide)
+    if(res.code === 200) {
+      let targetDiscuss = JSON.parse(JSON.stringify(discuss))
+      targetDiscuss.hide = !discuss.hide
       this.setState({
         discuss: targetDiscuss,
       })
@@ -104,6 +121,8 @@ export default class DiscussDisplayComponent extends React.Component {
       showDialog,
       showDiscuss,
     } = this.state
+
+    const {showHide} = this.props
 
     if(!this.state.show) {
       return null
@@ -149,6 +168,11 @@ export default class DiscussDisplayComponent extends React.Component {
         { !showDiscuss &&
           <div className="vote"
                onClick={() => this.handleOpenPriorityDialog(discuss)}>{discuss.priority ? '取消加精' : '加精'}</div>
+        }
+
+        { !showDiscuss && showHide &&
+        <div className="vote"
+             onClick={() => this.toggleHide(discuss)}>{discuss.hide ? '取消隐藏' : '隐藏'}</div>
         }
         {
           replyComponent()

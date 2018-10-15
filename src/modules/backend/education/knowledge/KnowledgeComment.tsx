@@ -1,65 +1,79 @@
-import * as React from 'react'
-import { RaisedButton, SelectField, MenuItem } from 'material-ui'
-import { ProblemSelector } from '../import/component/ProblemSelector'
-import { queryKnowledgeDiscusses, queryProblemKnowledges, replyKnowledgeDiscuss, voteKnowledgeDiscuss } from './async'
-import DiscussDisplayComponent from '../components/DiscussDisplayComponent'
+import * as React from "react"
+import { RaisedButton, SelectField, MenuItem } from "material-ui"
+import { ProblemSelector } from "../import/component/ProblemSelector"
+import { checkShowHide, hideKnowledgeDiscuss, queryKnowledgeDiscusses, queryProblemKnowledges, replyKnowledgeDiscuss, voteKnowledgeDiscuss } from "./async"
+import DiscussDisplayComponent from "../components/DiscussDisplayComponent"
 
 export default class KnowledgeComment extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       knowledges: [],
       selectKnowledgeId: -1,
       discusses: [],
+      showHide: false
     }
   }
 
-  handleSelectProblem (problemId) {
+  async componentWillMount() {
+    let res = await checkShowHide()
+    this.setState({
+      showHide: res.msg
+    })
+  }
+
+  handleSelectProblem(problemId) {
     this.setState({
       selectProblemId: problemId,
-      selectKnowledgeId: -1,
+      selectKnowledgeId: -1
     }, () => {
       this.loadKnowledges(problemId)
     })
   }
 
-  async loadKnowledges (problemId) {
+  async loadKnowledges(problemId) {
     let res = await queryProblemKnowledges(problemId)
     if (res.code === 200) {
       this.setState({ knowledges: res.msg })
     }
   }
 
-  async loadKnowledgeDiscuss (knowledgeId) {
+  async loadKnowledgeDiscuss(knowledgeId) {
     if (knowledgeId == -1) return
     let res = await queryKnowledgeDiscusses(knowledgeId)
     if (res.code === 200) {
-      this.setState({ discusses: res.msg })
+      this.setState({ discusses: res.msg})
     }
   }
 
-  async voteKnowledgeDiscuss (discussId, priority){
+  async voteKnowledgeDiscuss(discussId, priority) {
     let res = await voteKnowledgeDiscuss(discussId, priority)
     return res
   }
 
-  async replyKnowledge (discussId, value) {
-    const {selectKnowledgeId} = this.state;
+  async hideKnowledgeDiscuss(discussId, hide) {
+    let res = await hideKnowledgeDiscuss(discussId, hide)
+    return res
+  }
+
+  async replyKnowledge(discussId, value) {
+    const { selectKnowledgeId } = this.state
     let res = await replyKnowledgeDiscuss(value, selectKnowledgeId, discussId)
     return res
   }
 
-  render () {
+  render() {
     const {
       knowledges,
       selectKnowledgeId,
       discusses,
+      showHide
     } = this.state
 
     return (
-      <div style={{ padding: '50px 80px' }}>
-        <ProblemSelector ref={'problemSelector'}
+      <div style={{ padding: "50px 80px" }}>
+        <ProblemSelector ref={"problemSelector"}
                          select={(problemId) => this.handleSelectProblem(problemId)}></ProblemSelector>
 
         <SelectField floatingLabelText="选择知识点"
@@ -74,7 +88,7 @@ export default class KnowledgeComment extends React.Component {
           }
         </SelectField>
         <br/><br/>
-        <RaisedButton label={'查询知识点评论'}
+        <RaisedButton label={"查询知识点评论"}
                       primary={true}
                       onClick={() => this.loadKnowledgeDiscuss(selectKnowledgeId)}></RaisedButton>
         <br/><br/>
@@ -83,9 +97,11 @@ export default class KnowledgeComment extends React.Component {
             return (
               <DiscussDisplayComponent key={index}
                                        clickVote={(discussId, priority) => this.voteKnowledgeDiscuss(discussId, priority)}
+                                       clickHide={(discussId, hide) => this.hideKnowledgeDiscuss(discussId, hide)}
                                        discuss={discuss}
-                                       reply={(discussId, value)=>this.replyKnowledge(discussId, value)}
-                                       />
+                                       showHide={showHide}
+                                       reply={(discussId, value) => this.replyKnowledge(discussId, value)}
+              />
             )
           })
         }
