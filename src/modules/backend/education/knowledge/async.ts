@@ -1,30 +1,30 @@
-import proxy from 'components/proxy/requestProxy'
+import proxy from "components/proxy/requestProxy"
 
-export function queryProblemKnowledges (problemId) {
+export function queryProblemKnowledges(problemId) {
   return proxy.getProxy(`/pc/asst/knowledge/load/problem/knowledges?problemId=${problemId}`)
 }
 
-export function queryKnowledgeDiscusses (knowledgeId) {
+export function queryKnowledgeDiscusses(knowledgeId) {
   return proxy.getProxy(`/pc/asst/knowledge/load/discuss?knowledgeId=${knowledgeId}`)
 }
 
-export function voteKnowledgeDiscuss (discussId, priority) {
+export function voteKnowledgeDiscuss(discussId, priority) {
   return proxy.postProxy(`/pc/asst/knowledge/vote/discuss?discussId=${discussId}&priority=${priority}`)
 }
 
+export function hideKnowledgeDiscuss(discussId, hide) {
+  return proxy.postProxy(`/pc/asst/knowledge/hide`, { discussId, hide })
 
-export function queryKnowledgeDiscuss (discussId) {
-  return proxy.getProxy(`/pc/asst/knowledge/load/discuss/${discussId}`)
 }
 
-export function replyKnowledgeDiscuss (comment, referenceId, repliedId) {
+export function replyKnowledgeDiscuss(comment, referenceId, repliedId) {
   return proxy.postProxy(`/rise/practice/knowledge/discuss`, {
     comment: comment,
     referenceId: referenceId,
-    repliedId: repliedId,
+    repliedId: repliedId
   })
 }
 
-export function delKnowledgeDiscuss (discussId) {
-  return proxy.postProxy(`/rise/practice/knowledge/discuss/del/${discussId}`)
+export function checkShowHide() {
+  return proxy.getProxy(`/pc/asst/knowledge/check/hide`)
 }
