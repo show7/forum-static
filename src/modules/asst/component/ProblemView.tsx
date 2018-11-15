@@ -71,7 +71,6 @@ export default class ProblemView extends React.Component<any,any> {
                                 value={item.id}
                             >
                             </ListItem>
-                          {item.underCommentCount?<div className="notification">{item.underCommentCount}</div>:null}
                         </div>
 
                       )
