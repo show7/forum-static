@@ -158,7 +158,7 @@ export default class ApplicationList extends React.Component<any, any> {
     const { className, groupId, title, classSearch, nameSearch, timeSearch } = this.state
 
     if(classSearch) {
-      if(className != '' && groupId != '') {
+      if(className != '') {
         let param = {
           problemId: parseInt(problemId),
           className,
@@ -177,7 +177,7 @@ export default class ApplicationList extends React.Component<any, any> {
           }
         })
       } else {
-        dispatch(alertMsg('请选择班级和小组'))
+        dispatch(alertMsg('请选择班级'))
       }
     }
 
