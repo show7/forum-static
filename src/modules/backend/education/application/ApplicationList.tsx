@@ -9,7 +9,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import _ from 'lodash'
 import './ApplicationList.less'
 import { formatDate } from '../../../../utils/helpers'
-import { loadApplicationSubmit, highlight, unhighlight, loadApplication, submitComment, saveApplicationPractice } from './async'
+import { loadApplicationSubmit, highlight, unhighlight, loadApplication, submitComment, saveApplicationPractice,hideItem,cancleHide } from './async'
 import Snackbar from 'material-ui/Snackbar'
 import { imgSrc } from 'utils/imgSrc'
 import Confirm from '../../../../components/Confirm'
@@ -45,6 +45,8 @@ export default class ApplicationList extends React.Component<any, any> {
       saving: false,
       showConfirm: false,
       showConfirm2: false,
+      showConfirmHide: false,
+      showConfirmHide2: false,
       applicationId: '',
       highlightId: '',
       showConfirmModal: {
@@ -79,6 +81,38 @@ export default class ApplicationList extends React.Component<any, any> {
           }
         ]
       },
+      showConfirmHideModal: {
+        title: '提示',
+        content: '确认隐藏？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirmHide: false })
+            this.confirmHide()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => {this.setState({ showConfirmHide: false }, () => {window.scroll(0, this.state.scrollTop)})}
+          }
+        ]
+      },
+      showConfirmHideModal2: {
+        title: '提示',
+        content: '是否取消隐藏？',
+        actions: [{
+          label: '确认',
+          onClick: () => {
+            this.setState({ showConfirmHide2: false })
+            this.confirmCancleHide()
+          }
+        },
+          {
+            label: '取消',
+            onClick: () => {this.setState({ showConfirmHide2: false }, () => {window.scroll(0, this.state.scrollTop)})}
+          }
+        ]
+      },
       scrollTop: 0,
       startDate: '',
       endDate: ''
@@ -104,7 +138,7 @@ export default class ApplicationList extends React.Component<any, any> {
     })
     let param = {
       pageId: index,
-      show
+      highLight:show
     }
     loadApplicationSubmit(applicationId, param).then(res => {
       if(res.code === 200) {
@@ -155,6 +189,36 @@ export default class ApplicationList extends React.Component<any, any> {
     })
   }
 
+  confirmHide(){
+    const { other, highlightId } = this.state
+    hideItem(highlightId).then(res => {
+      if(res.code === 200) {
+        this.showAlert('提交成功')
+      }
+      other.forEach((item) => {
+        if(item.id === highlightId) {
+          _.set(item, 'hide', 1)
+        }
+      })
+      this.setState({ other })
+    })
+  }
+
+  confirmCancleHide(){
+    const { other, highlightId } = this.state
+    cancleHide(highlightId).then(res => {
+      if(res.code === 200) {
+        this.showAlert('提交成功')
+      }
+      other.forEach((item) => {
+        if(item.id === highlightId) {
+          _.set(item, 'hide', 0)
+        }
+      })
+      this.setState({ other })
+    })
+  }
+
   showAlert(content, title) {
     const { dispatch } = this.props
     dispatch(alertMsg(title, content))
@@ -171,7 +235,7 @@ export default class ApplicationList extends React.Component<any, any> {
 
     let param = {
       pageId: index + 1,
-      show,
+      highLight:show,
       startDate,
       endDate
     }
@@ -209,6 +273,23 @@ export default class ApplicationList extends React.Component<any, any> {
       scrollTop: this.getScrollTop()
     })
   }
+  /*隐藏*/
+  hideItem(id){
+    this.setState({
+      highlightId: id,
+      showConfirmHide: true,
+      scrollTop: this.getScrollTop()
+    })
+  }
+  /*取消隐藏*/
+  cancleHide(id){
+    this.setState({
+      highlightId: id,
+      showConfirmHide2: true,
+      scrollTop: this.getScrollTop()
+    })
+  }
+
 
   /**
    * 获取scrollTop
@@ -284,7 +365,7 @@ export default class ApplicationList extends React.Component<any, any> {
     const { applicationId } = location.query
     let param = {
       pageId: 1,
-      show: show,
+      highLight: show,
       startDate,
       endDate
     }
@@ -315,7 +396,7 @@ export default class ApplicationList extends React.Component<any, any> {
     const { show, startDate, endDate } = this.state
     let param = {
       pageId: 1,
-      show: !show,
+      highLight: !show,
       startDate,
       endDate
     }
@@ -362,7 +443,7 @@ export default class ApplicationList extends React.Component<any, any> {
       return (
         <div className="otherContainer">
           {other.map((item, index) => {
-            const { id, upName, headPic, upTime, content, priority, commenting } = item
+            const { id, upName, headPic, upTime, content, priority, commenting,hide } = item
             return (
               <div className="other-show">
                 <div key={index} className="workItemContainer">
@@ -383,16 +464,24 @@ export default class ApplicationList extends React.Component<any, any> {
                     </div>
                   </div>
                   <div className="workContentContainer">
-                    <div className="content" dangerouslySetInnerHTML={{ __html: content }}>
-                    </div>
+                    <div className="content" dangerouslySetInnerHTML={{ __html: content }}></div>
                     <div className="rightArea">
+                      {hide === 0 ?
+                        <div className="function-button" onClick={() => this.hideItem(id)}>
+                          隐藏
+                        </div> :
+                        <div className="function-button" onClick={() => this.cancleHide(id)}>
+                          取消隐藏
+                        </div>
+                      }
                       {priority === 0 ?
                         <div className="function-button" onClick={() => this.highlight(id)}>
                           加精
                         </div> :
                         <div className="function-button" onClick={() => this.unhighlight(id)}>
                           取消加精
-                        </div>}
+                        </div>
+                      }
                       <div className="function-button" onClick={() => this.onClickGoDetail(item)}>详情</div>
                     </div>
                     {commenting === 1 ?
@@ -461,6 +550,11 @@ export default class ApplicationList extends React.Component<any, any> {
                  handlerClose={() => this.setState({ showConfirm: false })}/>
         <Confirm open={this.state.showConfirm2} {...this.state.showConfirmModal2}
                  handlerClose={() => this.setState({ showConfirm2: false })}/>
+
+        <Confirm open={this.state.showConfirmHide} {...this.state.showConfirmHideModal}
+                 handlerClose={() => this.setState({ showConfirmHide: false })}/>
+        <Confirm open={this.state.showConfirmHide2} {...this.state.showConfirmHideModal2}
+                 handlerClose={() => this.setState({ showConfirmHide2: false })}/>
       </div>
     )
   }

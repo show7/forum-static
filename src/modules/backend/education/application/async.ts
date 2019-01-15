@@ -19,6 +19,13 @@ export function highlight(submitId){
 export function unhighlight(submitId){
   return ppost(`/pc/asst/application/highlight/cancel/applicationSubmit/${submitId}`,null)
 }
+export function hideItem(submitId){
+  return ppost(`/pc/asst/application/hide/applicationSubmit/${submitId}`,null)
+}
+
+export function cancleHide(submitId){
+  return ppost(`/pc/asst/application/unHide/applicationSubmit/${submitId}`,null)
+}
 
 export function loadApplication(applicationId){
   return pget(`/pc/asst/application/load/${applicationId}`);
