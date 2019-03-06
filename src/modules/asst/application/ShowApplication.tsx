@@ -435,7 +435,7 @@ export default class ShowApplication extends React.Component<any, any> {
                 <div className="upName">{upName}</div>
                 {role == 3 || role == 4 || role == 12 || role == 13 ?
                   <div className="role"><AssetImg url='https://static.iqycamp.com/images/coach.png'/></div> : null}
-                {role == 5 || role == 10 || role == 14 || role == 15 ?
+                {role == 5 ?
                   <div className="role"><AssetImg url='https://static.iqycamp.com/images/senior_coach.png'/>
                   </div> : null}
                 {role == 6 ?
